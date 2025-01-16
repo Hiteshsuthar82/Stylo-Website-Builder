@@ -9,8 +9,6 @@ function Home() {
   const navigate = useNavigate();
 
   const handleBtn = (path) => {
-    console.log(`Navigating to: ${path}`);
-
     navigate(path);
   };
 

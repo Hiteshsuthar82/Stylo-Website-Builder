@@ -1,6 +1,7 @@
 import React from "react";
 import hero from "../../assets/hero.jpeg";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -16,10 +17,12 @@ const Hero = () => {
             Choose, customize, and deploy with just a few clicks.
           </p>
           <div className="my-8 flex md:justify-normal justify-center">
-            <button className="relative group px-6 py-3 bg-purple-500 hover:bg-purple-700 text-white rounded-lg transition duration-300 flex items-center">
+            <Link
+            to="./steps"
+            className="relative group px-6 py-3 bg-purple-500 hover:bg-purple-700 text-white rounded-lg transition duration-300 flex items-center">
               Get Started for Free
-              {/* <LiaLongArrowAltRightSolid className="ml-1 hidden group-hover:block text-xl duration-300" /> */}
-            </button>
+              <LiaLongArrowAltRightSolid className="ml-1 hidden group-hover:block text-xl duration-300" />
+            </Link>
           </div>
         </div>
         <div className="w-full md:w-1/2 flex justify-center">
