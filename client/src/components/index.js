@@ -20,6 +20,7 @@ import UserProfile from "./UserProfile/UserProfile";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import PermanentDetailConfirmationDialog from "./PermanentDetailConfirmationDialog";
 import DangerAlert from "./DangerAlert";
+import EditableText from "./EditableText";
 
 export {
   Header,
@@ -44,4 +45,5 @@ export {
   DeleteConfirmationDialog,
   PermanentDetailConfirmationDialog,
   DangerAlert,
+  EditableText
 };

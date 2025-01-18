@@ -20,6 +20,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import EditResume from "./components/EditResume.jsx";
 import About from "./pages/About.jsx";
+import PortfolioTemplate from "./components/CreateWebsites/Portfolio/PortfolioTemplate1.jsx";
+import CreateWebsite from "./components/CreateWebsite.jsx";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +81,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             <CreateResume />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/createWebsite/:websiteType/:templateId",
+        element: (
+          <AuthLayout authentication>
+            <CreateWebsite />
           </AuthLayout>
         ),
       },
