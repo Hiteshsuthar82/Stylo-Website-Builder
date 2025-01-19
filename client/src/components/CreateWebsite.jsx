@@ -12,7 +12,7 @@ const CreateWebsite = () => {
     header: {
       title: "First",
       phone: "120-340-8900",
-      navigation: [
+      items: [
         { id: 1, text: "About", href: "#about" },
         { id: 2, text: "Services", href: "#services" },
         { id: 3, text: "Projects", href: "#projects" },
@@ -23,6 +23,7 @@ const CreateWebsite = () => {
       greeting: "Hello friend!",
       subtitle: "I'm available for freelance work.",
       cta: "Let's begin",
+      profileImage:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s"
     },
     about: {
       title: "My Story",

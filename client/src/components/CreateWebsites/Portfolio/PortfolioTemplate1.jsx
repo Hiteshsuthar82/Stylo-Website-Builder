@@ -1,70 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import EditableText from "../../EditableText";
 
-// const EditableText = ({ text, onChange, className = "" }) => {
-//   const handleBlur = (e) => {
-//     const newValue = e.target.innerText;
-//     onChange(newValue);
-//   };
+const ImageUpload = ({ 
+  src, 
+  alt, 
+  className = "", 
+  onUpload, 
+  overlayClass = "",
+  containerClass = "" 
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-//   return (
-//     <span
-//       contentEditable
-//       suppressContentEditableWarning
-//       onBlur={handleBlur}
-//       className={`outline-none hover:bg-opacity-10 hover:bg-black ${className}`}
-//     >
-//       {text}
-//     </span>
-//   );
-// };
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      onUpload(imageUrl, file);
+    }
+  };
+
+  const handleUploadClick = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = handleImageUpload;
+    fileInput.click();
+  };
+
+  return (
+    <div 
+      className={`relative group cursor-pointer ${containerClass}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleUploadClick}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover ${className}`}
+      />
+      {isHovered && (
+        <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity ${overlayClass}`}>
+          <button className="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Upload Image
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const PortfolioTemplate1 = ({ data, onUpdate }) => {
-  const handleUpdate = (section, key, value) => {
+  const handleUpdate = (section, key, value, index = null) => {
+    if (index !== null) {
+      if (['header', 'services', 'projects'].includes(section)) {
+        const updatedData = {
+          ...data,
+          [section]: {
+            ...data[section],
+            items: data[section].items.map((item, i) =>
+              i === index ? { ...item, [key]: value } : item
+            ),
+          },
+        };
+        onUpdate(updatedData);
+        return;
+      }
+    }
+
+    if (typeof value === 'object' && value !== null) {
+      const updatedData = {
+        ...data,
+        [section]: {
+          ...data[section],
+          [key]: value,
+        },
+      };
+      onUpdate(updatedData);
+      return;
+    }
+
     const updatedData = {
       ...data,
       [section]: {
         ...data[section],
         [key]: value,
-      },
-    };
-    onUpdate(updatedData);
-  };
-
-  const handleNavUpdate = (index, value) => {
-    const updatedData = {
-      ...data,
-      header: {
-        ...data.header,
-        navigation: data.header.navigation.map((item, i) =>
-          i === index ? { ...item, text: value } : item
-        ),
-      },
-    };
-    onUpdate(updatedData);
-  };
-
-  const handleServiceUpdate = (index, key, value) => {
-    const updatedData = {
-      ...data,
-      services: {
-        ...data.services,
-        items: data.services.items.map((item, i) =>
-          i === index ? { ...item, [key]: value } : item
-        ),
-      },
-    };
-    onUpdate(updatedData);
-  };
-
-  const handleProjectUpdate = (index, key, value) => {
-    const updatedData = {
-      ...data,
-      projects: {
-        ...data.projects,
-        items: data.projects.items.map((item, i) =>
-          i === index ? { ...item, [key]: value } : item
-        ),
       },
     };
     onUpdate(updatedData);
@@ -83,15 +103,12 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
           </h1>
           <nav>
             <ul className="flex gap-6">
-              {data.header.navigation.map((item, index) => (
+              {data.header.items.map((item, index) => (
                 <li key={item.id}>
-                  <a
-                    //  href={item.href}
-                    className="hover:underline"
-                  >
+                  <a className="hover:underline">
                     <EditableText
                       text={item.text}
-                      onChange={(value) => handleNavUpdate(index, value)}
+                      onChange={(value) => handleUpdate("header", "text", value, index)}
                     />
                   </a>
                 </li>
@@ -112,9 +129,12 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
       <section className="bg-gradient-to-r from-green-400 to-blue-500 text-white py-20 px-5">
         <div className="container mx-auto text-center">
           <div className="flex flex-col items-center">
-            <div className="rounded-full overflow-hidden w-32 h-32">
-              <img src="/api/placeholder/128/128" alt="Profile" />
-            </div>
+            <ImageUpload
+              src={data.hero.profileImage}
+              alt="Profile"
+              containerClass="rounded-full overflow-hidden w-32 h-32"
+              onUpload={(imageUrl) => handleUpdate("hero", "profileImage", imageUrl)}
+            />
             <h1 className="text-4xl font-bold mt-4">
               <EditableText
                 text={data.hero.greeting}
@@ -140,10 +160,11 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
       {/* About Section */}
       <section id="about" className="py-20 bg-gray-100 px-5">
         <div className="container mx-auto grid grid-cols-2 gap-8">
-          <img
+          <ImageUpload
             src={data.about.image}
             alt="About"
             className="rounded-lg h-[252px]"
+            onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
           />
           <div>
             <h2 className="text-3xl font-bold">
@@ -155,9 +176,7 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
             <p className="mt-4">
               <EditableText
                 text={data.about.description}
-                onChange={(value) =>
-                  handleUpdate("about", "description", value)
-                }
+                onChange={(value) => handleUpdate("about", "description", value)}
               />
             </p>
             <div className="mt-8">
@@ -200,7 +219,7 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
                   <EditableText
                     text={service.name}
                     onChange={(value) =>
-                      handleServiceUpdate(index, "name", value)
+                      handleUpdate("services", "name", value, index)
                     }
                   />
                 </h3>
@@ -208,7 +227,7 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
                   <EditableText
                     text={service.description}
                     onChange={(value) =>
-                      handleServiceUpdate(index, "description", value)
+                      handleUpdate("services", "description", value, index)
                     }
                   />
                 </p>
@@ -216,7 +235,7 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
                   <EditableText
                     text={service.price}
                     onChange={(value) =>
-                      handleServiceUpdate(index, "price", value)
+                      handleUpdate("services", "price", value, index)
                     }
                   />
                 </span>
@@ -238,16 +257,17 @@ const PortfolioTemplate1 = ({ data, onUpdate }) => {
           <div className="grid grid-cols-3 gap-8 mt-8">
             {data.projects.items.map((project, index) => (
               <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                <img
+                <ImageUpload
                   src={project.image}
                   alt={project.name}
-                  className="rounded-lg h-[160px] w-full"
+                  className="rounded-lg max-h-[140px] min-h-[140px] w-full"
+                  onUpload={(imageUrl) => handleUpdate("projects", "image", imageUrl, index)}
                 />
                 <h3 className="mt-4 text-xl font-bold">
                   <EditableText
                     text={project.name}
                     onChange={(value) =>
-                      handleProjectUpdate(index, "name", value)
+                      handleUpdate("projects", "name", value, index)
                     }
                   />
                 </h3>
