@@ -63,7 +63,8 @@ function StepsPage() {
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          onClick={() =>navigate('/allTemplates')}
+          // onClick={() =>navigate('/allTemplates')}
+          onClick={() =>navigate('/template-type-selection-page')}
           className="px-16 lg:px-20 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
         >
           Continue

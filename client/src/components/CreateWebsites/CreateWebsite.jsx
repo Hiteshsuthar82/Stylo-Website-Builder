@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import PortfolioTemplate1 from "./CreateWebsites/Portfolio/PortfolioTemplate1";
+import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
 import { useEffect, useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
 
@@ -113,10 +113,10 @@ const CreateWebsite = () => {
   }
 
   if (websiteType == "portfolio") {
-    if (templateId == 1) {
+    if (templateId == "t1") {
       return (
         <div className="p-10">
-          <PortfolioTemplate1 data={templateData} onUpdate={handleUpdate} />
+          <PortfolioTemplate1 data={templateData} onUpdate={handleUpdate} editable />
           <button
             className="bg-purple-400 py-2 px-2 fixed top-3 right-20 rounded-full uppercase font-bold"
             onClick={handleCreateWebsite}

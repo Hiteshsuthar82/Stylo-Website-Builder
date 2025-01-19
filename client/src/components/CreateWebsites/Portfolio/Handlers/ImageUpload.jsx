@@ -1,13 +1,14 @@
 // ImageUpload.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const ImageUpload = ({ 
-  src, 
-  alt, 
-  className = "", 
-  onUpload, 
+const ImageUpload = ({
+  src,
+  alt,
+  className = "",
+  onUpload,
   overlayClass = "",
-  containerClass = ""
+  containerClass = "",
+  editable,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,16 +22,19 @@ const ImageUpload = ({
   };
 
   const handleUploadClick = () => {
-    // Create and trigger hidden file input
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    fileInput.onchange = handleImageUpload;
-    fileInput.click();
+    if(editable){
+      // Create and trigger hidden file input
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.onchange = handleImageUpload;
+      fileInput.click();
+    } 
+    return;
   };
 
   return (
-    <div 
+    <div
       className={`relative group cursor-pointer ${containerClass}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -39,10 +43,12 @@ const ImageUpload = ({
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover ${className}`}
+        className={`w-full object-cover ${className}`}
       />
-      {isHovered && (
-        <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity ${overlayClass}`}>
+      {editable && isHovered && (
+        <div
+          className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity ${overlayClass}`}
+        >
           <button className="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
             Upload Image
           </button>

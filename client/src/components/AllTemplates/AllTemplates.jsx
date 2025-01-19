@@ -13,10 +13,11 @@ function AllTemplates() {
 
   const templates = useSelector((state) => state.resume.allTemplates);
 
-  const handleSearchClick = (src) => {
-    setEnlargedImageSrc(src);
-    setPopupVisible(true);
-    setTimeout(() => setImageVisible(true), 10);
+  const handleSearchClick = (templateId) => {
+    navigate(`/website-demo/portfolio/${templateId}`);
+    // setEnlargedImageSrc(src);
+    // setPopupVisible(true);
+    // setTimeout(() => setImageVisible(true), 10);
   };
 
   const closePopup = () => {
@@ -28,7 +29,8 @@ function AllTemplates() {
   };
 
   const onNextClick =() =>{
-    navigate(`/createResume/${selectedTemplateId}`)
+    // navigate(`/createResume/${selectedTemplateId}`)
+    navigate(`/create-website/portfolio/${selectedTemplateId}`)
   }
 
   return (

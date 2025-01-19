@@ -1,5 +1,6 @@
 import React from "react";
 import searchIcon from "./../assets/search.svg";
+import { IoEyeSharp } from "react-icons/io5";
 import editIcon from "./../assets/edit-icon.svg";
 import deleteIcon from "./../assets/delete-icon.svg";
 
@@ -27,10 +28,13 @@ function Template({ templateData, isSelected,name, onClick, onSearchClick, resum
         <div
           className="absolute top-4 right-8 w-10 h-10 bg-purple-600 p-2 rounded-full flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
           onClick={(e) => {
-            onSearchClick(templateData.src);
+            // onSearchClick(templateData.src);
+            onSearchClick(templateData.id);
           }}
+          title="Demo Website"
         >
-          <img src={searchIcon} alt="" />
+          {/* <img src={searchIcon} alt="" /> */}
+          <IoEyeSharp size={24} color="white"/>
         </div>
       )}
       {onEditClick && (

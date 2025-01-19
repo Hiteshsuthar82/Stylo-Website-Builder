@@ -14,15 +14,15 @@ import {
   ResumeView,
   UserProfile,
   StepsPage,
+  CreateWebsite,
+  WebsiteDemo,
+  TemplateTypeSelectionPage,
 } from "./components/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
 import EditResume from "./components/EditResume.jsx";
 import About from "./pages/About.jsx";
-import PortfolioTemplate from "./components/CreateWebsites/Portfolio/PortfolioTemplate1.jsx";
-import CreateWebsite from "./components/CreateWebsite.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -77,6 +77,22 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/template-selection/:websiteType",
+        element: (
+          <AuthLayout authentication>
+            <AllTemplates />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/template-type-selection-page",
+        element: (
+          <AuthLayout authentication>
+            <TemplateTypeSelectionPage />
+          </AuthLayout>
+        ),
+      },
+      {
         path: "/createResume/:templateId",
         element: (
           <AuthLayout authentication>
@@ -85,7 +101,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/createWebsite/:websiteType/:templateId",
+        path: "/create-website/:websiteType/:templateId",
         element: (
           <AuthLayout authentication>
             <CreateWebsite />
@@ -117,6 +133,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/website-demo/:websiteType/:templateId",
+    element: <WebsiteDemo />,
   },
 ]);
 

@@ -21,6 +21,10 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import PermanentDetailConfirmationDialog from "./PermanentDetailConfirmationDialog";
 import DangerAlert from "./DangerAlert";
 import EditableText from "./EditableText";
+import CreateWebsite from "./CreateWebsites/CreateWebsite";
+import WebsiteDemo from "./CreateWebsites/WebsiteDemo";
+import TemplateTypeSelectionPage from "./TemplateTypeSelection/TemplateTypeSelectionPage";
+
 
 export {
   Header,
@@ -45,5 +49,8 @@ export {
   DeleteConfirmationDialog,
   PermanentDetailConfirmationDialog,
   DangerAlert,
-  EditableText
+  EditableText,
+  CreateWebsite,
+  WebsiteDemo,
+  TemplateTypeSelectionPage
 };
