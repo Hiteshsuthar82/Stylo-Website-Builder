@@ -18,7 +18,8 @@ function App() {
         console.error("Failed to fetch user:", error);
         dispatch(logout());
       } finally {
-        setTimeout(() => setLoading(false), 6000);
+        // setTimeout(() => setLoading(false), 6000);
+        setLoading(false)
       }
     };
 
@@ -34,9 +35,10 @@ function App() {
       <Footer />
     </>
   ) : (
-    <div className="h-screen w-screen flex justify-center items-center bg-[linear-gradient(0deg,_rgba(113,50,229,1)_0%,_rgba(163,75,246,1)_100%)] text-center">
-      <img className="md:h-screen w-screen" src={loadingimg} alt="" />
-    </div>
+    "Loading..."
+    // <div className="h-screen w-screen flex justify-center items-center bg-[linear-gradient(0deg,_rgba(113,50,229,1)_0%,_rgba(163,75,246,1)_100%)] text-center">
+    //   <img className="md:h-screen w-screen" src={loadingimg} alt="" />
+    // </div>
   );
 }
 

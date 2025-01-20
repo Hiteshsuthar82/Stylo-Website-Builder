@@ -26,6 +26,7 @@ import WebsiteDemo from "./CreateWebsites/WebsiteDemo";
 import TemplateTypeSelectionPage from "./TemplateTypeSelection/TemplateTypeSelectionPage";
 import AllWebsiteTemplatesPage from "./AllTemplates/AllWebsiteTemplatesPage";
 import WebsiteTemplate from "./WebsiteTemplate";
+import NoTemplateAvailableView from "./CreateWebsites/NoTemplateAvailableView";
 
 
 export {
@@ -57,4 +58,5 @@ export {
   TemplateTypeSelectionPage,
   AllWebsiteTemplatesPage,
   WebsiteTemplate,
+  NoTemplateAvailableView,
 };

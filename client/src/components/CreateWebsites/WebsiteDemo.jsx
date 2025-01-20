@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
-import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
 import { useEffect, useState } from "react";
+import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
+import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
+import NoTemplateAvailableView from "./NoTemplateAvailableView";
+import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
+import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 
 const WebsiteDemo = () => {
   const { templateId } = useParams();
@@ -22,7 +26,8 @@ const WebsiteDemo = () => {
       greeting: "Hello friend!",
       subtitle: "I'm available for freelance work.",
       cta: "Let's begin",
-      profileImage:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s"
+      profileImage:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s",
     },
     about: {
       title: "My Story",
@@ -108,15 +113,32 @@ const WebsiteDemo = () => {
   }
 
   if (websiteType == "portfolio") {
-    if (templateId == 't1') {
-      return (
-        <div className="">
+    switch (templateId) {
+      case "t1":
+        return (
           <PortfolioTemplate1 data={templateData} onUpdate={handleUpdate} />
-        </div>
-      );
+        );
+        break;
+      case "t2":
+        return (
+          <PortfolioTemplate2 data={templateData} onUpdate={handleUpdate} />
+        );
+        break;
+      case "t3":
+        return (
+          <PortfolioTemplate3 data={templateData} onUpdate={handleUpdate} />
+        );
+        break;
+      case "t4":
+        return (
+          <PortfolioTemplate4 data={templateData} onUpdate={handleUpdate} />
+        );
+        break;
+      default:
+        return <NoTemplateAvailableView />;
+        break;
     }
   }
 };
 
 export default WebsiteDemo;
-

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
 import { useEffect, useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
+import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
@@ -23,7 +24,8 @@ const CreateWebsite = () => {
       greeting: "Hello friend!",
       subtitle: "I'm available for freelance work.",
       cta: "Let's begin",
-      profileImage:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s"
+      profileImage:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s",
     },
     about: {
       title: "My Story",
@@ -108,25 +110,52 @@ const CreateWebsite = () => {
     console.log("Website Data:", templateData);
   };
 
+  const renderTemplate = () => {
+    switch (templateId) {
+      case "t1":
+        return (
+          <PortfolioTemplate1
+            data={templateData}
+            onUpdate={handleUpdate}
+            editable
+          />
+        );
+      case "t2":
+        return (
+          <PortfolioTemplate2
+            data={templateData}
+            onUpdate={handleUpdate}
+            editable
+          />
+        );
+      // Add more cases for additional templates
+      default:
+        return (
+          <div className="text-center text-gray-500">
+            <h2 className="text-2xl font-bold">Template Not Found</h2>
+            <p>Please select a valid template.</p>
+          </div>
+        );
+    }
+  };
+
   if (!templateData) {
     return <div>Loading...</div>;
   }
 
   if (websiteType == "portfolio") {
-    if (templateId == "t1") {
-      return (
-        <div className="p-10">
-          <PortfolioTemplate1 data={templateData} onUpdate={handleUpdate} editable />
-          <button
-            className="bg-purple-400 py-2 px-2 fixed top-3 right-20 rounded-full uppercase font-bold"
-            onClick={handleCreateWebsite}
-          >
-            {/* Create Website */}
-            <GrLinkNext size={24} />
-          </button>
-        </div>
-      );
-    }
+    return (
+      <div className="p-10">
+        {renderTemplate()}
+        <button
+          className="bg-purple-400 py-2 px-2 fixed top-3 right-20 rounded-full uppercase font-bold"
+          onClick={handleCreateWebsite}
+        >
+          {/* Create Website */}
+          <GrLinkNext size={24} />
+        </button>
+      </div>
+    );
   }
 };
 
