@@ -17,6 +17,7 @@ import {
   CreateWebsite,
   WebsiteDemo,
   TemplateTypeSelectionPage,
+  AllWebsiteTemplatesPage,
 } from "./components/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
         path: "/template-selection/:websiteType",
         element: (
           <AuthLayout authentication>
-            <AllTemplates />
+            <AllWebsiteTemplatesPage />
           </AuthLayout>
         ),
       },

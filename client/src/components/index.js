@@ -24,6 +24,8 @@ import EditableText from "./EditableText";
 import CreateWebsite from "./CreateWebsites/CreateWebsite";
 import WebsiteDemo from "./CreateWebsites/WebsiteDemo";
 import TemplateTypeSelectionPage from "./TemplateTypeSelection/TemplateTypeSelectionPage";
+import AllWebsiteTemplatesPage from "./AllTemplates/AllWebsiteTemplatesPage";
+import WebsiteTemplate from "./WebsiteTemplate";
 
 
 export {
@@ -52,5 +54,7 @@ export {
   EditableText,
   CreateWebsite,
   WebsiteDemo,
-  TemplateTypeSelectionPage
+  TemplateTypeSelectionPage,
+  AllWebsiteTemplatesPage,
+  WebsiteTemplate,
 };

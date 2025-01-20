@@ -5,28 +5,59 @@ const initialState = {
   loading: false,
   status: false,
   data: null,
-  allTemplates: [
-    {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
-      id: "t1",
-    },
-    {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788143/Resume_Builder/photos/xvt9zuuvb7chnv385k4c.png",
-      id: "t2",
-    },
-    {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788174/Resume_Builder/photos/ghcknv3eczccie7ray0j.png",
-      id: "t3",
-    },
-    {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788204/Resume_Builder/photos/rpxi2jwwzyqlgxqjohqu.png",
-      id: "t4",
-    },
-    {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788233/Resume_Builder/photos/q450lvnatfptcan8lhr1.png",
-      id: "t5",
-    },
-  ],
+  allTemplates: {
+    portfolio:[
+      {
+        id: "t1",
+        name: "Portfolio 1",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+      {
+        id: "t2",
+        name: "Portfolio 2",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+      {
+        id: "t3",
+        name: "Portfolio 3",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+    ],
+    hospital:[
+      {
+        id: "t1",
+        name: "Hospital 1",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+      {
+        id: "t2",
+        name: "Hospital 2",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+    ]
+  }
+  // [
+  //   {
+  //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+  //     id: "t1",
+  //   },
+  //   {
+  //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788143/Resume_Builder/photos/xvt9zuuvb7chnv385k4c.png",
+  //     id: "t2",
+  //   },
+  //   {
+  //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788174/Resume_Builder/photos/ghcknv3eczccie7ray0j.png",
+  //     id: "t3",
+  //   },
+  //   {
+  //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788204/Resume_Builder/photos/rpxi2jwwzyqlgxqjohqu.png",
+  //     id: "t4",
+  //   },
+  //   {
+  //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788233/Resume_Builder/photos/q450lvnatfptcan8lhr1.png",
+  //     id: "t5",
+  //   },
+  // ],
 };
 
 export const uploadImage = createAsyncThunk(
