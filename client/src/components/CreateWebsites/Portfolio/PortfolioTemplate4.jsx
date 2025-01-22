@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import EditableText from "../Handlers/EditableText";
 import ImageUpload from "../Handlers/ImageUpload";
 
@@ -41,8 +41,6 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
     };
     onUpdate(updatedData);
   };
-
-  // Smooth scroll to section
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
     const targetSection = document.getElementById(sectionId);
@@ -52,180 +50,153 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
   };
 
   return (
-    <div className="font-sans bg-gray-50">
+    <div className="font-sans">
       {/* Header */}
-      <header className="fixed w-full z-30 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="max-w-7xl mx-auto px-8 py-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">
-              <EditableText
-                editable={editable}
-                text={data.header.title}
-                onChange={(value) => handleUpdate("header", "title", value)}
-              />
-            </h1>
-            <nav>
-              <ul className="flex gap-8">
-                {data.header.items.map((item, index) => (
-                  <li key={item.id}>
-                    <a
-                      className="text-gray-600 hover:text-rose-500 transition-colors cursor-pointer"
-                      href={!editable ? item.href : "#"}
-                      onClick={(e) => handleNavClick(e, item.href.slice(1))}
-                    >
-                      <EditableText
-                        editable={editable}
-                        text={item.text}
-                        onChange={(value) =>
-                          handleUpdate("header", "text", value, index)
-                        }
-                      />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <div className="text-rose-500 font-medium">
-              <EditableText
-                editable={editable}
-                text={data.header.phone}
-                onChange={(value) => handleUpdate("header", "phone", value)}
-              />
-            </div>
+      <header className="bg-blue-600 text-white py-4 px-5">
+        <div className="container mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">
+            <EditableText
+              editable={editable}
+              text={data.header.logo}
+              onChange={(value) => handleUpdate("header", "logo", value)}
+            />
+          </h1>
+          <nav>
+            <ul className="flex gap-6">
+              {data.header.items.map((item, index) => (
+                <li key={item.id}>
+                  <a
+                    className="hover:underline"
+                    href={!editable ? item.href : "#"}
+                    onClick={(e) => handleNavClick(e, item.href.slice(1))}
+                  >
+                    <EditableText
+                      editable={editable}
+                      text={item.text}
+                      onChange={(value) =>
+                        handleUpdate("header", "text", value, index)
+                      }
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="text-sm">
+            📞{" "}
+            <EditableText
+              editable={editable}
+              text={data.header.phone}
+              onChange={(value) => handleUpdate("header", "phone", value)}
+            />
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="bg-white rounded-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] p-16">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <h1 className="text-6xl font-bold text-gray-800">
-                  <EditableText
-                    editable={editable}
-                    text={data.hero.greeting}
-                    onChange={(value) =>
-                      handleUpdate("hero", "greeting", value)
-                    }
-                  />
-                </h1>
-                <p className="text-xl text-gray-600">
-                  <EditableText
-                    editable={editable}
-                    text={data.hero.subtitle}
-                    onChange={(value) =>
-                      handleUpdate("hero", "subtitle", value)
-                    }
-                  />
-                </p>
-                <button className="px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all">
-                  <EditableText
-                    editable={editable}
-                    text={data.hero.cta}
-                    onChange={(value) => handleUpdate("hero", "cta", value)}
-                  />
-                </button>
-              </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-rose-100 rounded-3xl rotate-6"></div>
-                <div className="absolute inset-0 bg-rose-200 rounded-3xl rotate-3"></div>
-                <ImageUpload
-                  editable={editable}
-                  src={data.hero.profileImage}
-                  alt="Profile"
-                  className="w-full"
-                  containerClass="relative rounded-3xl overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
-                  onUpload={(imageUrl) =>
-                    handleUpdate("hero", "profileImage", imageUrl)
-                  }
-                />
-              </div>
-            </div>
+      <section className="bg-gradient-to-r from-green-400 to-blue-500 text-white py-20 px-5">
+        <div className="container mx-auto text-center">
+          <div className="flex flex-col items-center">
+            <ImageUpload
+              editable={editable}
+              src={data.hero.profileImage}
+              alt="Profile"
+              containerClass="rounded-full overflow-hidden w-32 h-32"
+              onUpload={(imageUrl) =>
+                handleUpdate("hero", "profileImage", imageUrl)
+              }
+            />
+            <h1 className="text-4xl font-bold mt-4">
+              <EditableText
+                editable={editable}
+                text={data.hero.greeting}
+                onChange={(value) => handleUpdate("hero", "greeting", value)}
+              />
+            </h1>
+            <p className="mt-2 text-lg">
+              <EditableText
+                editable={editable}
+                text={data.hero.subtitle}
+                onChange={(value) => handleUpdate("hero", "subtitle", value)}
+              />
+            </p>
+            <button className="bg-blue-600 px-4 py-2 rounded-full mt-4 hover:bg-blue-700">
+              <EditableText
+                editable={editable}
+                text={data.hero.cta}
+                onChange={(value) => handleUpdate("hero", "cta", value)}
+              />
+            </button>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="bg-white rounded-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] p-16">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="relative group">
-                <ImageUpload
-                  editable={editable}
-                  src={data.about.image}
-                  alt="About"
-                  className="rounded-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] transition-transform group-hover:scale-[1.02] duration-300"
-                  onUpload={(imageUrl) =>
-                    handleUpdate("about", "image", imageUrl)
-                  }
-                />
-              </div>
-              <div className="space-y-8">
-                <h2 className="text-4xl font-bold text-gray-800">
-                  <EditableText
-                    editable={editable}
-                    text={data.about.title}
-                    onChange={(value) => handleUpdate("about", "title", value)}
-                  />
-                </h2>
-                <p className="text-gray-600">
-                  <EditableText
-                    editable={editable}
-                    text={data.about.description}
-                    onChange={(value) =>
-                      handleUpdate("about", "description", value)
-                    }
-                  />
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {Object.entries(data.about.details).map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="bg-gray-50 rounded-xl p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
-                    >
-                      <span className="text-rose-500 font-medium block mb-2">
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </span>
-                      <EditableText
-                        editable={editable}
-                        text={value}
-                        onChange={(newValue) =>
-                          handleUpdate("about", "details", {
-                            ...data.about.details,
-                            [key]: newValue,
-                          })
-                        }
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+      <section id="about" className="py-20 bg-gray-100 px-5">
+        <div className="container mx-auto grid grid-cols-2 gap-8">
+          <ImageUpload
+            editable={editable}
+            src={data.about.image}
+            alt="About"
+            className="w-full rounded-lg h-[252px]"
+            onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
+          />
+          <div>
+            <h2 className="text-3xl font-bold">
+              <EditableText
+                editable={editable}
+                text={data.about.title}
+                onChange={(value) => handleUpdate("about", "title", value)}
+              />
+            </h2>
+            <p className="mt-4">
+              <EditableText
+                editable={editable}
+                text={data.about.description}
+                onChange={(value) =>
+                  handleUpdate("about", "description", value)
+                }
+              />
+            </p>
+            <div className="mt-8">
+              <ul className="space-y-4">
+                {Object.entries(data.about.details).map(([key, value]) => (
+                  <li key={key}>
+                    <strong>
+                      {key.charAt(0).toUpperCase() + key.slice(1)}:
+                    </strong>{" "}
+                    <EditableText
+                      editable={editable}
+                      text={value}
+                      onChange={(newValue) =>
+                        handleUpdate("about", "details", {
+                          ...data.about.details,
+                          [key]: newValue,
+                        })
+                      }
+                    />
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20">
-        <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-16">
+      <section id="services" className="py-20 bg-green-100 px-5">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">
             <EditableText
               editable={editable}
               text={data.services.title}
               onChange={(value) => handleUpdate("services", "title", value)}
             />
           </h2>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-8 mt-8">
             {data.services.items.map((service, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl p-8 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-lg transition-all"
-              >
-                <div className="h-2 w-16 bg-rose-500 rounded-full mb-6"></div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
+              <div key={index} className="p-6 bg-white rounded-lg shadow-md">
+                <h3 className="text-xl font-bold">
                   <EditableText
                     editable={editable}
                     text={service.name}
@@ -234,7 +205,7 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600">
                   <EditableText
                     editable={editable}
                     text={service.description}
@@ -243,7 +214,7 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </p>
-                <span className="text-rose-500 font-bold">
+                <span className="text-green-600 font-bold">
                   <EditableText
                     editable={editable}
                     text={service.price}
@@ -259,41 +230,36 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-16">
+      <section id="projects" className="py-20 bg-gray-50 px-5">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">
             <EditableText
               editable={editable}
               text={data.projects.title}
               onChange={(value) => handleUpdate("projects", "title", value)}
             />
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8 mt-8">
             {data.projects.items.map((project, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-2xl p-4 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-xl transition-all"
-              >
+              <div key={index} className="p-4 bg-white rounded-lg shadow-md">
                 <ImageUpload
                   editable={editable}
                   src={project.image}
                   alt={project.name}
-                  className="w-full h-[300px] object-cover rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
+                  className="rounded-lg max-h-[140px] min-h-[140px] w-full"
                   onUpload={(imageUrl) =>
                     handleUpdate("projects", "image", imageUrl, index)
                   }
                 />
-                <div className="mt-4">
-                  <h3 className="text-xl font-bold text-gray-800">
-                    <EditableText
-                      editable={editable}
-                      text={project.name}
-                      onChange={(value) =>
-                        handleUpdate("projects", "name", value, index)
-                      }
-                    />
-                  </h3>
-                </div>
+                <h3 className="mt-4 text-xl font-bold">
+                  <EditableText
+                    editable={editable}
+                    text={project.name}
+                    onChange={(value) =>
+                      handleUpdate("projects", "name", value, index)
+                    }
+                  />
+                </h3>
               </div>
             ))}
           </div>
@@ -301,45 +267,43 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
-        <div className="max-w-3xl mx-auto px-8">
-          <div className="bg-white rounded-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] p-16">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
-              <EditableText
-                editable={editable}
-                text={data.contact.title}
-                onChange={(value) => handleUpdate("contact", "title", value)}
+      <section id="contact" className="py-20 bg-gray-200 px-5">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">
+            <EditableText
+              editable={editable}
+              text={data.contact.title}
+              onChange={(value) => handleUpdate("contact", "title", value)}
+            />
+          </h2>
+          <form className="mt-8 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Name"
+                className="p-4 border rounded"
               />
-            </h2>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full px-6 py-4 bg-gray-50 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] focus:outline-none focus:ring-2 focus:ring-rose-500"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full px-6 py-4 bg-gray-50 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] focus:outline-none focus:ring-2 focus:ring-rose-500"
-                />
-              </div>
-              <textarea
-                placeholder="Tell me about the project"
-                className="w-full px-6 py-4 bg-gray-50 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] focus:outline-none focus:ring-2 focus:ring-rose-500"
-                rows="4"
-              ></textarea>
-              <button className="w-full py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all">
-                Send Message
-              </button>
-            </form>
-          </div>
+              <input
+                type="email"
+                placeholder="Email"
+                className="p-4 border rounded"
+              />
+            </div>
+            <textarea
+              placeholder="Tell me about the project"
+              className="w-full p-4 border rounded"
+              rows="4"
+            ></textarea>
+            <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+              Send
+            </button>
+          </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white py-8 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]">
-        <p className="text-center text-gray-600">
+      <footer className="bg-blue-600 text-white py-4 text-center px-5">
+        <p>
           <EditableText
             editable={editable}
             text={data.footer.copyright}

@@ -1,6 +1,7 @@
 const portfolioTemplate = {
   header: {
-    title: "First",
+    logo: "First",
+    logoImg: "",
     phone: "120-340-8900",
     items: [
       { id: 1, text: "About", href: "#about" },
@@ -82,9 +83,11 @@ const portfolioTemplate = {
 };
 
 const interiorDesignTemplate = {
-  nav: {
+  header: {
     logo: "INTERIOR STUDIO",
+    logoImg: "",
     items: [
+      { href: "about", text: "About" },
       { href: "services", text: "Services" },
       { href: "portfolio", text: "Portfolio" },
       { href: "testimonials", text: "Testimonials" },
@@ -100,21 +103,41 @@ const interiorDesignTemplate = {
   },
   about: {
     title: "About Us",
-    subtitle: "We take pride in delivering high-quality solutions tailored to your needs. Here's a glimpse of what we’ve achieved so far",
+    subtitle:
+      "We take pride in delivering high-quality solutions tailored to your needs. Here's a glimpse of what we’ve achieved so far",
+    mainImage:
+      "https://images.livspace-cdn.com/w:3840/plain/https://d3gq2merok8n5r.cloudfront.net/abhinav/design-ideas-thumbnails-1628773921-7vSz1/jas-thumbnails-1662014793-zEzY3/mobile-1662014804-Sebbn/mbr-m-1662025089-SomZl.png",
+    experience: "25+",
+    features: [
+      {
+        title: "Innovative Design",
+        description:
+          "Creating unique spaces that blend aesthetics with functionality",
+      },
+      {
+        title: "Expert Team",
+        description:
+          "Skilled professionals dedicated to bringing your vision to life",
+      },
+    ],
     items: [
       {
+        icon: "https://cdn-icons-png.flaticon.com/512/9912/9912615.png",
         name: "Projects Completed",
         count: "500+",
       },
       {
+        icon: "https://cdn-icons-png.flaticon.com/512/2039/2039048.png",
         name: "Satisfied Customers",
         count: "350+",
       },
       {
+        icon: "https://cdn-icons-png.freepik.com/256/10845/10845509.png?semt=ais_hybrid",
         name: "Years of Experience",
-        count: "10+",
+        count: "25+",
       },
       {
+        icon: "https://www.freeiconspng.com/thumbs/team-icon/team-icon-27.png",
         name: "Team Members",
         count: "10+",
       },

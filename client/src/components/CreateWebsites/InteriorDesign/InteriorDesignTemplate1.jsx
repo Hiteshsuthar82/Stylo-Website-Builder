@@ -6,7 +6,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
     if (index !== null) {
       if (
-        ["portfolio", "testimonials", "services", "about", "nav"].includes(
+        ["portfolio", "testimonials", "services", "about", "header"].includes(
           section
         )
       ) {
@@ -51,12 +51,12 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
             <div className="text-2xl font-light">
               <EditableText
                 editable={editable}
-                text={data.nav.logo}
-                onChange={(value) => handleUpdate("nav", "logo", value)}
+                text={data.header.logo}
+                onChange={(value) => handleUpdate("header", "logo", value)}
               />
             </div>
             <div className="hidden md:flex space-x-8">
-              {data.nav.items.map((item, index) => (
+              {data.header.items.map((item, index) => (
                 <a
                   key={index}
                   href={`#${item.href}`}
@@ -67,7 +67,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                     editable={editable}
                     text={item.text}
                     onChange={(value) =>
-                      handleUpdate("nav", "text", value, index)
+                      handleUpdate("header", "text", value, index)
                     }
                   />
                 </a>
@@ -112,64 +112,127 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
               />
             </p>
             <button className="bg-white text-neutral-900 px-8 py-3 rounded-none hover:bg-neutral-100 transition-colors">
-              <EditableText
-                editable={editable}
-                text={data.hero.cta}
-                onChange={(value) => handleUpdate("hero", "cta", value)}
-              />
+              <a
+                href={!editable ? "#portfolio" : "#"}
+                onClick={(e) => {
+                  if (!editable) {
+                    handleNavClick(e, "portfolio");
+                  }
+                }}
+                className="text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                <EditableText
+                  editable={editable}
+                  text={data.hero.cta}
+                  onChange={(value) => handleUpdate("hero", "cta", value)}
+                />
+              </a>
             </button>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-24 bg-gray-50 text-gray-800">
+      <section id="about" className="py-24 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-center mb-4">
-              <EditableText
+          <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+            <div className="relative">
+              <ImageUpload
                 editable={editable}
-                text={data.about.title}
-                onChange={(value) => handleUpdate("about", "title", value)}
+                src={data.about.mainImage}
+                alt="About Us"
+                className="w-full h-[600px] object-cover"
+                onUpload={(imageUrl) =>
+                  handleUpdate("about", "mainImage", imageUrl)
+                }
               />
-            </h2>
-            <p className="text-lg font-light text-gray-600">
-              <EditableText
-                editable={editable}
-                text={data.about.subtitle}
-                onChange={(value) => handleUpdate("about", "subtitle", value)}
-              />
-            </p>
-          </div>
-          <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-12 text-center">
-            {data.about.items.map((aboutDetail, index) => (
-              // <div>
-              //   <h3 className="text-5xl font-bold text-blue-600">500+</h3>
-              //   <p className="mt-2 text-gray-600">Projects Completed</p>
-              // </div>
-              <div key={index}>
-                <h3
-                  className={`text-5xl font-bold ${
-                    index == 0
-                      ? "text-blue-600"
-                      : index == 1
-                      ? "text-green-600"
-                      : index == 2
-                      ? "text-yellow-500"
-                      : "text-red-500"
-                  }`}
-                >
+              <div className="absolute -bottom-8 -right-8 bg-white p-8 shadow-xl">
+                <p className="text-4xl font-light text-neutral-900">
                   <EditableText
                     editable={editable}
-                    text={aboutDetail.count}
+                    text={data.about.experience}
+                    onChange={(value) =>
+                      handleUpdate("about", "experience", value)
+                    }
+                  />
+                </p>
+                <p className="text-neutral-600">Years of Excellence</p>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <h2 className="text-5xl font-light">
+                <EditableText
+                  editable={editable}
+                  text={data.about.title}
+                  onChange={(value) => handleUpdate("about", "title", value)}
+                />
+              </h2>
+              <p className="text-lg text-neutral-600 leading-relaxed">
+                <EditableText
+                  editable={editable}
+                  text={data.about.subtitle}
+                  onChange={(value) => handleUpdate("about", "subtitle", value)}
+                />
+              </p>
+              <div className="grid grid-cols-2 gap-8">
+                {data.about.features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="border-l-2 border-neutral-900 pl-6"
+                  >
+                    <h3 className="text-xl font-medium mb-2">
+                      <EditableText
+                        editable={editable}
+                        text={feature.title}
+                        onChange={(value) =>
+                          handleUpdate("about", "title", value, index)
+                        }
+                      />
+                    </h3>
+                    <p className="text-neutral-600">
+                      <EditableText
+                        editable={editable}
+                        text={feature.description}
+                        onChange={(value) =>
+                          handleUpdate("about", "description", value, index)
+                        }
+                      />
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-12">
+            {data.about.items.map((item, index) => (
+              <div key={index} className="text-center group">
+                <div className="mb-4 relative">
+                  <div className="w-24 h-24 mx-auto rounded-full bg-neutral-100 flex items-center justify-center group-hover:bg-neutral-200 transition-colors">
+                    <ImageUpload
+                      editable={editable}
+                      src={item.icon}
+                      alt={item.name}
+                      className="w-12 h-12"
+                      onUpload={(imageUrl) =>
+                        handleUpdate("about", "icon", imageUrl, index)
+                      }
+                    />
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold mb-2">
+                  <EditableText
+                    editable={editable}
+                    text={item.count}
                     onChange={(value) =>
                       handleUpdate("about", "count", value, index)
                     }
                   />
                 </h3>
-                <p className="mt-2 text-gray-600">
+                <p className="text-neutral-600">
                   <EditableText
                     editable={editable}
-                    text={aboutDetail.name}
+                    text={item.name}
                     onChange={(value) =>
                       handleUpdate("about", "name", value, index)
                     }
@@ -240,19 +303,25 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {data.portfolio.items.map((item, index) => (
               <div key={index} className="group relative overflow-hidden">
-                <ImageUpload
-                  editable={editable}
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-110"
-                  onUpload={(imageUrl) =>
-                    handleUpdate("portfolio", "image", imageUrl, index)
-                  }
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-center p-6">
+                <div className="relative">
+                  <ImageUpload
+                    editable={editable}
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-110"
+                    onUpload={(imageUrl) =>
+                      handleUpdate("portfolio", "image", imageUrl, index)
+                    }
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <div
+                    className={`absolute inset-0 flex ${
+                      editable ? "items-end" : "items-center"
+                    } justify-center text-white text-center p-6`}
+                  >
                     <div>
-                      <h3 className="text-2xl font-light mb-2">
+                      <h3 className="text-2xl font-light mb-2 pointer-events-auto">
                         <EditableText
                           editable={editable}
                           text={item.title}
@@ -261,7 +330,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                           }
                         />
                       </h3>
-                      <p className="text-sm">
+                      <p className="text-sm pointer-events-auto">
                         <EditableText
                           editable={editable}
                           text={item.category}
@@ -349,7 +418,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
             <div className="grid md:grid-cols-2 gap-6">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Full Name"
                 className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
               />
               <input
@@ -358,6 +427,11 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                 className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
               />
             </div>
+              <input
+                type="text"
+                placeholder="Contact No"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
+              />
             <textarea
               placeholder="Your Message"
               rows="6"

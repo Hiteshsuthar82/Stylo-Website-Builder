@@ -38,7 +38,7 @@ const ImageUpload = ({
       className={`relative group cursor-pointer ${containerClass}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleUploadClick}
+      
     >
       <img
         src={src}
@@ -49,7 +49,7 @@ const ImageUpload = ({
         <div
           className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity ${overlayClass}`}
         >
-          <button className="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button className="z-20 bg-white text-black px-4 py-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleUploadClick}>
             Upload Image
           </button>
         </div>
