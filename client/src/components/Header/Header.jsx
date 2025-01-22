@@ -45,7 +45,7 @@ function Header() {
   return (
     <header>
       <Container>
-        <nav className="flex gap-2 justify-between text-white/80 items-center px-5 py-3 text-md bg-[#9333ea] rounded-bl-md rounded-br-md">
+        <nav className="fixed top-0 left-0 right-0 z-50 flex gap-2 justify-between text-white/80 items-center px-5 py-3 text-md bg-[#9333ea] rounded-bl-md rounded-br-md">
           <Link to={"/"}>
             <Logo />
           </Link>

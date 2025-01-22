@@ -1,6 +1,6 @@
 import React from "react";
-import EditableText from "../../EditableText";
-import ImageUpload from "./Handlers/ImageUpload";
+import EditableText from "../Handlers/EditableText";
+import ImageUpload from "../Handlers/ImageUpload";
 
 const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
@@ -42,10 +42,18 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
     onUpdate(updatedData);
   };
 
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="font-sans bg-gray-900 text-gray-100">
       {/* Header - Fixed Navigation */}
-      <header className="fixed w-full bg-gray-900/80 backdrop-blur-md z-50 py-4 px-8">
+      <header className="fixed w-full bg-gray-900/80 backdrop-blur-md z-30 py-4 px-8">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <h1 className="text-xl font-light">
             <EditableText
@@ -58,7 +66,11 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
             <ul className="flex gap-8">
               {data.header.items.map((item, index) => (
                 <li key={item.id}>
-                  <a className="hover:text-emerald-400 transition-colors">
+                  <a
+                    className="hover:text-emerald-400 transition-colors"
+                    href={!editable ? item.href : "#"}
+                    onClick={(e) => handleNavClick(e, item.href.slice(1))}
+                  >
                     <EditableText
                       editable={editable}
                       text={item.text}
@@ -114,7 +126,10 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
               src={data.hero.profileImage}
               alt="Profile"
               containerClass="relative rounded-full overflow-hidden w-64 h-64 mx-auto"
-              onUpload={(imageUrl) => handleUpdate("hero", "profileImage", imageUrl)}
+              className="w-full"
+              onUpload={(imageUrl) =>
+                handleUpdate("hero", "profileImage", imageUrl)
+              }
             />
           </div>
         </div>
@@ -145,7 +160,9 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
               <EditableText
                 editable={editable}
                 text={data.about.description}
-                onChange={(value) => handleUpdate("about", "description", value)}
+                onChange={(value) =>
+                  handleUpdate("about", "description", value)
+                }
               />
             </p>
             <div className="space-y-4">
@@ -183,7 +200,10 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {data.services.items.map((service, index) => (
-              <div key={index} className="bg-gray-800 p-8 rounded-2xl hover:bg-gray-800/80 transition-colors">
+              <div
+                key={index}
+                className="bg-gray-800 p-8 rounded-2xl hover:bg-gray-800/80 transition-colors"
+              >
                 <h3 className="text-2xl font-bold mb-4">
                   <EditableText
                     editable={editable}
@@ -229,7 +249,10 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {data.projects.items.map((project, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-2xl">
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-2xl"
+              >
                 <ImageUpload
                   editable={editable}
                   src={project.image}
@@ -239,9 +262,9 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
                     handleUpdate("projects", "image", imageUrl, index)
                   }
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-xl font-bold">
+                    <h3 className="text-xl font-bold pointer-events-auto">
                       <EditableText
                         editable={editable}
                         text={project.name}

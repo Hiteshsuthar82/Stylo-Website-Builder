@@ -43,7 +43,7 @@ const ImageUpload = ({
       <img
         src={src}
         alt={alt}
-        className={`w-full object-cover ${className}`}
+        className={`object-cover ${className}`}
       />
       {editable && isHovered && (
         <div

@@ -1,6 +1,6 @@
 import React from "react";
-import EditableText from "../../EditableText";
-import ImageUpload from "./Handlers/ImageUpload";
+import EditableText from "../Handlers/EditableText";
+import ImageUpload from "../Handlers/ImageUpload";
 
 const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
@@ -42,10 +42,19 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
     onUpdate(updatedData);
   };
 
+  // Smooth scroll to section
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="font-sans bg-gray-50">
       {/* Header */}
-      <header className="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="fixed w-full z-30 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-8 py-6">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-800">
@@ -59,7 +68,11 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
               <ul className="flex gap-8">
                 {data.header.items.map((item, index) => (
                   <li key={item.id}>
-                    <a className="text-gray-600 hover:text-rose-500 transition-colors">
+                    <a
+                      className="text-gray-600 hover:text-rose-500 transition-colors cursor-pointer"
+                      href={!editable ? item.href : "#"}
+                      onClick={(e) => handleNavClick(e, item.href.slice(1))}
+                    >
                       <EditableText
                         editable={editable}
                         text={item.text}
@@ -93,14 +106,18 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                   <EditableText
                     editable={editable}
                     text={data.hero.greeting}
-                    onChange={(value) => handleUpdate("hero", "greeting", value)}
+                    onChange={(value) =>
+                      handleUpdate("hero", "greeting", value)
+                    }
                   />
                 </h1>
                 <p className="text-xl text-gray-600">
                   <EditableText
                     editable={editable}
                     text={data.hero.subtitle}
-                    onChange={(value) => handleUpdate("hero", "subtitle", value)}
+                    onChange={(value) =>
+                      handleUpdate("hero", "subtitle", value)
+                    }
                   />
                 </p>
                 <button className="px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all">
@@ -118,8 +135,11 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                   editable={editable}
                   src={data.hero.profileImage}
                   alt="Profile"
+                  className="w-full"
                   containerClass="relative rounded-3xl overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
-                  onUpload={(imageUrl) => handleUpdate("hero", "profileImage", imageUrl)}
+                  onUpload={(imageUrl) =>
+                    handleUpdate("hero", "profileImage", imageUrl)
+                  }
                 />
               </div>
             </div>
@@ -138,7 +158,9 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                   src={data.about.image}
                   alt="About"
                   className="rounded-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] transition-transform group-hover:scale-[1.02] duration-300"
-                  onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
+                  onUpload={(imageUrl) =>
+                    handleUpdate("about", "image", imageUrl)
+                  }
                 />
               </div>
               <div className="space-y-8">
@@ -153,12 +175,17 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                   <EditableText
                     editable={editable}
                     text={data.about.description}
-                    onChange={(value) => handleUpdate("about", "description", value)}
+                    onChange={(value) =>
+                      handleUpdate("about", "description", value)
+                    }
                   />
                 </p>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {Object.entries(data.about.details).map(([key, value]) => (
-                    <div key={key} className="bg-gray-50 rounded-xl p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]">
+                    <div
+                      key={key}
+                      className="bg-gray-50 rounded-xl p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
+                    >
                       <span className="text-rose-500 font-medium block mb-2">
                         {key.charAt(0).toUpperCase() + key.slice(1)}
                       </span>
@@ -193,7 +220,10 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {data.services.items.map((service, index) => (
-              <div key={index} className="group bg-white rounded-2xl p-8 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-lg transition-all">
+              <div
+                key={index}
+                className="group bg-white rounded-2xl p-8 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-lg transition-all"
+              >
                 <div className="h-2 w-16 bg-rose-500 rounded-full mb-6"></div>
                 <h3 className="text-xl font-bold text-gray-800 mb-4">
                   <EditableText
@@ -240,7 +270,10 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {data.projects.items.map((project, index) => (
-              <div key={index} className="group relative bg-white rounded-2xl p-4 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-xl transition-all">
+              <div
+                key={index}
+                className="group relative bg-white rounded-2xl p-4 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-xl transition-all"
+              >
                 <ImageUpload
                   editable={editable}
                   src={project.image}

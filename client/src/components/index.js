@@ -20,7 +20,7 @@ import UserProfile from "./UserProfile/UserProfile";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import PermanentDetailConfirmationDialog from "./PermanentDetailConfirmationDialog";
 import DangerAlert from "./DangerAlert";
-import EditableText from "./EditableText";
+import EditableText from "./CreateWebsites/Handlers/EditableText";
 import CreateWebsite from "./CreateWebsites/CreateWebsite";
 import WebsiteDemo from "./CreateWebsites/WebsiteDemo";
 import TemplateTypeSelectionPage from "./TemplateTypeSelection/TemplateTypeSelectionPage";

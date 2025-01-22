@@ -1,6 +1,6 @@
 import React from "react";
-import EditableText from "../../EditableText";
-import ImageUpload from "./Handlers/ImageUpload";
+import EditableText from "../Handlers/EditableText";
+import ImageUpload from "../Handlers/ImageUpload";
 
 const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
@@ -42,6 +42,14 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
     onUpdate(updatedData);
   };
 
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="font-sans bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white min-h-screen">
       {/* Decorative Background Elements */}
@@ -52,7 +60,7 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
       </div>
 
       {/* Header */}
-      <header className="fixed w-full z-50">
+      <header className="fixed w-full z-30">
         <div className="mx-4 mt-4">
           <div className="max-w-7xl mx-auto backdrop-blur-lg bg-white/10 rounded-2xl border border-white/20 shadow-lg">
             <div className="px-8 py-4 flex justify-between items-center">
@@ -67,7 +75,11 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                 <ul className="flex gap-8">
                   {data.header.items.map((item, index) => (
                     <li key={item.id}>
-                      <a className="hover:text-purple-300 transition-colors">
+                      <a
+                        className="hover:text-purple-300 transition-colors"
+                        href={!editable ? item.href : "#"}
+                        onClick={(e) => handleNavClick(e, item.href.slice(1))}
+                      >
                         <EditableText
                           editable={editable}
                           text={item.text}
@@ -102,14 +114,18 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                   <EditableText
                     editable={editable}
                     text={data.hero.greeting}
-                    onChange={(value) => handleUpdate("hero", "greeting", value)}
+                    onChange={(value) =>
+                      handleUpdate("hero", "greeting", value)
+                    }
                   />
                 </h1>
                 <p className="text-xl text-purple-200">
                   <EditableText
                     editable={editable}
                     text={data.hero.subtitle}
-                    onChange={(value) => handleUpdate("hero", "subtitle", value)}
+                    onChange={(value) =>
+                      handleUpdate("hero", "subtitle", value)
+                    }
                   />
                 </p>
                 <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-purple-500/25">
@@ -126,8 +142,11 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                   editable={editable}
                   src={data.hero.profileImage}
                   alt="Profile"
+                  className="w-full"
                   containerClass="relative rounded-3xl overflow-hidden w-full h-[500px]"
-                  onUpload={(imageUrl) => handleUpdate("hero", "profileImage", imageUrl)}
+                  onUpload={(imageUrl) =>
+                    handleUpdate("hero", "profileImage", imageUrl)
+                  }
                 />
               </div>
             </div>
@@ -146,7 +165,9 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                 src={data.about.image}
                 alt="About"
                 className="relative rounded-3xl w-full h-[600px] object-cover transition-transform group-hover:scale-105 duration-500"
-                onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
+                onUpload={(imageUrl) =>
+                  handleUpdate("about", "image", imageUrl)
+                }
               />
             </div>
             <div className="space-y-8">
@@ -161,12 +182,17 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                 <EditableText
                   editable={editable}
                   text={data.about.description}
-                  onChange={(value) => handleUpdate("about", "description", value)}
+                  onChange={(value) =>
+                    handleUpdate("about", "description", value)
+                  }
                 />
               </p>
               <div className="space-y-6">
                 {Object.entries(data.about.details).map(([key, value]) => (
-                  <div key={key} className="backdrop-blur-lg bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div
+                    key={key}
+                    className="backdrop-blur-lg bg-white/5 rounded-xl p-4 border border-white/10"
+                  >
                     <span className="text-purple-300 font-medium block mb-2">
                       {key.charAt(0).toUpperCase() + key.slice(1)}
                     </span>
@@ -200,7 +226,10 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {data.services.items.map((service, index) => (
-              <div key={index} className="group backdrop-blur-lg bg-white/10 rounded-2xl border border-white/20 p-8 hover:bg-white/20 transition-all duration-300">
+              <div
+                key={index}
+                className="group backdrop-blur-lg bg-white/10 rounded-2xl border border-white/20 p-8 hover:bg-white/20 transition-all duration-300"
+              >
                 <h3 className="text-2xl font-bold mb-4">
                   <EditableText
                     editable={editable}
@@ -247,7 +276,7 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
           <div className="grid md:grid-cols-3 gap-8">
             {data.projects.items.map((project, index) => (
               <div key={index} className="group relative overflow-hidden rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <ImageUpload
                   editable={editable}
                   src={project.image}
@@ -257,8 +286,8 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                     handleUpdate("projects", "image", imageUrl, index)
                   }
                 />
-                <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-purple-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-all">
-                  <h3 className="text-2xl font-bold">
+                <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-purple-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-all pointer-events-none">
+                  <h3 className="text-2xl font-bold pointer-events-auto">
                     <EditableText
                       editable={editable}
                       text={project.name}

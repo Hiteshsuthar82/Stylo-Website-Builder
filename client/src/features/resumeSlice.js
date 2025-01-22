@@ -28,6 +28,18 @@ const initialState = {
         src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
       },
     ],
+    interiorDesign:[
+      {
+        id: "t1",
+        name: "Interior Design 1",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+      {
+        id: "t2",
+        name: "Interior Design 2",
+        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+      },
+    ],
     hospital:[
       {
         id: "t1",

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import EditableText from "../../EditableText";
-import ImageUpload from "./Handlers/ImageUpload";
+import EditableText from "../Handlers/EditableText";
+import ImageUpload from "../Handlers/ImageUpload";
 
 const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
@@ -41,6 +41,13 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
     };
     onUpdate(updatedData);
   };
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="font-sans">
@@ -58,7 +65,11 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
             <ul className="flex gap-6">
               {data.header.items.map((item, index) => (
                 <li key={item.id}>
-                  <a className="hover:underline">
+                  <a
+                    className="hover:underline"
+                    href={!editable ? item.href : "#"}
+                    onClick={(e) => handleNavClick(e, item.href.slice(1))}
+                  >
                     <EditableText
                       editable={editable}
                       text={item.text}
@@ -127,7 +138,7 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
             editable={editable}
             src={data.about.image}
             alt="About"
-            className="rounded-lg h-[252px]"
+            className="w-full rounded-lg h-[252px]"
             onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
           />
           <div>
