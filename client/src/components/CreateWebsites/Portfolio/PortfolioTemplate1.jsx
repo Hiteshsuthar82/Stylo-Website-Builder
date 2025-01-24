@@ -120,13 +120,21 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </p>
-                <button className="px-3 sm:px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all">
+                <a
+                  href={!editable ? "#about" : "#"}
+                  onClick={(e) => {
+                    if (!editable) {
+                      handleNavClick(e, "about");
+                    }
+                  }}
+                  className="px-3 sm:px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all"
+                >
                   <EditableText
                     editable={editable}
                     text={data.hero.cta}
                     onChange={(value) => handleUpdate("hero", "cta", value)}
                   />
-                </button>
+                </a>
               </div>
               <div className="relative">
                 <div className="absolute inset-0 bg-rose-100 rounded-3xl rotate-6"></div>

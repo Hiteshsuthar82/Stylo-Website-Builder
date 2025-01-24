@@ -7,13 +7,20 @@ import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
 
-import { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate } from "../../dummyData";
+import {
+  portfolioTemplate,
+  interiorDesignTemplate,
+  productShowcaseTemplate,
+} from "../../dummyData";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
+import Popup from "../Popup";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
   const [templateData, setTemplateData] = useState(null);
+  const [isWebsiteDetailsPopupOpened, setIsWebsiteDetailsPopupOpened] =
+    useState(false);
 
   useEffect(() => {
     if (websiteType == "portfolio") {
@@ -29,8 +36,11 @@ const CreateWebsite = () => {
     setTemplateData(updatedData);
   };
 
-  const handleCreateWebsite = () => {
-    console.log("Website Data:", templateData);
+  const onCreateWebsite = (websiteDetails) => {
+    const updatedData = {...templateData, ...websiteDetails};
+    setTemplateData(updatedData)
+    console.log("Website Data:", updatedData);
+    // console.log("Website Data:", templateData);
   };
 
   const renderTemplate = () => {
@@ -140,11 +150,18 @@ const CreateWebsite = () => {
       {renderTemplate()}
       <button
         className="bg-[#9333ea] text-white py-3 px-5 fixed bottom-5 right-5 rounded-lg uppercase font-bold flex gap-3"
-        onClick={handleCreateWebsite}
+        onClick={() => setIsWebsiteDetailsPopupOpened(true)}
       >
         {/* Create Website */}
-        <GrLinkNext size={24} /> Create Website
+        <GrLinkNext size={24} /> Save Website
       </button>
+
+      <Popup
+        type="addWebsiteDetails"
+        isOpen={isWebsiteDetailsPopupOpened}
+        onClose={() => setIsWebsiteDetailsPopupOpened(false)}
+        onSubmit={onCreateWebsite}
+      />
     </div>
   );
 };

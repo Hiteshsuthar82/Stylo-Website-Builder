@@ -128,13 +128,21 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </p>
-                <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-purple-500/25">
+                <a
+                  href={!editable ? "#about" : "#"}
+                  onClick={(e) => {
+                    if (!editable) {
+                      handleNavClick(e, "about");
+                    }
+                  }}
+                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-purple-500/25"
+                >
                   <EditableText
                     editable={editable}
                     text={data.hero.cta}
                     onChange={(value) => handleUpdate("hero", "cta", value)}
                   />
-                </button>
+                </a>
               </div>
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full blur-3xl"></div>
@@ -275,7 +283,10 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {data.projects.items.map((project, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-2xl">
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-2xl"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <ImageUpload
                   editable={editable}

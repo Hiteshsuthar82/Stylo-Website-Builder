@@ -10,7 +10,6 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
   const [newSpecKey, setNewSpecKey] = useState("");
   const [newSpecValue, setNewSpecValue] = useState("");
   const [isAddingSpec, setIsAddingSpec] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleUpdate = (section, key, value, index = null) => {
     if (index !== null) {
@@ -54,7 +53,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
   };
 
   const handleAddSpecification = (newData) => {
-    const updatedSpecs = { ...data.details.specifications, };
+    const updatedSpecs = { ...data.details.specifications };
     updatedSpecs[newData.key] = newData.value;
     handleUpdate("details", "specifications", updatedSpecs);
 
@@ -65,6 +64,15 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
     const updatedSpecs = { ...data.details.specifications };
     delete updatedSpecs[key];
     handleUpdate("details", "specifications", updatedSpecs);
+  };
+
+  // Smooth scroll to section
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
@@ -79,10 +87,11 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
               onChange={(value) => handleUpdate("header", "logo", value)}
             />
           </h1>
-          <nav className="flex space-x-6">
-            {data.header.navigation.map((item, index) => (
+          <nav className="hidden sm:flex space-x-6">
+            {data.header.items.map((item, index) => (
               <a
                 key={index}
+                onClick={(e) => handleNavClick(e, item.id)}
                 href={`#${item.id}`}
                 className="text-gray-600 hover:text-primary-500 transition-colors"
               >
@@ -90,9 +99,9 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                   editable={editable}
                   text={item.label}
                   onChange={(value) => {
-                    const updatedNav = [...data.header.navigation];
+                    const updatedNav = [...data.header.items];
                     updatedNav[index] = { ...updatedNav[index], label: value };
-                    handleUpdate("header", "navigation", updatedNav);
+                    handleUpdate("header", "items", updatedNav);
                   }}
                 />
               </a>
@@ -102,7 +111,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20">
+      <section id="home" className="pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -126,7 +135,11 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 />
               </p>
               <div className="flex space-x-4">
-                <button className="px-8 py-4 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors">
+                <a
+                  href={!editable ? "#contact" : ""}
+                  onClick={(e) => handleNavClick(e, !editable ? "contact" : "")}
+                  className="px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
+                >
                   <EditableText
                     editable={editable}
                     text={data.hero.primaryCta}
@@ -134,8 +147,12 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       handleUpdate("hero", "primaryCta", value)
                     }
                   />
-                </button>
-                <button className="px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors">
+                </a>
+                <a
+                  href={!editable ? "#details" : ""}
+                  onClick={(e) => handleNavClick(e, !editable ? "details" : "")}
+                  className="px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
+                >
                   <EditableText
                     editable={editable}
                     text={data.hero.secondaryCta}
@@ -143,7 +160,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       handleUpdate("hero", "secondaryCta", value)
                     }
                   />
-                </button>
+                </a>
               </div>
             </div>
             <div className="relative">
@@ -151,7 +168,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 editable={editable}
                 src={data.hero.productImage}
                 alt="Product Image"
-                className="w-full rounded-2xl shadow-lg z-10 relative"
+                className="w-full max-h-[600px]  object-cover rounded-2xl relative"
                 containerClass="relative"
                 onUpload={(imageUrl) =>
                   handleUpdate("hero", "productImage", imageUrl)
@@ -164,10 +181,10 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
       </section>
 
       {/* Product Details */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" id="details">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="grid grid-cols-2 gap-6 h-fit">
+          <div className="flex flex-col-reverse md:flex-row gap-12">
+            <div className="grid grid-cols-2 gap-6 h-fit flex-1">
               {data.details.gallery.map((image, index) => (
                 <ImageUpload
                   key={index}
@@ -183,9 +200,9 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 />
               ))}
             </div>
-            <div>
+            <div className="flex-1">
               <div className="flex space-x-4 mb-8 border-b">
-                {["description", "specifications", "reviews"].map((tab) => (
+                {["description", "specifications"].map((tab) => (
                   <button
                     key={tab}
                     className={`pb-4 text-lg font-semibold ${
@@ -202,10 +219,10 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
 
               {activeTab === "description" && (
                 <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-              >
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                >
                   <p className="text-gray-600 mb-6">
                     <EditableText
                       editable={editable}
@@ -215,7 +232,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       }
                     />
                   </p>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4 mb-12">
                     {data.details.keyFeatures.map((feature, index) => (
                       <div key={index} className="flex items-center space-x-3">
                         <span className="text-primary-500">✓</span>
@@ -237,6 +254,22 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       </div>
                     ))}
                   </div>
+
+                  <a
+                    href={!editable ? "#contact" : ""}
+                    onClick={(e) =>
+                      handleNavClick(e, !editable ? "contact" : "")
+                    }
+                    className="px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
+                  >
+                    <EditableText
+                    editable={editable}
+                    text={data.details.descriptionbtnText}
+                    onChange={(value) =>
+                      handleUpdate("details", "descriptionbtnText", value)
+                    }
+                  />
+                  </a>
                 </motion.div>
               )}
 
@@ -292,43 +325,6 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       <PlusIcon className="mr-2" /> Add Specification
                     </motion.button>
                   )}
-
-                  {/* {editable && isAddingSpec && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex flex-col space-y-2"
-                    >
-                      <input
-                        type="text"
-                        placeholder="Specification Key"
-                        value={newSpecKey}
-                        onChange={(e) => setNewSpecKey(e.target.value)}
-                        className="w-full p-2 border rounded"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Specification Value"
-                        value={newSpecValue}
-                        onChange={(e) => setNewSpecValue(e.target.value)}
-                        className="w-full p-2 border rounded"
-                      />
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={addSpecification}
-                          className="flex-grow bg-blue-500 text-white p-2 rounded"
-                        >
-                          Save Specification
-                        </button>
-                        <button
-                          onClick={() => setIsAddingSpec(false)}
-                          className="bg-gray-200 text-gray-700 p-2 rounded"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </motion.div>
-                  )} */}
                   <Popup
                     type="addSpecification"
                     isOpen={isAddingSpec}
@@ -337,136 +333,88 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                   />
                 </div>
               )}
-
-              {activeTab === "reviews" && (
-                <div>
-                  {data.details.reviews.map((review, index) => (
-                    <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="bg-gray-100 p-4 rounded-xl mb-4"
-                  >
-                      <div className="flex justify-between">
-                        <EditableText
-                          editable={editable}
-                          text={review.name}
-                          onChange={(value) => {
-                            const updatedReviews = [...data.details.reviews];
-                            updatedReviews[index] = {
-                              ...updatedReviews[index],
-                              name: value,
-                            };
-                            handleUpdate("details", "reviews", updatedReviews);
-                          }}
-                        />
-                        <div className="text-yellow-500">
-                          {"★".repeat(review.rating)}
-                        </div>
-                      </div>
-                      <EditableText
-                        editable={editable}
-                        text={review.comment}
-                        onChange={(value) => {
-                          const updatedReviews = [...data.details.reviews];
-                          updatedReviews[index] = {
-                            ...updatedReviews[index],
-                            comment: value,
-                          };
-                          handleUpdate("details", "reviews", updatedReviews);
-                        }}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            <EditableText
-              editable={editable}
-              text={data.pricing.title}
-              onChange={(value) => handleUpdate("pricing", "title", value)}
-            />
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {data.pricing.plans.map((plan, index) => (
-              <div
+      <section id="testimonials" className="px-5 py-20">
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+          <EditableText
+            editable={editable}
+            text={data.testimonials.title}
+            onChange={(value) => handleUpdate("testimonials", "title", value)}
+          />
+        </h2>
+        <div className="flex flex-col sm:flex-row mt-10 gap-5">
+          {data.testimonials.items.map((review, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="bg-white p-6 rounded-xl shadow-lg mb-6"
+            >
+              <div className="flex items-center mb-4">
+                {/* Image of the reviewer */}
+                {/* <img
+                  src={review.imageUrl} // Add the image URL for each review
+                  alt={review.name}
+                  className=""
+                /> */}
+                <ImageUpload
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <h3 className="text-2xl font-bold mb-4">
+                  editable={editable}
+                  src={review.imageUrl}
+                  alt="Reviewer Image"
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                  onUpload={(imageUrl) => {
+                    const updatedGallery = [...data.testimonials.items];
+                    updatedGallery[index].imageUrl = imageUrl;
+                    handleUpdate("testimonials", "items", updatedGallery);
+                  }}
+                />
+                <div className="flex-1">
                   <EditableText
                     editable={editable}
-                    text={plan.name}
+                    text={review.name}
                     onChange={(value) => {
-                      const updatedPlans = [...data.pricing.plans];
-                      updatedPlans[index] = {
-                        ...updatedPlans[index],
+                      const updatedTestimonials = [...data.testimonials.items];
+                      updatedTestimonials[index] = {
+                        ...updatedTestimonials[index],
                         name: value,
                       };
-                      handleUpdate("pricing", "plans", updatedPlans);
+                      handleUpdate(
+                        "testimonials",
+                        "items",
+                        updatedTestimonials
+                      );
                     }}
                   />
-                </h3>
-                <div className="text-4xl font-bold text-primary-500 mb-6">
-                  <EditableText
-                    editable={editable}
-                    text={plan.price}
-                    onChange={(value) => {
-                      const updatedPlans = [...data.pricing.plans];
-                      updatedPlans[index] = {
-                        ...updatedPlans[index],
-                        price: value,
-                      };
-                      handleUpdate("pricing", "plans", updatedPlans);
-                    }}
-                  />
+                  <div className="text-yellow-500 text-sm mt-1">
+                    {"★".repeat(review.rating)}
+                  </div>
                 </div>
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li
-                      key={featureIndex}
-                      className="flex items-center space-x-3"
-                    >
-                      <span className="text-primary-500">✓</span>
-                      <EditableText
-                        editable={editable}
-                        text={feature}
-                        onChange={(value) => {
-                          const updatedPlans = [...data.pricing.plans];
-                          const updatedFeatures = [
-                            ...updatedPlans[index].features,
-                          ];
-                          updatedFeatures[featureIndex] = value;
-                          updatedPlans[index] = {
-                            ...updatedPlans[index],
-                            features: updatedFeatures,
-                          };
-                          handleUpdate("pricing", "plans", updatedPlans);
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-4 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors">
-                  Choose Plan
-                </button>
               </div>
-            ))}
-          </div>
+              <EditableText
+                editable={editable}
+                text={review.comment}
+                onChange={(value) => {
+                  const updatedTestimonials = [...data.testimonials.items];
+                  updatedTestimonials[index] = {
+                    ...updatedTestimonials[index],
+                    comment: value,
+                  };
+                  handleUpdate("testimonials", "items", updatedTestimonials);
+                }}
+              />
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Contact */}
-      <section className="py-20">
+      <section id="contact" className="py-20 bg-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-2xl p-12 shadow-lg">
             <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
@@ -489,6 +437,11 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                   className="w-full px-6 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
+              <input
+                type="number"
+                placeholder="Contact No"
+                className="w-full px-6 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
               <textarea
                 placeholder="Your Message"
                 className="w-full px-6 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"

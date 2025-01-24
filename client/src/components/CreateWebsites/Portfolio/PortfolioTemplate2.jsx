@@ -111,13 +111,21 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
                 onChange={(value) => handleUpdate("hero", "subtitle", value)}
               />
             </p>
-            <button className="bg-emerald-400 px-8 py-3 rounded-full text-gray-900 font-medium hover:bg-emerald-300 transition-colors">
+            <a
+              href={!editable ? "#about" : "#"}
+              onClick={(e) => {
+                if (!editable) {
+                  handleNavClick(e, "about");
+                }
+              }}
+              className="bg-emerald-400 px-8 py-3 rounded-full text-gray-900 font-medium hover:bg-emerald-300 transition-colors"
+            >
               <EditableText
                 editable={editable}
                 text={data.hero.cta}
                 onChange={(value) => handleUpdate("hero", "cta", value)}
               />
-            </button>
+            </a>
           </div>
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-blue-500/20 rounded-full blur-3xl"></div>

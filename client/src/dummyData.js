@@ -218,104 +218,81 @@ const interiorDesignTemplate = {
   },
 };
 
-const productShowcaseTemplate =  {
+const productShowcaseTemplate = {
   header: {
+    websiteName:"",
+    websiteAuthorEmail:"",
+    logoImage: "",
     logo: "TechPro",
-    navigation: [
+    items: [
+      { id: "home", label: "Home" },
       { id: "details", label: "Details" },
-      { id: "pricing", label: "Pricing" },
-      { id: "contact", label: "Contact" }
-    ]
+      { id: "testimonials", label: "Testimonials" },
+      { id: "contact", label: "Contact" },
+    ],
   },
   hero: {
     title: "Ultimate Smart Device",
     subtitle: "Transform your digital experience with cutting-edge technology",
     primaryCta: "Buy Now",
     secondaryCta: "Learn More",
-    productImage: "/path/to/product-hero.jpg"
+    productImage:
+      "https://png.pngtree.com/png-vector/20240403/ourmid/pngtree-washing-machine-isolated-on-transparent-background-png-image_12260985.png",
   },
   details: {
     gallery: [
-      "/path/to/product-image1.jpg",
-      "/path/to/product-image2.jpg",
-      "/path/to/product-image3.jpg",
-      "/path/to/product-image4.jpg"
+      "https://img.freepik.com/premium-photo/laundry-essential-washing-machine-isolated-white-background-generative-ai_94628-19279.jpg",
+      "https://img.freepik.com/premium-photo/washing-machine_1022967-3789.jpg",
+      "https://thumbs.dreamstime.com/b/modern-front-loading-washing-machine-transparent-glass-door-modern-front-loading-washing-machine-transparent-326980000.jpg",
+      "https://img.etimg.com/thumb/width-1200,height-900,imgsize-143936,resizemode-75,msid-115259554/top-trending-products/major-appliances/washing-machine/best-selling-washing-machines-top-picks-for-every-budget-and-need.jpg",
     ],
-    description: "A revolutionary product designed to enhance your daily life with state-of-the-art features and unparalleled performance.",
+    description:
+      "A revolutionary product designed to enhance your daily life with state-of-the-art features and unparalleled performance.",
     keyFeatures: [
       "Advanced AI Technology",
-      "Seamless Connectivity",
+      "Modern Design",
       "Ultra-Long Battery Life",
-      "Intuitive User Interface"
+      "Intuitive User Interface",
     ],
+    descriptionbtnText: "Order This Product",
     specifications: {
-      "Dimensions": "15 x 8 x 5 cm",
-      "Weight": "350 g",
-      "Battery": "5000 mAh",
-      "Processor": "Octa-core 2.5 GHz",
-      "Memory": "8 GB RAM",
-      "Storage": "256 GB",
-      "Display": "6.5 inch AMOLED",
-      "Camera": "108 MP Quad Lens"
+      Dimensions: "15 x 8 x 5 meter",
+      Weight: "28 Kg",
+      Battery: "5000 kw",
     },
-    reviews: [
+  },
+  testimonials: {
+    title: "Client Testimonials",
+    items: [
       {
         name: "John Doe",
         rating: 5,
-        comment: "Absolutely amazing product! Exceeded all my expectations."
+        imageUrl:
+          "https://images.squarespace-cdn.com/content/v1/569591ff0ab3771dba3f1ec6/1453167464043-YWCO1KRYYH7SJNC3D1ZM/image-asset.jpeg",
+        comment: "Absolutely amazing product! Exceeded all my expectations.",
       },
       {
         name: "Jane Smith",
         rating: 4,
-        comment: "Great device with incredible features. Highly recommended."
+        imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMYR0TAT4xCZgg-7cvDs2gH02sMGHAIbFDYQ&s",
+        comment: "Great device with incredible features. Highly recommended.",
       },
       {
         name: "Mike Johnson",
         rating: 5,
-        comment: "Revolutionary technology that changes the way I work and live."
-      }
-    ]
-  },
-  pricing: {
-    title: "Choose Your Perfect Plan",
-    plans: [
-      {
-        name: "Basic",
-        price: "$299.99",
-        features: [
-          "Core Device",
-          "Standard Warranty",
-          "Basic Support"
-        ]
+        imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjE1GXmD1z3plZqU-EU9GfuPIE-ifwjB3iiQ&s",
+        comment:
+          "Revolutionary technology that changes the way I work and live.",
       },
-      {
-        name: "Pro",
-        price: "$499.99",
-        features: [
-          "Advanced Model",
-          "Extended Warranty",
-          "Priority Support",
-          "Additional Accessories"
-        ]
-      },
-      {
-        name: "Elite",
-        price: "$699.99",
-        features: [
-          "Premium Model",
-          "Lifetime Warranty",
-          "24/7 Premium Support",
-          "Exclusive Upgrades",
-          "Personal Consultation"
-        ]
-      }
-    ]
+    ],
   },
   contact: {
-    title: "Get in Touch with Our Team"
+    title: "Get in Touch with Our Team",
   },
   footer: {
-    copyright: "© 2024 TechPro. All rights reserved."
-  }
+    copyright: "© 2024 TechPro. All rights reserved.",
+  },
 };
 export { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate };
