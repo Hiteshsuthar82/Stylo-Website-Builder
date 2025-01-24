@@ -6,7 +6,8 @@ import NoTemplateAvailableView from "./NoTemplateAvailableView";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
-import { portfolioTemplate, interiorDesignTemplate } from "../../dummyData";
+import { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate } from "../../dummyData";
+import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
 
 const WebsiteDemo = () => {
   const { templateId } = useParams();
@@ -18,6 +19,8 @@ const WebsiteDemo = () => {
       setTemplateData(portfolioTemplate);
     } else if (websiteType == "interiorDesign") {
       setTemplateData(interiorDesignTemplate);
+    } else if (websiteType == "productShowcase") {
+      setTemplateData(productShowcaseTemplate);
     }
   }, [templateId]);
 
@@ -61,6 +64,20 @@ const WebsiteDemo = () => {
       case "t1":
         return (
           <InteriorDesignTemplate1 data={templateData} onUpdate={handleUpdate} />
+        );
+      case "t2":
+        return (
+          <PortfolioTemplate2 data={templateData} onUpdate={handleUpdate} />
+        );
+      default:
+        return <NoTemplateAvailableView />;
+    }
+  }
+  else if (websiteType == "productShowcase") {
+    switch (templateId) {
+      case "t1":
+        return (
+          <ProductShowcaseTemplate1 data={templateData} onUpdate={handleUpdate} />
         );
       case "t2":
         return (

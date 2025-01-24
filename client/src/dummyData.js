@@ -218,4 +218,104 @@ const interiorDesignTemplate = {
   },
 };
 
-export { portfolioTemplate, interiorDesignTemplate };
+const productShowcaseTemplate =  {
+  header: {
+    logo: "TechPro",
+    navigation: [
+      { id: "details", label: "Details" },
+      { id: "pricing", label: "Pricing" },
+      { id: "contact", label: "Contact" }
+    ]
+  },
+  hero: {
+    title: "Ultimate Smart Device",
+    subtitle: "Transform your digital experience with cutting-edge technology",
+    primaryCta: "Buy Now",
+    secondaryCta: "Learn More",
+    productImage: "/path/to/product-hero.jpg"
+  },
+  details: {
+    gallery: [
+      "/path/to/product-image1.jpg",
+      "/path/to/product-image2.jpg",
+      "/path/to/product-image3.jpg",
+      "/path/to/product-image4.jpg"
+    ],
+    description: "A revolutionary product designed to enhance your daily life with state-of-the-art features and unparalleled performance.",
+    keyFeatures: [
+      "Advanced AI Technology",
+      "Seamless Connectivity",
+      "Ultra-Long Battery Life",
+      "Intuitive User Interface"
+    ],
+    specifications: {
+      "Dimensions": "15 x 8 x 5 cm",
+      "Weight": "350 g",
+      "Battery": "5000 mAh",
+      "Processor": "Octa-core 2.5 GHz",
+      "Memory": "8 GB RAM",
+      "Storage": "256 GB",
+      "Display": "6.5 inch AMOLED",
+      "Camera": "108 MP Quad Lens"
+    },
+    reviews: [
+      {
+        name: "John Doe",
+        rating: 5,
+        comment: "Absolutely amazing product! Exceeded all my expectations."
+      },
+      {
+        name: "Jane Smith",
+        rating: 4,
+        comment: "Great device with incredible features. Highly recommended."
+      },
+      {
+        name: "Mike Johnson",
+        rating: 5,
+        comment: "Revolutionary technology that changes the way I work and live."
+      }
+    ]
+  },
+  pricing: {
+    title: "Choose Your Perfect Plan",
+    plans: [
+      {
+        name: "Basic",
+        price: "$299.99",
+        features: [
+          "Core Device",
+          "Standard Warranty",
+          "Basic Support"
+        ]
+      },
+      {
+        name: "Pro",
+        price: "$499.99",
+        features: [
+          "Advanced Model",
+          "Extended Warranty",
+          "Priority Support",
+          "Additional Accessories"
+        ]
+      },
+      {
+        name: "Elite",
+        price: "$699.99",
+        features: [
+          "Premium Model",
+          "Lifetime Warranty",
+          "24/7 Premium Support",
+          "Exclusive Upgrades",
+          "Personal Consultation"
+        ]
+      }
+    ]
+  },
+  contact: {
+    title: "Get in Touch with Our Team"
+  },
+  footer: {
+    copyright: "© 2024 TechPro. All rights reserved."
+  }
+};
+export { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate };

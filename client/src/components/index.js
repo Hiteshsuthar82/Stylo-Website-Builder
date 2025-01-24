@@ -27,6 +27,7 @@ import TemplateTypeSelectionPage from "./TemplateTypeSelection/TemplateTypeSelec
 import AllWebsiteTemplatesPage from "./AllTemplates/AllWebsiteTemplatesPage";
 import WebsiteTemplate from "./WebsiteTemplate";
 import NoTemplateAvailableView from "./CreateWebsites/NoTemplateAvailableView";
+import Popup from './Popup'
 
 
 export {
@@ -59,4 +60,5 @@ export {
   AllWebsiteTemplatesPage,
   WebsiteTemplate,
   NoTemplateAvailableView,
+  Popup
 };

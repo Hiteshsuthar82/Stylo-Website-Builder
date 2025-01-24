@@ -6,7 +6,7 @@ const TemplateTypeSelectionPage = () => {
   const templateTypes = [
     { id: 1, name: 'Portfolio', icon: '💼', count: 24, type:"portfolio" },
     { id: 2, name: 'Interior Design', icon: '🏥', count: 2, type:"interiorDesign" },
-    { id: 3, name: 'E-Commerce', icon: '🛒', count: 32, type:"eCommerce" },
+    { id: 3, name: 'Product Showcase', icon: '🛒', count: 32, type:"productShowcase" },
     { id: 4, name: 'Grocery Shop', icon: '🛍️', count: 15, type:"groceryShop" },
     { id: 5, name: 'Agency', icon: '🏢', count: 28, type:"agency" },
     { id: 6, name: 'Education', icon: '🎓', count: 22, type:"education" },
@@ -15,6 +15,7 @@ const TemplateTypeSelectionPage = () => {
     { id: 9, name: 'Art Gallery', icon: '🎨', count: 14, type:"artGallery" },
     { id: 10, name: 'Dashboard', icon: '📊', count: 20, type:"dashboard" },
     { id: 11, name: 'Hospital / Doctor', icon: '🏥', count: 18, type:"hospital" },
+    { id: 12, name: 'E-Commerce', icon: '🛒', count: 32, type:"eCommerce" },
   ];
 
   const handleTemplateClick = (websiteType) => {

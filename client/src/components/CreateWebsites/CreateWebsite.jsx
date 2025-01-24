@@ -5,8 +5,9 @@ import { GrLinkNext } from "react-icons/gr";
 import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
+import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
 
-import { portfolioTemplate, interiorDesignTemplate } from "../../dummyData";
+import { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate } from "../../dummyData";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
 
 const CreateWebsite = () => {
@@ -19,6 +20,8 @@ const CreateWebsite = () => {
       setTemplateData(portfolioTemplate);
     } else if (websiteType == "interiorDesign") {
       setTemplateData(interiorDesignTemplate);
+    } else if (websiteType == "productShowcase") {
+      setTemplateData(productShowcaseTemplate);
     }
   }, [templateId]);
 
@@ -78,6 +81,32 @@ const CreateWebsite = () => {
         case "t1":
           return (
             <InteriorDesignTemplate1
+              data={templateData}
+              onUpdate={handleUpdate}
+              editable
+            />
+          );
+        case "t2":
+          return (
+            <PortfolioTemplate2
+              data={templateData}
+              onUpdate={handleUpdate}
+              editable
+            />
+          );
+        default:
+          return (
+            <div className="text-center text-gray-500">
+              <h2 className="text-2xl font-bold">Template Not Found</h2>
+              <p>Please select a valid template.</p>
+            </div>
+          );
+      }
+    } else if (websiteType == "productShowcase") {
+      switch (templateId) {
+        case "t1":
+          return (
+            <ProductShowcaseTemplate1
               data={templateData}
               onUpdate={handleUpdate}
               editable
