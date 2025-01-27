@@ -10,36 +10,36 @@ const initialState = {
       {
         id: "t1",
         name: "Portfolio 1",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993908/port1_fsg7c7.png",
       },
       {
         id: "t2",
         name: "Portfolio 2",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993908/port2_rxo2de.png",
       },
       {
         id: "t3",
         name: "Portfolio 3",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993910/port3_uvnm5y.png",
       },
       {
         id: "t4",
         name: "Portfolio 4",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/port4_iqwcbr.png",
       },
     ],
     interiorDesign:[
       {
         id: "t1",
         name: "Interior Design 1",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
       },
     ],
     productShowcase:[
       {
         id: "t1",
         name: "Product Showcase 1",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
       },
     ],
     hospital:[

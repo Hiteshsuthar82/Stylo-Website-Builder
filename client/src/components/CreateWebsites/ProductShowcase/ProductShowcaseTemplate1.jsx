@@ -232,7 +232,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                       }
                     />
                   </p>
-                  <div className="grid md:grid-cols-2 gap-4 mb-12">
+                  <div className="grid md:grid-cols-2 gap-4 mb-10">
                     {data.details.keyFeatures.map((feature, index) => (
                       <div key={index} className="flex items-center space-x-3">
                         <span className="text-primary-500">✓</span>
@@ -260,7 +260,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                     onClick={(e) =>
                       handleNavClick(e, !editable ? "contact" : "")
                     }
-                    className="px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
+                    className="inline-block px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
                   >
                     <EditableText
                     editable={editable}
@@ -447,7 +447,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 className="w-full px-6 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                 rows="4"
               ></textarea>
-              <button className="w-full py-4 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors">
+              <button className="w-full py-4 bg-primary-500 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-600 transition-colors">
                 Send Inquiry
               </button>
             </form>

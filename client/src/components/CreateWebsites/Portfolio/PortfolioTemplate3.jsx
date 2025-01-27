@@ -135,7 +135,7 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                       handleNavClick(e, "about");
                     }
                   }}
-                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-purple-500/25"
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-purple-500/25"
                 >
                   <EditableText
                     editable={editable}

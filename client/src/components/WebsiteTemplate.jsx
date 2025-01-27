@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import searchIcon from "./../assets/search.svg";
 import { IoEyeSharp } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import editIcon from "./../assets/edit-icon.svg";
 import deleteIcon from "./../assets/delete-icon.svg";
+import { Eye, Edit, Trash2, PlusCircle } from 'lucide-react';
 
 function WebsiteTemplate({
   templateData,
@@ -20,7 +20,7 @@ function WebsiteTemplate({
   return (
     <div
       onClick={() => onClick && onClick(templateData.id, resumeId)}
-      className={`relative mx-auto p-1 rounded-lg cursor-pointer transition-all duration-300 border-4 w-fit group ${
+      className={`relative mx-auto p-1 rounded-lg cursor-pointer transition-all duration-300 border-4 w-fit h-full group ${
         isSelected
           ? "border-4 border-purple-600"
           : "border-2 border-transparent"
@@ -34,7 +34,7 @@ function WebsiteTemplate({
         </div>
       )}
       <img
-        className="w-[300px] h-[400px] object-contain rounded-lg shadow-lg focus:outline-none"
+        className="w-full h-full object-contain rounded-lg shadow-lg focus:outline-none"
         src={templateData.src}
         alt={`template ${templateData.id}`}
         tabIndex={0}
@@ -47,12 +47,12 @@ function WebsiteTemplate({
             className={`absolute inset-0 bg-black bg-opacity-50 flex flex-col gap-3 items-center justify-center transition-opacity rounded-lg`}
           >
             <button
-              className="bg-purple-600 text-white flex gap-2 px-4 py-2 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-gray-300 text-black flex gap-2 px-4 py-2 rounded-full hover:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={(e) => {
                 onDemoClick(templateData.id);
               }}
             >
-              <IoEyeSharp size={24} color="white" /> Website Demo
+              <Eye size={24} color="black" /> Website Demo
             </button>
             <button
               className="bg-purple-600 text-white flex gap-2 px-4 py-2 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -60,7 +60,7 @@ function WebsiteTemplate({
                 onUseTemplateClick(templateData.id);
               }}
             >
-              <CiEdit size={24} color="white" /> Use This Template
+              <PlusCircle size={24} color="white" /> Use This Template
             </button>
           </div>
         ) : (

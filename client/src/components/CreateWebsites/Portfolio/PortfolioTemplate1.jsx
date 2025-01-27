@@ -127,7 +127,7 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
                       handleNavClick(e, "about");
                     }
                   }}
-                  className="px-3 sm:px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all"
+                  className="inline-block px-3 sm:px-8 py-4 bg-rose-500 text-white rounded-xl shadow-lg hover:bg-rose-600 hover:shadow-rose-200 transition-all"
                 >
                   <EditableText
                     editable={editable}
@@ -136,7 +136,7 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
                   />
                 </a>
               </div>
-              <div className="relative">
+              <div className="relative md:w-[300px]">
                 <div className="absolute inset-0 bg-rose-100 rounded-3xl rotate-6"></div>
                 <div className="absolute inset-0 bg-rose-200 rounded-3xl rotate-3"></div>
                 <ImageUpload

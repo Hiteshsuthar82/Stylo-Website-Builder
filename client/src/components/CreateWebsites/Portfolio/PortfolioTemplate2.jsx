@@ -118,7 +118,7 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
                   handleNavClick(e, "about");
                 }
               }}
-              className="bg-emerald-400 px-8 py-3 rounded-full text-gray-900 font-medium hover:bg-emerald-300 transition-colors"
+              className="inline-block bg-emerald-400 px-8 py-3 rounded-full text-gray-900 font-medium hover:bg-emerald-300 transition-colors"
             >
               <EditableText
                 editable={editable}

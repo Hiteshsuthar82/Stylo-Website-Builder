@@ -24,7 +24,7 @@ function AllWebsiteTemplatesPage() {
 
   return (
     <Container>
-      <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-3 gap-16 flex-wrap justify-center">
+      <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-3 gap-10 flex-wrap justify-center">
         {templates[websiteType] &&
           templates[websiteType].map((template) => (
             <WebsiteTemplate
