@@ -36,7 +36,7 @@ function Header() {
       active: !authstatus,
     },
     {
-      name: "Create Resume",
+      name: "Create Website",
       slug: "/steps",
       active: authstatus,
     },

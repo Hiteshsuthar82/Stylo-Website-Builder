@@ -19,6 +19,8 @@ const CreateWebsite = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
   const [templateData, setTemplateData] = useState(null);
+  const [isLogoTypeSelectionPopupOpened, setIsLogoTypeSelectionPopupOpened] =
+    useState(true);
   const [isWebsiteDetailsPopupOpened, setIsWebsiteDetailsPopupOpened] =
     useState(false);
 
@@ -37,7 +39,15 @@ const CreateWebsite = () => {
   };
 
   const onCreateWebsite = (websiteDetails) => {
-    const updatedData = {...templateData, ...websiteDetails};
+    const updatedData = {...templateData};
+    console.log(websiteDetails.logoType);
+    
+    updatedData.header.logoType = websiteDetails?.logoType;
+    if(websiteDetails?.logoType === "text") {
+      updatedData.header.logoText = websiteDetails.logoText;
+    }else if(websiteDetails?.logoType === "image") {
+      updatedData.header.logoImage = websiteDetails.logoImage;
+    }
     setTemplateData(updatedData)
     console.log("Website Data:", updatedData);
     // console.log("Website Data:", templateData);
@@ -156,6 +166,13 @@ const CreateWebsite = () => {
         <GrLinkNext size={24} /> Save Website
       </button>
 
+      <Popup
+        type="logoTypeSelection"
+        isOpen={isLogoTypeSelectionPopupOpened}
+        onClose={() => setIsLogoTypeSelectionPopupOpened(false)}
+        onSubmit={onCreateWebsite}
+        WebsiteData={templateData}
+      />
       <Popup
         type="addWebsiteDetails"
         isOpen={isWebsiteDetailsPopupOpened}

@@ -51,8 +51,8 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
             <div className="text-2xl font-light">
               <EditableText
                 editable={editable}
-                text={data.header.logo}
-                onChange={(value) => handleUpdate("header", "logo", value)}
+                text={data.header.logoText}
+                onChange={(value) => handleUpdate("header", "logoText", value)}
               />
             </div>
             <div className="hidden md:flex space-x-8">

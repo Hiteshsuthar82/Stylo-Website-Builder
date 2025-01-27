@@ -57,8 +57,8 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
           <h1 className="text-2xl font-bold">
             <EditableText
               editable={editable}
-              text={data.header.logo}
-              onChange={(value) => handleUpdate("header", "logo", value)}
+              text={data.header.logoText}
+              onChange={(value) => handleUpdate("header", "logoText", value)}
             />
           </h1>
           <nav>

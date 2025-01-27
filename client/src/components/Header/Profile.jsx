@@ -50,7 +50,7 @@ function Profile() {
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
                       to="/myResumes"
                     >
-                      <p className="font-semibold text-white">My Resumes</p>
+                      <p className="font-semibold text-white">My Websites</p>
                     </Link>
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"

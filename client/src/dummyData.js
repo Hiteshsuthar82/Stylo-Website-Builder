@@ -1,7 +1,10 @@
 const portfolioTemplate = {
   header: {
-    logo: "First",
-    logoImg: "",
+    websiteName:"",
+    websiteAuthorEmail:"",
+    logoType: "text",
+    logoImage: "",
+    logoText: "First",
     phone: "120-340-8900",
     items: [
       { id: 1, text: "About", href: "#about" },
@@ -84,8 +87,11 @@ const portfolioTemplate = {
 
 const interiorDesignTemplate = {
   header: {
-    logo: "INTERIOR STUDIO",
-    logoImg: "",
+    websiteName:"",
+    websiteAuthorEmail:"",
+    logoType: "text",
+    logoImage: "",
+    logoText: "INTERIOR STUDIO",
     items: [
       { href: "about", text: "About" },
       { href: "services", text: "Services" },
@@ -222,8 +228,9 @@ const productShowcaseTemplate = {
   header: {
     websiteName:"",
     websiteAuthorEmail:"",
-    logoImage: "",
-    logo: "TechPro",
+    logoType: "text",
+    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
+    logoText: "TechPro",
     items: [
       { id: "home", label: "Home" },
       { id: "details", label: "Details" },
@@ -295,4 +302,5 @@ const productShowcaseTemplate = {
     copyright: "© 2024 TechPro. All rights reserved.",
   },
 };
+
 export { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate };
