@@ -1,1 +1,1 @@
-export const DB_NAME = "Resume_Builder"
+export const DB_NAME = "website-builder"

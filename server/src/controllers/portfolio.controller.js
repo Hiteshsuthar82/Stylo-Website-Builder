@@ -1,0 +1,180 @@
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import {
+  deleteImageOnCloudinary,
+  uploadPhotoOnCloudinary as uploadOnCloudinary,
+} from "../utils/cloudinary.js";
+import mongoose, { isValidObjectId } from "mongoose";
+import { Portfolio } from "../models/portfolio.model.js";
+import { User } from "../models/user.model.js";
+
+export const createPortfolio = asyncHandler(async (req, res) => {
+  const portfolioData = req.body;
+  console.log("portfolioData", portfolioData);
+  portfolioData.websiteowner = req.user._id;
+
+  const portfolio = await Portfolio.create(portfolioData);
+  console.log("portfolio created", portfolio);
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, portfolio, "Portfolio created successfully"));
+});
+
+export const getPortfolio = asyncHandler(async (req, res) => {
+  const portfolio = await Portfolio.findOne({ websiteowner: req.user._id });
+
+  if (!portfolio) {
+    throw new ApiError(404, "Portfolio not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, portfolio, "Portfolio retrieved successfully"));
+});
+
+export const updatePortfolio = asyncHandler(async (req, res) => {
+  const updatedPortfolio = await Portfolio.findOneAndUpdate(
+    { websiteowner: req.user._id },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedPortfolio) {
+    throw new ApiError(404, "Portfolio not found");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedPortfolio, "Portfolio updated successfully")
+    );
+});
+
+export const deleteAllUserPortfolios = asyncHandler(async (req, res) => {
+    const deletedPortfolios = await Portfolio.deleteMany({ 
+      websiteowner: req.user._id 
+    });
+  
+    if (deletedPortfolios.deletedCount === 0) {
+      throw new ApiError(404, "No portfolios found to delete");
+    }
+  
+    return res.status(200).json(
+      new ApiResponse(
+        200, 
+        { deletedCount: deletedPortfolios.deletedCount }, 
+        "All user portfolios deleted successfully"
+      )
+    );
+  });
+  
+  export const deleteSpecificPortfolio = asyncHandler(async (req, res) => {
+    const { portfolioId } = req.params;
+    console.log("portfolioId", portfolioId);
+  
+    const deletedPortfolio = await Portfolio.findOneAndDelete({
+      _id: portfolioId,
+      websiteowner: req.user._id
+    });
+  
+    if (!deletedPortfolio) {
+      throw new ApiError(404, "Portfolio not found or unauthorized");
+    }
+  
+    return res.status(200).json(
+      new ApiResponse(
+        200, 
+        null, 
+        "Portfolio deleted successfully"
+      )
+    );
+  });
+
+export const uploadPortfolioImage = asyncHandler(async (req, res) => {
+  const { imageType, projectIndex } = req.body;
+  const localFilePath = req.file?.path;
+
+  if (!localFilePath) {
+    throw new ApiError(400, "File is required");
+  }
+
+  const uploadedImage = await uploadOnCloudinary(localFilePath);
+
+  if (!uploadedImage) {
+    throw new ApiError(500, "Error uploading image");
+  }
+
+  const portfolio = await Portfolio.findOneAndUpdate(
+    { websiteowner: req.user._id },
+    imageType === 'projectImage' 
+      ? { $set: { [`projects.items.${projectIndex}.image`]: uploadedImage.url } }
+      : { $set: { 
+          ...(imageType === 'logo' && { 'header.logoImg': uploadedImage.url }),
+          ...(imageType === 'profileImage' && { 'hero.profileImage': uploadedImage.url }),
+          ...(imageType === 'aboutImage' && { 'about.image': uploadedImage.url })
+        } },
+    { new: true }
+  );
+
+  if (!portfolio) {
+    throw new ApiError(404, "Portfolio not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200, 
+      { 
+        imageUrl: uploadedImage.url,
+        portfolio: {
+          headerLogoImg: portfolio.header.logoImg,
+          heroProfileImage: portfolio.hero.profileImage,
+          aboutImage: portfolio.about.image,
+          projectImages: portfolio.projects.items.map(item => item.image)
+        }
+      }, 
+      "Image uploaded successfully"
+    )
+  );
+});
+
+
+
+export const updatePortfoliobyid = asyncHandler(async (req, res) => {
+    const { id } = req.params; // Extract the portfolio id from the request params
+  
+    // Find the portfolio by id and update it
+    const updatedPortfolio = await Portfolio.findByIdAndUpdate(
+      id,          // Find by portfolio ID
+      req.body,    // Update with the request body
+      { new: true, runValidators: true } // Return the updated document and apply validation
+    );
+  
+    // If no portfolio is found, throw a 404 error
+    if (!updatedPortfolio) {
+      throw new ApiError(404, "Portfolio not found");
+    }
+  
+    // Return the updated portfolio
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, updatedPortfolio, "Portfolio updated successfully")
+      );
+  });
+  
+
+// TODO: add in postman when you check uplaod iamge on portfolio
+// {
+  //   "imageType": "logo",
+  //   "file": (multipart file upload)
+  // }
+  
+  // TODO: add in postman when you check uplaod iamge on portfolio project with {index} 
+  // {
+  //   "imageType": "projectImage", 
+  //   "projectIndex": 0,
+  //   "file": (multipart file upload)
+  // }
+
