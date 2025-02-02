@@ -181,3 +181,25 @@ export const updatePortfoliobyid = asyncHandler(async (req, res) => {
   //   "file": (multipart file upload)
   // }
 
+
+
+  export const deployWebsite = asyncHandler(async (req, res) => {
+    const { id } = req.params; 
+  
+    // Find the portfolio by id and update it
+    const websiteDetails = await Portfolio.findById(
+      {id}
+    );
+  
+    // If no portfolio is found, throw a 404 error
+    if (!updatedPortfolio) {
+      throw new ApiError(404, "website not found with specidied id");
+    }
+  
+    // Return the updated portfolio
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, websiteDetails, "website deployed successfully")
+      );
+  });

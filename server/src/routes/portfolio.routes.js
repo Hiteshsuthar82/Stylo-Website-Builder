@@ -25,5 +25,7 @@ router.route("/update-portfolio/:id").patch(verifyJWT, updatePortfoliobyid);
 router.route("/upload-images-portfolio").post(verifyJWT, upload.single("image"), uploadPortfolioImage);
 
 
+router.route("/deploy-website/:id").patch(verifyJWT, updatePortfoliobyid);
+
 
 export default router;
