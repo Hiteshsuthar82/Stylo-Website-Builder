@@ -12,14 +12,16 @@ function WebsiteTemplate({
   onClick,
   onDemoClick,
   onUseTemplateClick,
-  resumeId = null,
+  websiteId = null,
+  websiteType = null,
   onEditClick,
   onDeleteClick,
-}) {
+}) {  
   const [isHovered, setIsHovered] = useState(false);
+  
   return (
     <div
-      onClick={() => onClick && onClick(templateData.id, resumeId)}
+      onClick={() => onClick && onClick(templateData.id, websiteId, websiteType)}
       className={`relative mx-auto p-1 rounded-lg cursor-pointer transition-all duration-300 border-4 w-fit h-full group ${
         isSelected
           ? "border-4 border-purple-600"
@@ -29,12 +31,12 @@ function WebsiteTemplate({
       onMouseLeave={() => setIsHovered(false)}
     >
       {name && (
-        <div className="text-center border-2 rounded-t-xl border-purple-600">
+        <div className="text-center border-2 rounded-t-xl border-purple-600 mb-2">
           {name}
         </div>
       )}
       <img
-        className="w-full h-full object-contain rounded-lg shadow-lg focus:outline-none"
+        className="w-full object-contain rounded-lg shadow-lg focus:outline-none"
         src={templateData.src}
         alt={`template ${templateData.id}`}
         tabIndex={0}
@@ -81,7 +83,7 @@ function WebsiteTemplate({
         <div
           className="absolute top-4 right-16 w-10 h-10 bg-purple-600 p-2 rounded-full flex items-center justify-center opacity-0 transition-opacity group-focus-within:opacity-100"
           onClick={(e) => {
-            onEditClick(resumeId);
+            onEditClick(websiteId);
           }}
         >
           <img src={editIcon} alt="" />
@@ -91,7 +93,7 @@ function WebsiteTemplate({
         <div
           className="absolute top-4 right-4 w-10 h-10 bg-orange-300 p-2 rounded-full flex items-center justify-center opacity-0 transition-opacity group-focus-within:opacity-100"
           onClick={(e) => {
-            onDeleteClick(resumeId);
+            onDeleteClick(websiteId);
           }}
         >
           <img src={deleteIcon} alt="" />

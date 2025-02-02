@@ -11,6 +11,7 @@ const Popup = ({
   className = "",
   children,
   WebsiteData,
+  editing
 }) => {
   const [logoImage, setLogoImage] = useState(WebsiteData?.header?.logoImage);
   const [logoType, setLogoType] = useState("text");
@@ -30,8 +31,8 @@ const Popup = ({
     setValue: setWebsiteValue,
   } = useForm({
     defaultValues: {
-      websiteName: "",
-      email: "",
+      websiteName: WebsiteData ? WebsiteData?.websiteName : "",
+      email: WebsiteData ? WebsiteData?.websiteAuthorEmail : "",
     },
   });
 
@@ -65,7 +66,7 @@ const Popup = ({
 
   // Logo Type Submission
   const onLogoTypeSubmit = () => {
-    if((logoType === "text" && !logoText) || (logoType === "image" && !logoImage) || !logoType) return;
+    if ((logoType === "text" && !logoText) || (logoType === "image" && !logoImage) || !logoType) return;
     onSubmit({
       logoType,
       ...(logoType === "text" && { logoText }),
@@ -77,16 +78,12 @@ const Popup = ({
 
   // Website Details Submission
   const onWebsiteSubmit = (data) => {
-    if (logoImage) {
-      onSubmit({
-        websiteName: data.websiteName,
-        websiteAuthorEmail: data.email,
-        logoImage,
-      });
-      setLogoImage(null);
-      resetWebsiteForm();
-      onClose();
-    }
+    onSubmit({
+      websiteName: data.websiteName,
+      websiteAuthorEmail: data.email,
+    });
+    resetWebsiteForm();
+    onClose();
   };
 
   // Specification Submission
@@ -141,18 +138,17 @@ const Popup = ({
           {/* Popup Header */}
           <div className={`flex justify-between items-center mb-4`}>
             <div
-              className={` flex${
-                type === "logoTypeSelection" ? "flex-col" : "flex-row"
-              }`}
+              className={` flex${type === "logoTypeSelection" ? "flex-col" : "flex-row"
+                }`}
             >
               <h2 className="text-xl font-semibold capitalize">
                 {type === "addWebsiteDetails"
-                  ? "Add Website Details"
+                  ? editing ? "Change Website Details" : "Add Website Details"
                   : type === "addSpecification"
-                  ? "Add New Specification"
-                  : type === "logoTypeSelection"
-                  ? "Select Logo Type"
-                  : "Popup"}
+                    ? "Add New Specification"
+                    : type === "logoTypeSelection"
+                      ? "Select Logo Type"
+                      : "Popup"}
               </h2>
               {type === "logoTypeSelection" && (
                 <p className="text-gray-500">You can also continue with default logo</p>
@@ -173,21 +169,19 @@ const Popup = ({
               <div className="flex justify-center space-x-4 mb-4">
                 <button
                   onClick={() => setLogoType("text")}
-                  className={`px-4 py-2 rounded-md ${
-                    logoType === "text"
+                  className={`px-4 py-2 rounded-md ${logoType === "text"
                       ? "bg-[#9333ea] text-white"
                       : "bg-gray-200"
-                  }`}
+                    }`}
                 >
                   Text
                 </button>
                 <button
                   onClick={() => setLogoType("image")}
-                  className={`px-4 py-2 rounded-md ${
-                    logoType === "image"
+                  className={`px-4 py-2 rounded-md ${logoType === "image"
                       ? "bg-[#9333ea] text-white"
                       : "bg-gray-200"
-                  }`}
+                    }`}
                 >
                   Image
                 </button>
@@ -207,10 +201,10 @@ const Popup = ({
                     className="w-full px-3 py-2 border rounded-md"
                   />
                   {!logoText && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Logo text is required
-                  </p>
-                )}
+                    <p className="text-red-500 text-sm mt-1">
+                      Logo text is required
+                    </p>
+                  )}
                   {logoText && (
                     <div className="mt-2 p-2 bg-gray-100 rounded-md text-center">
                       <h1 className="text-2xl font-bold text-gray-800">
@@ -298,9 +292,8 @@ const Popup = ({
                         setWebsiteValue("websiteName", hyphenatedValue);
                       }}
                       placeholder="Enter website name"
-                      className={`w-full px-3 py-2 border rounded-md ${
-                        websiteErrors.websiteName ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md ${websiteErrors.websiteName ? "border-red-500" : ""
+                        }`}
                     />
                   )}
                 />
@@ -331,9 +324,8 @@ const Popup = ({
                       {...field}
                       type="email"
                       placeholder="Enter email"
-                      className={`w-full px-3 py-2 border rounded-md ${
-                        websiteErrors.email ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md ${websiteErrors.email ? "border-red-500" : ""
+                        }`}
                     />
                   )}
                 />
@@ -344,33 +336,6 @@ const Popup = ({
                 )}
               </div>
 
-              {/* Logo Upload */}
-              <div>
-                <label className="block mb-2 text-sm font-medium">
-                  Logo Image *
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload}
-                  className={`w-full px-3 py-2 border rounded-md ${
-                    !logoImage ? "border-red-500" : ""
-                  }`}
-                />
-                {!logoImage && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Logo image is required
-                  </p>
-                )}
-                {logoImage && (
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-600">
-                      Selected file: {logoImage.name}
-                    </p>
-                  </div>
-                )}
-              </div>
-
               {/* Submission Buttons */}
               <div className="flex space-x-2">
                 <button
@@ -378,7 +343,8 @@ const Popup = ({
                   className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
                 >
                   <PencilRuler className="inline mr-3" size={24} />
-                  CREATE WEBSITE
+                  {editing ? "UPDATE WEBSITE" : "CREATE WEBSITE"}
+                  
                 </button>
                 <button
                   type="button"
@@ -417,9 +383,8 @@ const Popup = ({
                       {...field}
                       type="text"
                       placeholder="Enter specification key"
-                      className={`w-full px-3 py-2 border rounded-md ${
-                        specErrors.specKey ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md ${specErrors.specKey ? "border-red-500" : ""
+                        }`}
                     />
                   )}
                 />
@@ -450,9 +415,8 @@ const Popup = ({
                       {...field}
                       type="text"
                       placeholder="Enter specification value"
-                      className={`w-full px-3 py-2 border rounded-md ${
-                        specErrors.specValue ? "border-red-500" : ""
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md ${specErrors.specValue ? "border-red-500" : ""
+                        }`}
                     />
                   )}
                 />

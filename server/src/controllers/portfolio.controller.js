@@ -9,10 +9,15 @@ import mongoose, { isValidObjectId } from "mongoose";
 import { Portfolio } from "../models/portfolio.model.js";
 import { User } from "../models/user.model.js";
 
-export const createPortfolio = asyncHandler(async (req, res) => {
+export const createPortfolio = asyncHandler(async (req, res, next) => {
   const portfolioData = req.body;
-  console.log("portfolioData", portfolioData);
   portfolioData.websiteowner = req.user._id;
+
+  const isWebsiteAvailale = await Portfolio.findOne({websiteName: portfolioData?.websiteName})
+  
+  if (isWebsiteAvailale) {
+    throw new ApiError(500, "This website name is already exists");
+  }
 
   const portfolio = await Portfolio.create(portfolioData);
   console.log("portfolio created", portfolio);
@@ -23,7 +28,7 @@ export const createPortfolio = asyncHandler(async (req, res) => {
 });
 
 export const getPortfolio = asyncHandler(async (req, res) => {
-  const portfolio = await Portfolio.findOne({ websiteowner: req.user._id });
+  const portfolio = await Portfolio.find({ websiteowner: req.user._id });
 
   if (!portfolio) {
     throw new ApiError(404, "Portfolio not found");
@@ -34,21 +39,19 @@ export const getPortfolio = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, portfolio, "Portfolio retrieved successfully"));
 });
 
-export const updatePortfolio = asyncHandler(async (req, res) => {
-  const updatedPortfolio = await Portfolio.findOneAndUpdate(
-    { websiteowner: req.user._id },
-    req.body,
-    { new: true }
-  );
+export const getPortfolioById = asyncHandler(async (req, res) => {
+  const { portfolioId } = req.params;
 
-  if (!updatedPortfolio) {
+  const portfolioDetails = await Portfolio.findOne({ _id: portfolioId });
+
+  if (!portfolioDetails) {
     throw new ApiError(404, "Portfolio not found");
   }
 
   return res
     .status(200)
     .json(
-      new ApiResponse(200, updatedPortfolio, "Portfolio updated successfully")
+      new ApiResponse(200, portfolioDetails, "Portfolio details fetched successfully")
     );
 });
 

@@ -9,7 +9,7 @@ import Logo from "./Logo";
 import AuthLayout from "./AuthLayout";
 import Template from "./Template";
 import AllTemplates from "./AllTemplates/AllTemplates";
-import MyResumes from "./MyResumes/MyResumes";
+import MyWebsites from "./MyResumes/MyWebsites";
 import ShowImagePopup from "./ShowImagePopup";
 import ResumeView from "./ResumeView";
 import StepsPage from "./StepsPage";
@@ -43,7 +43,7 @@ export {
   Template,
   ShowImagePopup,
   AllTemplates,
-  MyResumes,
+  MyWebsites,
   ResumeView,
   StepsPage,
   CreateResume,

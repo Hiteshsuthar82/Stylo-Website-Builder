@@ -1,9 +1,10 @@
 const portfolioTemplate = {
+  websiteName:"",
+  websiteAuthorEmail:"",
+  type:"portfolio",
   header: {
-    websiteName:"",
-    websiteAuthorEmail:"",
     logoType: "text",
-    logoImage: "",
+    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "First",
     phone: "120-340-8900",
     items: [
@@ -86,11 +87,12 @@ const portfolioTemplate = {
 };
 
 const interiorDesignTemplate = {
+  websiteName:"",
+  websiteAuthorEmail:"",
+  type:"interiorDesign",
   header: {
-    websiteName:"",
-    websiteAuthorEmail:"",
     logoType: "text",
-    logoImage: "",
+    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "INTERIOR STUDIO",
     items: [
       { href: "about", text: "About" },
@@ -225,9 +227,10 @@ const interiorDesignTemplate = {
 };
 
 const productShowcaseTemplate = {
+  websiteName:"",
+  websiteAuthorEmail:"",
+  type:"productShowcase",
   header: {
-    websiteName:"",
-    websiteAuthorEmail:"",
     logoType: "text",
     logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "TechPro",

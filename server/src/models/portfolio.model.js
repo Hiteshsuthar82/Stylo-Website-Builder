@@ -1,10 +1,20 @@
 
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const portfolioSchema = new mongoose.Schema({
+  websiteName: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  websiteAuthorEmail: { type: String },
+  type: { type: String, default: "portfolio" },
+  templateId: { type: String },
   header: {
-    logo: { type: String },
-    logoImg: { type: String, default: "" },
+    logoType: { type: String },
+    logoImage: { type: String, default: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png" },
+    logoText: { type: String },
     phone: { type: String },
     items: [
       {
@@ -59,9 +69,9 @@ const portfolioSchema = new mongoose.Schema({
   websiteowner: {
     type: Schema.Types.ObjectId,
     ref: "User"
+  },
 },
-},
-{timestamps: true},
+  { timestamps: true },
 );
 
 

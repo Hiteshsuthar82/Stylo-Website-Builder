@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
 import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
@@ -8,19 +8,38 @@ import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
 import { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate } from "../../dummyData";
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
+import { useDispatch } from "react-redux";
+import { getWebsitesDetails } from "../../features/websiteSlice";
 
 const WebsiteDemo = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
+  const dispatch = useDispatch();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const websiteId = queryParams.get('id');
   const [templateData, setTemplateData] = useState(null);
 
   useEffect(() => {
-    if (websiteType == "portfolio") {
-      setTemplateData(portfolioTemplate);
-    } else if (websiteType == "interiorDesign") {
-      setTemplateData(interiorDesignTemplate);
-    } else if (websiteType == "productShowcase") {
-      setTemplateData(productShowcaseTemplate);
+    if (!websiteId) {
+      if (websiteType == "portfolio") {
+        setTemplateData(portfolioTemplate);
+      } else if (websiteType == "interiorDesign") {
+        setTemplateData(interiorDesignTemplate);
+      } else if (websiteType == "productShowcase") {
+        setTemplateData(productShowcaseTemplate);
+      }
+    } else {
+      dispatch(getWebsitesDetails({ websiteId: websiteId })).then((response) => {
+        if (response) {
+          const data = response.payload.data;
+          console.log(data);
+          setTemplateData(data)
+          // setLoading(false);
+        } else {
+          console.log("getting error");
+        }
+      })
     }
   }, [templateId]);
 

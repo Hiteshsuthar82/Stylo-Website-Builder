@@ -69,11 +69,11 @@ function DeleteConfirmationDialog({ onCancelClick, onDeleteClick, deleting }) {
                 className="text-lg leading-6 font-medium text-gray-900"
                 id="modal-headline"
               >
-                Are you sure to Delete this Resume
+                Are you sure to Delete this Website
               </h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  You will loose all your data related to this resume
+                  You will loose all your data related to this Website and also delete the hostd website will be delete and linl will not work
                 </p>
               </div>
             </div>

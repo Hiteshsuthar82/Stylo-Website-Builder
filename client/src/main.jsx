@@ -10,7 +10,6 @@ import {
   AuthLayout,
   AllTemplates,
   CreateResume,
-  MyResumes,
   ResumeView,
   UserProfile,
   StepsPage,
@@ -18,6 +17,7 @@ import {
   WebsiteDemo,
   TemplateTypeSelectionPage,
   AllWebsiteTemplatesPage,
+  MyWebsites,
 } from "./components/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -118,10 +118,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/myResumes",
+        path: "/myWebsites",
         element: (
           <AuthLayout authentication>
-            <MyResumes />
+            <MyWebsites />
           </AuthLayout>
         ),
       },

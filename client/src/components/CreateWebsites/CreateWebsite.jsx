@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PortfolioTemplate1 from "./Portfolio/PortfolioTemplate1";
 import { useEffect, useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
@@ -6,7 +6,6 @@ import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
-
 import {
   portfolioTemplate,
   interiorDesignTemplate,
@@ -14,10 +13,17 @@ import {
 } from "../../dummyData";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
 import Popup from "../Popup";
+import { createWebsite, getWebsitesDetails, updateWebsiteDetails } from "../../features/websiteSlice";
+import { useDispatch } from "react-redux";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const websiteId = queryParams.get('id');
   const [templateData, setTemplateData] = useState(null);
   const [isLogoTypeSelectionPopupOpened, setIsLogoTypeSelectionPopupOpened] =
     useState(true);
@@ -25,12 +31,25 @@ const CreateWebsite = () => {
     useState(false);
 
   useEffect(() => {
-    if (websiteType == "portfolio") {
-      setTemplateData(portfolioTemplate);
-    } else if (websiteType == "interiorDesign") {
-      setTemplateData(interiorDesignTemplate);
-    } else if (websiteType == "productShowcase") {
-      setTemplateData(productShowcaseTemplate);
+    if (!websiteId) {
+      if (websiteType == "portfolio") {
+        setTemplateData(portfolioTemplate);
+      } else if (websiteType == "interiorDesign") {
+        setTemplateData(interiorDesignTemplate);
+      } else if (websiteType == "productShowcase") {
+        setTemplateData(productShowcaseTemplate);
+      }
+    } else {
+      dispatch(getWebsitesDetails({ websiteId: websiteId })).then((response) => {
+        if (response) {
+          const data = response.payload.data;
+          console.log(data);
+          setTemplateData(data)
+          // setLoading(false);
+        } else {
+          console.log("getting error");
+        }
+      })
     }
   }, [templateId]);
 
@@ -38,18 +57,77 @@ const CreateWebsite = () => {
     setTemplateData(updatedData);
   };
 
-  const onCreateWebsite = (websiteDetails) => {
-    const updatedData = {...templateData};
-    console.log(websiteDetails.logoType);
-    
-    updatedData.header.logoType = websiteDetails?.logoType;
-    if(websiteDetails?.logoType === "text") {
-      updatedData.header.logoText = websiteDetails.logoText;
-    }else if(websiteDetails?.logoType === "image") {
-      updatedData.header.logoImage = websiteDetails.logoImage;
+  const onConfirmLogoType = (data) => {
+    const updatedData = JSON.parse(JSON.stringify(templateData));
+    updatedData.header.logoType = data?.logoType;
+    updatedData.type = websiteType;
+    if (data?.logoType === "text") {
+      updatedData.header.logoText = data.logoText;
+    } else if (data?.logoType === "image") {
+      updatedData.header.logoImage = data.logoImage;
     }
-    setTemplateData(updatedData)
+
+    console.log(updatedData);
+
+    setTemplateData(updatedData);
+    setIsLogoTypeSelectionPopupOpened(false);
+  };
+
+  const onCreateWebsite = async (websiteDetails) => {
+
+    const updatedData = { ...templateData };
+
+    updatedData.templateId = templateId;
+
+    if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
+      updatedData.websiteName = websiteDetails.websiteName;
+      updatedData.websiteAuthorEmail = websiteDetails.websiteAuthorEmail;
+    }
     console.log("Website Data:", updatedData);
+
+    try {
+      const response = await dispatch(createWebsite(updatedData));
+
+      if (response && response.payload && response.payload.data) {
+        const data = response.payload.data;
+        console.log(data);
+
+        navigate(`/resumeView/${templateId}/${data._id}`);
+      } else {
+        console.log("This website name is already exist");
+      }
+    } catch (error) {
+      console.log("Error occurred:", error.message || error);
+    }
+  };
+
+  const onUpdateWebsite = async (websiteDetails) => {
+
+    const updatedData = JSON.parse(JSON.stringify(templateData));
+
+    if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
+      updatedData.websiteName = websiteDetails.websiteName;
+      updatedData.websiteAuthorEmail = websiteDetails.websiteAuthorEmail;
+    }
+    console.log("Website Data:", updatedData);
+
+    try {
+      const response = await dispatch(updateWebsiteDetails(updatedData));
+
+      if (response && response.payload && response.payload.data) {
+        const data = response.payload.data;
+        console.log(data);
+
+        // navigate(`/resumeView/${templateId}/${data._id}`);
+      } else if (response?.error?.message == "Rejected") {
+        console.log("This website name is already exist");
+      } else {
+        console.log("no website details found");
+      }
+    } catch (error) {
+      console.log("Error occurred:", error.message || error);
+    }
+
     // console.log("Website Data:", templateData);
   };
 
@@ -163,21 +241,23 @@ const CreateWebsite = () => {
         onClick={() => setIsWebsiteDetailsPopupOpened(true)}
       >
         {/* Create Website */}
-        <GrLinkNext size={24} /> Save Website
+        <GrLinkNext size={24} /> {websiteId ? "Save Changes" : "Save Website"}
       </button>
 
       <Popup
         type="logoTypeSelection"
         isOpen={isLogoTypeSelectionPopupOpened}
         onClose={() => setIsLogoTypeSelectionPopupOpened(false)}
-        onSubmit={onCreateWebsite}
+        onSubmit={onConfirmLogoType}
         WebsiteData={templateData}
       />
       <Popup
         type="addWebsiteDetails"
         isOpen={isWebsiteDetailsPopupOpened}
         onClose={() => setIsWebsiteDetailsPopupOpened(false)}
-        onSubmit={onCreateWebsite}
+        onSubmit={websiteId ? onUpdateWebsite : onCreateWebsite}
+        WebsiteData={websiteId ? templateData : ""}
+        editing={!!websiteId}
       />
     </div>
   );
