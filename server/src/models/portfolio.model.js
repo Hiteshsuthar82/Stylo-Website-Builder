@@ -11,6 +11,8 @@ const portfolioSchema = new mongoose.Schema({
   websiteAuthorEmail: { type: String },
   type: { type: String, default: "portfolio" },
   templateId: { type: String },
+  repoName: { type: String, default: "" },
+  deployedUrl: { type: String, default: "" },
   header: {
     logoType: { type: String },
     logoImage: { type: String, default: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png" },

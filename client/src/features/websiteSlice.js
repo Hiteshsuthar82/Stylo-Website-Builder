@@ -53,8 +53,8 @@ const initialState = {
         name: "Hospital 2",
         src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
       },
-    ]
-  }
+    ],
+  },
 };
 
 export const uploadImage = createAsyncThunk(
@@ -84,7 +84,7 @@ export const uploadImage = createAsyncThunk(
 export const updateImage = createAsyncThunk(
   "website/updateImage",
   async (credentials, { rejectWithValue }) => {
-    const resumeId = credentials.get('resumeId');
+    const resumeId = credentials.get("resumeId");
     console.log(resumeId);
 
     try {
@@ -109,7 +109,7 @@ export const updateImage = createAsyncThunk(
 );
 
 export const createWebsite = createAsyncThunk(
-  "website/create",
+  "website/createWebsite",
   async (credentials, { rejectWithValue }) => {
     console.log(credentials);
 
@@ -126,8 +126,47 @@ export const createWebsite = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      
+
       return rejectWithValue("createWebsite :: error ", error.payload);
+    }
+  }
+);
+
+export const createAndDeployWebsite = createAsyncThunk(
+  "website/createAndDeployWebsite",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/portfolio/create-portfolio",
+        credentials,
+        { withCredentials: true }
+      );
+
+      console.log("website create successfully.");
+      console.log(response);
+      if (response.data.data._id) {
+        try {
+          const depolyResponse = await axios.patch(
+            `http://localhost:8000/api/v1/portfolio/deploy-website/${response.data.data._id}`,
+            {},
+            { withCredentials: true }
+          );
+
+          console.log("website deployed successfully.");
+
+          console.log(depolyResponse);
+
+          return depolyResponse.data;
+        } catch (error) {
+          console.log("createAndDeployWebsite", error);
+          return rejectWithValue("createAndDeployWebsite-deploy :: error ", error.payload);
+        }
+      }
+
+      // return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue("createAndDeployWebsite-create :: error ", error.payload);
     }
   }
 );
@@ -163,7 +202,10 @@ export const getWebsitesDetails = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("error occur in getWebsitesDetails : ", error.response);
-      return rejectWithValue("getWebsitesDetails :: error ", error.response.data);
+      return rejectWithValue(
+        "getWebsitesDetails :: error ",
+        error.response.data
+      );
     }
   }
 );
@@ -182,7 +224,10 @@ export const updateWebsiteDetails = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("error occur in updateWebsiteDetails : ", error.response);
-      return rejectWithValue("updateWebsiteDetails :: error ", error.response.data);
+      return rejectWithValue(
+        "updateWebsiteDetails :: error ",
+        error.response.data
+      );
     }
   }
 );
@@ -196,7 +241,7 @@ export const deleteWebsite = createAsyncThunk(
         { withCredentials: true }
       );
 
-      console.log("selected websites deleted successfully.");
+      console.log("selected websites deleted successfully.", response);
       return response.data;
     } catch (error) {
       console.log("error occur in deleteWebsite : ", error.response);
@@ -335,6 +380,23 @@ export const resumeSlice = createSlice({
         state.data = actions.payload.data;
       })
       .addCase(createWebsite.rejected, (state) => {
+        state.loading = false;
+        state.status = false;
+      });
+
+    // create and deploy website
+    builder
+      .addCase(createAndDeployWebsite.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+        state.data = null;
+      })
+      .addCase(createAndDeployWebsite.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.status = true;
+        state.data = actions.payload.data;
+      })
+      .addCase(createAndDeployWebsite.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });

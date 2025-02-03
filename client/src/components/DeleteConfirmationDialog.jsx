@@ -84,8 +84,8 @@ function DeleteConfirmationDialog({ onCancelClick, onDeleteClick, deleting }) {
               data-behavior="confirm"
               onClick={onDeleteClick}
               className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 ${
-                deleting ? "bg-gray-500" : "bg-red-500"
-              } ${deleting ? 'cursor-not-allowed' : ''} text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm`}
+                deleting ? "bg-gray-500" : "bg-red-500 hover:bg-red-600"
+              } ${deleting ? 'cursor-not-allowed' : ''} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm`}
             >
               Confirm
             </button>

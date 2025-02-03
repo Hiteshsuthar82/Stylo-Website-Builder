@@ -28,14 +28,15 @@ function MyWebsites() {
   const userId = useSelector((state) => state.auth.user._id);
   const [myWebsites, setMyWebsites] = useState([]);
 
-  const handleEditClick = async () => {
-    console.log(selectedWebsiteId);
-    navigate(`/create-website/portfolio/${selectedTemplateId}?id=${selectedWebsiteId}`);
+  const handleEditClick = async (websiteId, websiteType, templateId) => {
+    console.log(websiteId, websiteType);
+    navigate(`/create-website/${websiteType}/${templateId}?id=${websiteId}`);
     // navigate(`/create-website/portfolio/${selectedWebsiteId}/`);
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (websiteId) => {
     setDeleteConfirmationDialog(true);
+    setSelectedWebsiteId(websiteId)
   };
 
   const handleCancelDeleteClick = () => {
@@ -137,6 +138,7 @@ function MyWebsites() {
                   isSelected={selectedWebsiteId === website._id}
                   websiteId={website._id}
                   websiteType={website.type}
+                  deployedUrl={website?.deployedUrl}
                   onEditClick={handleEditClick}
                   onDeleteClick={handleDeleteClick}
                 />

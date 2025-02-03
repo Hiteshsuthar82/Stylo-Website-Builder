@@ -13,8 +13,14 @@ import {
 } from "../../dummyData";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
 import Popup from "../Popup";
-import { createWebsite, getWebsitesDetails, updateWebsiteDetails } from "../../features/websiteSlice";
+import {
+  createAndDeployWebsite,
+  createWebsite,
+  getWebsitesDetails,
+  updateWebsiteDetails,
+} from "../../features/websiteSlice";
 import { useDispatch } from "react-redux";
+import CreatingWebsiteLoader from "./CreatingWebsiteLoader";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
@@ -23,8 +29,10 @@ const CreateWebsite = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const websiteId = queryParams.get('id');
+  const websiteId = queryParams.get("id");
   const [templateData, setTemplateData] = useState(null);
+  const [isWebsiteCreating, setIsWebsiteCreating] = useState(false);
+  const [websiteCreationType, setWebsiteCreationType] = useState(null);
   const [isLogoTypeSelectionPopupOpened, setIsLogoTypeSelectionPopupOpened] =
     useState(true);
   const [isWebsiteDetailsPopupOpened, setIsWebsiteDetailsPopupOpened] =
@@ -40,16 +48,18 @@ const CreateWebsite = () => {
         setTemplateData(productShowcaseTemplate);
       }
     } else {
-      dispatch(getWebsitesDetails({ websiteId: websiteId })).then((response) => {
-        if (response) {
-          const data = response.payload.data;
-          console.log(data);
-          setTemplateData(data)
-          // setLoading(false);
-        } else {
-          console.log("getting error");
+      dispatch(getWebsitesDetails({ websiteId: websiteId })).then(
+        (response) => {
+          if (response) {
+            const data = response.payload.data;
+            console.log(data);
+            setTemplateData(data);
+            // setLoading(false);
+          } else {
+            console.log("getting error");
+          }
         }
-      })
+      );
     }
   }, [templateId]);
 
@@ -73,7 +83,9 @@ const CreateWebsite = () => {
     setIsLogoTypeSelectionPopupOpened(false);
   };
 
-  const onCreateWebsite = async (websiteDetails) => {
+  const onCreateWebsite = async (websiteDetails, actionType) => {
+    setIsWebsiteCreating(true);
+    setWebsiteCreationType(actionType)
 
     const updatedData = { ...templateData };
 
@@ -86,13 +98,50 @@ const CreateWebsite = () => {
     console.log("Website Data:", updatedData);
 
     try {
-      const response = await dispatch(createWebsite(updatedData));
+      const response = await dispatch(
+        actionType === "draft"
+          ? createWebsite(updatedData)
+          : createAndDeployWebsite(updatedData)
+      );
+
+      if (response && response.payload && response.payload.data) {
+        const data = response.payload.data;
+        console.log(data);
+        setIsWebsiteDetailsPopupOpened(false);
+        setIsWebsiteCreating(false);
+
+        // if(actionType === "publish") {
+        // window.open(data?.deployedUrl, "_blank");
+        // }
+        navigate(`/myWebsites`);
+      } else {
+        console.log("This website name is already exist");
+        setIsWebsiteCreating(false);
+      }
+    } catch (error) {
+      console.log("Error occurred:", error.message || error);
+    }
+  };
+
+  const onCreateAndDeploWebsite = async (websiteDetails) => {
+    const updatedData = { ...templateData };
+
+    updatedData.templateId = templateId;
+
+    if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
+      updatedData.websiteName = websiteDetails.websiteName;
+      updatedData.websiteAuthorEmail = websiteDetails.websiteAuthorEmail;
+    }
+    console.log("Website Data:", updatedData);
+
+    try {
+      const response = await dispatch(createAndDeployWebsite(updatedData));
 
       if (response && response.payload && response.payload.data) {
         const data = response.payload.data;
         console.log(data);
 
-        navigate(`/resumeView/${templateId}/${data._id}`);
+        // navigate(`/resumeView/${templateId}/${data._id}`);
       } else {
         console.log("This website name is already exist");
       }
@@ -101,8 +150,7 @@ const CreateWebsite = () => {
     }
   };
 
-  const onUpdateWebsite = async (websiteDetails) => {
-
+  const onUpdateWebsite = async (websiteDetails, actionType) => {
     const updatedData = JSON.parse(JSON.stringify(templateData));
 
     if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
@@ -259,6 +307,13 @@ const CreateWebsite = () => {
         WebsiteData={websiteId ? templateData : ""}
         editing={!!websiteId}
       />
+
+      {isWebsiteCreating && (
+        <CreatingWebsiteLoader
+          isOpen={isWebsiteCreating}
+          actionType={websiteCreationType}
+        />
+      )}
     </div>
   );
 };

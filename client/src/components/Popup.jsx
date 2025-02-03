@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, PlusCircle, PencilRuler, Info } from "lucide-react";
+import { X, PlusCircle, PencilRuler, Info, Radio } from "lucide-react";
 
 const Popup = ({
   type,
@@ -11,16 +11,11 @@ const Popup = ({
   className = "",
   children,
   WebsiteData,
-  editing
+  editing,
 }) => {
   const [logoImage, setLogoImage] = useState(WebsiteData?.header?.logoImage);
   const [logoType, setLogoType] = useState("text");
   const [logoText, setLogoText] = useState(WebsiteData?.header?.logoText);
-
-  // Convert spaces to hyphens
-  const convertToHyphenCase = (value) => {
-    return value.replace(/\s+/g, "-");
-  };
 
   // Website Details Form
   const {
@@ -66,7 +61,12 @@ const Popup = ({
 
   // Logo Type Submission
   const onLogoTypeSubmit = () => {
-    if ((logoType === "text" && !logoText) || (logoType === "image" && !logoImage) || !logoType) return;
+    if (
+      (logoType === "text" && !logoText) ||
+      (logoType === "image" && !logoImage) ||
+      !logoType
+    )
+      return;
     onSubmit({
       logoType,
       ...(logoType === "text" && { logoText }),
@@ -77,13 +77,11 @@ const Popup = ({
   };
 
   // Website Details Submission
-  const onWebsiteSubmit = (data) => {
+  const onWebsiteSubmit = (data, actionType) => {
     onSubmit({
       websiteName: data.websiteName,
       websiteAuthorEmail: data.email,
-    });
-    resetWebsiteForm();
-    onClose();
+    }, actionType);
   };
 
   // Specification Submission
@@ -138,20 +136,25 @@ const Popup = ({
           {/* Popup Header */}
           <div className={`flex justify-between items-center mb-4`}>
             <div
-              className={` flex${type === "logoTypeSelection" ? "flex-col" : "flex-row"
-                }`}
+              className={` flex${
+                type === "logoTypeSelection" ? "flex-col" : "flex-row"
+              }`}
             >
               <h2 className="text-xl font-semibold capitalize">
                 {type === "addWebsiteDetails"
-                  ? editing ? "Change Website Details" : "Add Website Details"
+                  ? editing
+                    ? "Change Website Details"
+                    : "Add Website Details"
                   : type === "addSpecification"
-                    ? "Add New Specification"
-                    : type === "logoTypeSelection"
-                      ? "Select Logo Type"
-                      : "Popup"}
+                  ? "Add New Specification"
+                  : type === "logoTypeSelection"
+                  ? "Select Logo Type"
+                  : "Popup"}
               </h2>
               {type === "logoTypeSelection" && (
-                <p className="text-gray-500">You can also continue with default logo</p>
+                <p className="text-gray-500">
+                  You can also continue with default logo
+                </p>
               )}
             </div>
             <button
@@ -169,19 +172,21 @@ const Popup = ({
               <div className="flex justify-center space-x-4 mb-4">
                 <button
                   onClick={() => setLogoType("text")}
-                  className={`px-4 py-2 rounded-md ${logoType === "text"
+                  className={`px-4 py-2 rounded-md ${
+                    logoType === "text"
                       ? "bg-[#9333ea] text-white"
                       : "bg-gray-200"
-                    }`}
+                  }`}
                 >
                   Text
                 </button>
                 <button
                   onClick={() => setLogoType("image")}
-                  className={`px-4 py-2 rounded-md ${logoType === "image"
+                  className={`px-4 py-2 rounded-md ${
+                    logoType === "image"
                       ? "bg-[#9333ea] text-white"
                       : "bg-gray-200"
-                    }`}
+                  }`}
                 >
                   Image
                 </button>
@@ -260,7 +265,7 @@ const Popup = ({
           {/* Website Details Form */}
           {type === "addWebsiteDetails" && (
             <form
-              onSubmit={handleWebsiteSubmit(onWebsiteSubmit)}
+              onSubmit={(e) => e.preventDefault()}
               className="space-y-4"
             >
               {/* Website Name Input */}
@@ -273,11 +278,6 @@ const Popup = ({
                   control={websiteControl}
                   rules={{
                     required: "Website name is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9-]+$/,
-                      message:
-                        "Invalid website name (alphanumeric and hyphens only)",
-                    },
                   }}
                   render={({ field: { onChange, value, ...field } }) => (
                     <input
@@ -285,15 +285,12 @@ const Popup = ({
                       type="text"
                       value={value}
                       onChange={(e) => {
-                        const hyphenatedValue = convertToHyphenCase(
-                          e.target.value
-                        );
-                        onChange(hyphenatedValue);
-                        setWebsiteValue("websiteName", hyphenatedValue);
+                        setWebsiteValue("websiteName", e.target.value);
                       }}
                       placeholder="Enter website name"
-                      className={`w-full px-3 py-2 border rounded-md ${websiteErrors.websiteName ? "border-red-500" : ""
-                        }`}
+                      className={`w-full px-3 py-2 border rounded-md ${
+                        websiteErrors.websiteName ? "border-red-500" : ""
+                      }`}
                     />
                   )}
                 />
@@ -324,8 +321,9 @@ const Popup = ({
                       {...field}
                       type="email"
                       placeholder="Enter email"
-                      className={`w-full px-3 py-2 border rounded-md ${websiteErrors.email ? "border-red-500" : ""
-                        }`}
+                      className={`w-full px-3 py-2 border rounded-md ${
+                        websiteErrors.email ? "border-red-500" : ""
+                      }`}
                     />
                   )}
                 />
@@ -340,11 +338,11 @@ const Popup = ({
               <div className="flex space-x-2">
                 <button
                   type="submit"
+                  onClick={() => handleWebsiteSubmit((data) => onWebsiteSubmit(data, "draft"))()}
                   className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
                 >
                   <PencilRuler className="inline mr-3" size={24} />
-                  {editing ? "UPDATE WEBSITE" : "CREATE WEBSITE"}
-                  
+                  {editing ? "UPDATE WEBSITE" : "SAVE AS DRAFT"}
                 </button>
                 <button
                   type="button"
@@ -352,6 +350,16 @@ const Popup = ({
                   className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
                 >
                   Cancel
+                </button>
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  type="submit"
+                  onClick={() => handleWebsiteSubmit((data) => onWebsiteSubmit(data, "publish"))()}
+                  className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
+                >
+                  <Radio className="inline mr-3" size={24} />
+                  {editing ? "UPDATE WEBSITE" : "PUBLISH WEBSITE"}
                 </button>
               </div>
             </form>
@@ -383,8 +391,9 @@ const Popup = ({
                       {...field}
                       type="text"
                       placeholder="Enter specification key"
-                      className={`w-full px-3 py-2 border rounded-md ${specErrors.specKey ? "border-red-500" : ""
-                        }`}
+                      className={`w-full px-3 py-2 border rounded-md ${
+                        specErrors.specKey ? "border-red-500" : ""
+                      }`}
                     />
                   )}
                 />
@@ -415,8 +424,9 @@ const Popup = ({
                       {...field}
                       type="text"
                       placeholder="Enter specification value"
-                      className={`w-full px-3 py-2 border rounded-md ${specErrors.specValue ? "border-red-500" : ""
-                        }`}
+                      className={`w-full px-3 py-2 border rounded-md ${
+                        specErrors.specValue ? "border-red-500" : ""
+                      }`}
                     />
                   )}
                 />
