@@ -58,8 +58,6 @@ const initialState = {
 };
 
 const apiKey = import.meta.env.VITE_API_URL;
-console.log(apiKey);
-
 
 export const uploadImage = createAsyncThunk(
   "website/uploadImage",
