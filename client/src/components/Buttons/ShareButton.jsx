@@ -11,7 +11,7 @@ const ShareButton = ({ sharableUrl }) => {
             "🔹 No coding required, just drag & drop!\n" +
             "🔹 Responsive & SEO-friendly websites\n" +
             "🔹 Free templates to kickstart your design\n\n" +
-            "🌍 **Your website URL:**\n\n👉 " +
+            "🌍 **Your website URL:**\n👉 " +
             sharableUrl +
             "\n\n" +
             "✨ **Perfect for:** Freelancers, Startups, Small Businesses & More!",
