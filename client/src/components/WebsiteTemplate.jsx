@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Eye, Edit, Trash2, Globe, FileCode, PlusCircle, Send } from "lucide-react";
-import CopyButton from "./AnimatedButtons.jsx/CopyButton";
+import {
+  Eye,
+  Edit,
+  Trash2,
+  Globe,
+  FileCode,
+  PlusCircle,
+  Send,
+} from "lucide-react";
+import CopyButton from "./Buttons/CopyButton";
+import ShareButton from "./Buttons/ShareButton";
 
 const WebsiteTemplate = ({
   templateData,
@@ -136,36 +145,10 @@ const WebsiteTemplate = ({
                 <span>Visit Site</span>
               </a>
               <div className="flex items-center gap-2">
-              <CopyButton deployedUrl={deployedUrl} />
-              
-              <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator
-                      .share({
-                        title:
-                          "🌟 Stylo Website Builder - Build Websites Instantly! 🌟",
-                        text:
-                          "🚀 **Stylo Website Builder - Build Websites Instantly**\n\n" +
-                          "🔹 Create Stunning Websites in Minutes!\n" +
-                          "🔹 No coding required, just drag & drop!\n" +
-                          "🔹 Responsive & SEO-friendly websites\n" +
-                          "🔹 Free templates to kickstart your design\n\n" +
-                          "🌍 **Your website Url :**\n\n👉 " +
-                          deployedUrl +
-                          "\n\n" +
-                          "✨ **Perfect for:** Freelancers, Startups, Small Businesses & More!",
-                      })
-                      .then(() => console.log("Shared successfully"))
-                      .catch((error) => console.error("Error sharing:", error));
-                  } else {
-                    alert("Your browser does not support Web Share API.");
-                  }
-                }}
-                className="mr-2"
-              >
-                <Send size={18} />
-              </button></div>
+                <CopyButton deployedUrl={deployedUrl} />
+
+                <ShareButton sharableUrl={deployedUrl} />
+              </div>
             </div>
           ) : onGoLive ? (
             <div className="flex items-center justify-between flex-1">
