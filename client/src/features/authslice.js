@@ -8,12 +8,14 @@ const initialState = {
   error: null,
 };
 
+const apiKey = import.meta.env.VITE_API_URL;
+
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {     
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/login",
+        `${apiKey}/user/login`,
         credentials,
         { withCredentials: true }
       );
@@ -31,7 +33,7 @@ export const signup = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/register",
+        `${apiKey}/user/register`,
         credentials
       );
       return response.data;
@@ -46,7 +48,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await axios.post(
-        "http://localhost:8000/api/v1/user/logout",
+        `${apiKey}/user/logout`,
         {},
         { withCredentials: true }
       );
@@ -63,7 +65,7 @@ export const getCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-current-user",
+        `${apiKey}/user/get-current-user`,
         { withCredentials: true }
       );
       
@@ -79,7 +81,7 @@ export const changePassword = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-current-user",
+        `${apiKey}/user/get-current-user`,
         credentials
       );
       console.log("password changed successfully");
