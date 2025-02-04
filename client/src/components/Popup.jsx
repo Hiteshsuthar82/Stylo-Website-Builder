@@ -78,10 +78,13 @@ const Popup = ({
 
   // Website Details Submission
   const onWebsiteSubmit = (data, actionType) => {
-    onSubmit({
-      websiteName: data.websiteName,
-      websiteAuthorEmail: data.email,
-    }, actionType);
+    onSubmit(
+      {
+        websiteName: data.websiteName,
+        websiteAuthorEmail: data.email,
+      },
+      actionType
+    );
   };
 
   // Specification Submission
@@ -264,10 +267,7 @@ const Popup = ({
 
           {/* Website Details Form */}
           {type === "addWebsiteDetails" && (
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-4"
-            >
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               {/* Website Name Input */}
               <div>
                 <label className="block mb-2 text-sm font-medium">
@@ -336,30 +336,42 @@ const Popup = ({
 
               {/* Submission Buttons */}
               <div className="flex space-x-2">
-                <button
-                  type="submit"
-                  onClick={() => handleWebsiteSubmit((data) => onWebsiteSubmit(data, "draft"))()}
-                  className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
-                >
-                  <PencilRuler className="inline mr-3" size={24} />
-                  {editing ? "UPDATE WEBSITE" : "SAVE AS DRAFT"}
-                </button>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
-                >
-                  Cancel
-                </button>
+                {(!editing || !WebsiteData?.deployedUrl) && (
+                  <>
+                    <button
+                      type="submit"
+                      onClick={() =>
+                        handleWebsiteSubmit((data) =>
+                          onWebsiteSubmit(data, "draft")
+                        )()
+                      }
+                      className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
+                    >
+                      <PencilRuler className="inline mr-3" size={24} />
+                      SAVE AS DRAFT
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
               </div>
               <div className="flex space-x-2">
                 <button
                   type="submit"
-                  onClick={() => handleWebsiteSubmit((data) => onWebsiteSubmit(data, "publish"))()}
+                  onClick={() =>
+                    handleWebsiteSubmit((data) =>
+                      onWebsiteSubmit(data, "publish")
+                    )()
+                  }
                   className="flex-grow bg-[#9333ea] text-white py-2 rounded-md hover:bg-[#5b2291]"
                 >
                   <Radio className="inline mr-3" size={24} />
-                  {editing ? "UPDATE WEBSITE" : "PUBLISH WEBSITE"}
+                  {editing && WebsiteData?.deployedUrl ? "PUBLISH UPDATE" : "PUBLISH WEBSITE"}
                 </button>
               </div>
             </form>

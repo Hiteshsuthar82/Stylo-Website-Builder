@@ -8,21 +8,27 @@ import {
 } from "../index";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getAllResumes, deleteResume } from "../../features/resumeSlice";
 import loader from "../../assets/page-loader.gif";
-import { deleteWebsite, getAllWebsites } from "../../features/websiteSlice";
+import {
+  deleteWebsite,
+  deployWebsite,
+  getAllWebsites,
+} from "../../features/websiteSlice";
+import DeploymentLoader from "../Loaders/DeploymentLoader";
 
 function MyWebsites() {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [selectedWebsiteId, setSelectedWebsiteId] = useState(null);
   const [selectedWebsiteType, setSelectedWebsiteType] = useState(null);
+  const [selectedWebsiteUrl, setSelectedWebsiteUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [isdeleteConfirmationDialog, setDeleteConfirmationDialog] =
     useState(false);
+  const [isdDeploying, setIsDeploying] = useState(false);
   // const templates = useSelector((state) => state.resume.allTemplates);
   const templates = useSelector((state) => state.website.allTemplates);
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user._id);
@@ -36,8 +42,46 @@ function MyWebsites() {
 
   const handleDeleteClick = (websiteId) => {
     setDeleteConfirmationDialog(true);
-    setSelectedWebsiteId(websiteId)
+    setSelectedWebsiteId(websiteId);
   };
+
+  const handleGoLive = async (websiteId) => {
+    setIsDeploying(true);
+    try {
+      const session = await dispatch(deployWebsite({ websiteId: websiteId }));
+      if (session) {
+        console.log("website deployed successfully..");
+        setIsDeploying(false);
+        setSelectedWebsiteId(websiteId);
+        await getAllWebsitesAfter();
+      }
+    } catch (error) {
+      console.log("error when deploying website..", error);
+    }
+  };
+
+  const getAllWebsitesAfter = async () => {
+    setLoading(true);
+    try {
+      dispatch(getAllWebsites()).then((response) => {
+        if (response && response?.meta?.statusCode !== 404) {
+          console.log(
+            "all websites fetched successfully..",
+            response.payload.data
+          );
+          setMyWebsites(response.payload.data);
+          setLoading(false);
+        } else {
+          // write code if there are note any resume for current user
+          console.log("no websites found");
+          setMyWebsites(null);
+          setLoading(false);
+        }
+      });
+    }catch(error){
+      console.log("error when fetching websites..", error);
+    }
+  }
 
   const handleCancelDeleteClick = () => {
     setDeleteConfirmationDialog(false);
@@ -45,7 +89,7 @@ function MyWebsites() {
 
   const handleConfirmDeleteClick = async () => {
     console.log("deleting website..", selectedWebsiteId);
-    
+
     setDeleting(true);
     try {
       const session = await dispatch(
@@ -60,21 +104,27 @@ function MyWebsites() {
     }
   };
 
-  const onTemplateSelect = (templateId, websiteId, websiteType) => {
+  const onTemplateSelect = (templateId, websiteId, websiteType, deployedUrl) => {
     setSelectedTemplateId(templateId);
     setSelectedWebsiteId(websiteId);
     setSelectedWebsiteType(websiteType);
+    setSelectedWebsiteUrl(deployedUrl)
   };
 
   const openResumeView = () => {
-    navigate(`/website-demo/${selectedWebsiteType}/${selectedTemplateId}?id=${selectedWebsiteId}`);
+    navigate(
+      `/website-demo/${selectedWebsiteType}/${selectedTemplateId}?id=${selectedWebsiteId}`
+    );
     // navigate(`/resumeView/${selectedTemplateId}/${selectedWebsiteId}`);
   };
 
   useEffect(() => {
     dispatch(getAllWebsites()).then((response) => {
       if (response && response?.meta?.statusCode !== 404) {
-        console.log("all websites fetched successfully..", response.payload.data);
+        console.log(
+          "all websites fetched successfully..",
+          response.payload.data
+        );
         setMyWebsites(response.payload.data);
         setLoading(false);
       } else {
@@ -86,7 +136,7 @@ function MyWebsites() {
     });
   }, [deleting]);
 
-  return !loading && myWebsites && myWebsites.length===0 ? (
+  return !loading && myWebsites && myWebsites.length === 0 ? (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="bg-gray-100 p-8 rounded-lg shadow-md text-center">
         <svg
@@ -103,7 +153,9 @@ function MyWebsites() {
             d="M9.75 9V6a2.25 2.25 0 012.25-2.25h.75a2.25 2.25 0 012.25 2.25v3m3 0v5.25A2.25 2.25 0 0115.75 16.5h-7.5A2.25 2.25 0 016 14.25V9m9 0V6.75a2.25 2.25 0 00-2.25-2.25h-.75a2.25 2.25 0 00-2.25 2.25V9m3 0v3.75m-3 0h-.75A2.25 2.25 0 019 11.25V9"
           ></path>
         </svg>
-        <h1 className="text-2xl font-semibold text-gray-700">No Website Found</h1>
+        <h1 className="text-2xl font-semibold text-gray-700">
+          No Website Found
+        </h1>
         <p className="text-gray-500 mt-2">
           It looks like there are no websites available at the moment.
         </p>
@@ -128,7 +180,7 @@ function MyWebsites() {
             const template = templates[website.type].find(
               (template) => template.id == website.templateId
             );
-            if (template) {              
+            if (template) {
               return (
                 <WebsiteTemplate
                   key={index}
@@ -141,6 +193,7 @@ function MyWebsites() {
                   deployedUrl={website?.deployedUrl}
                   onEditClick={handleEditClick}
                   onDeleteClick={handleDeleteClick}
+                  onGoLive={handleGoLive}
                 />
               );
             }
@@ -156,13 +209,21 @@ function MyWebsites() {
         />
       )}
 
-      {selectedWebsiteId && (
+      {/* {selectedWebsiteId && (
         <button
           onClick={openResumeView}
           className="mt-5 w-[70%] md:w-[50%] lg:w-[20%] py-3 fixed bottom-5 right-[15%] md:right-[25%] lg:right-[40%] sm:bottom-8 lg:bottom-9 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
         >
-          Open Preview
+          Share On Social Media
         </button>
+      )} */}
+
+      {isdDeploying && (
+        <DeploymentLoader
+          isOpen={isdDeploying}
+          websiteName={selectedWebsiteId}
+          onClose={() => setIsDeploying(false)}
+        />
       )}
     </Container>
   );

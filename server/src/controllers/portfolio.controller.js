@@ -369,6 +369,8 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
 
   const { websiteName, type, templateId, websiteAuthorEmail, deployedUrl, repoName } = websiteDetails;
 
+  let repositoryName = repoName || websiteName.toLowerCase().replace(/\s+/g, "-");  // Get the repoName from the portfolio data
+
   // 2️⃣ Fetch EJS template from GitHub
   const templateUrl = `https://raw.githubusercontent.com/Stylo-Website-Builder/Website-Templates/main/${type}/${templateId}.ejs`;
   let ejsTemplate;
@@ -386,7 +388,7 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
   // 4️⃣ Check if repo exists in GitHub
   let repoExists = false;
   try {
-    await octokit.repos.get({ owner: GITHUB_USERNAME, repo: repoName });
+    await octokit.repos.get({ owner: GITHUB_USERNAME, repo: repositoryName });
     repoExists = true; // Repo exists
   } catch (error) {
     repoExists = false; // Repo doesn't exist
@@ -398,7 +400,7 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
     try {
       const fileContent = await octokit.repos.getContent({
         owner: GITHUB_USERNAME,
-        repo: repoName,
+        repo: repositoryName,
         path: 'index.html',
       });
       
@@ -406,7 +408,7 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
       
       await octokit.repos.deleteFile({
         owner: GITHUB_USERNAME,
-        repo: repoName,
+        repo: repositoryName,
         path: 'index.html',
         message: 'Deleting old HTML file before redeployment',
         sha: sha,
@@ -417,11 +419,14 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
   } else {
     // Repo doesn't exist, create new repo
     try {
+
       await octokit.repos.createForAuthenticatedUser({
-        name: repoName,
+        name: repositoryName,      
         private: false,
       });
     } catch (error) {
+      console.log("error when creating github repo on redploy", error);
+      
       throw new ApiError(500, "Failed to create GitHub repository");
     }
   }
@@ -433,7 +438,7 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
   try {
     await octokit.repos.createOrUpdateFileContents({
       owner: GITHUB_USERNAME,
-      repo: repoName,
+      repo: repositoryName,
       path: filePath,
       message: "Re-deploy website",
       content: encodedContent,
@@ -455,14 +460,14 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
   try {
     await octokit.repos.update({
       owner: GITHUB_USERNAME,
-      repo: repoName,
+      repo: repositoryName,
       has_pages: true,
-      homepage: `https://${GITHUB_USERNAME}.github.io/${repoName}/`,
+      homepage: `https://${GITHUB_USERNAME}.github.io/${repositoryName}/`,
     });
 
     await octokit.repos.createPagesSite({
       owner: GITHUB_USERNAME,
-      repo: repoName,
+      repo: repositoryName,
       source: {
         branch: "main",
         path: "/",
@@ -472,12 +477,12 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to enable GitHub Pages");
   }}
 
-  // 8️⃣ Update the Portfolio document with the deployed URL and repoName
-  const deployedUrlNew = `https://${GITHUB_USERNAME}.github.io/${repoName}/`;
+  // 8️⃣ Update the Portfolio document with the deployed URL and repositoryName
+  const deployedUrlNew = `https://${GITHUB_USERNAME}.github.io/${repositoryName}/`;
 
   await Portfolio.findOneAndUpdate(
     { _id: id },
-    { $set: { deployedUrl: deployedUrlNew, repoName: repoName } },
+    { $set: { deployedUrl: deployedUrlNew, repoName: repositoryName } },
     { new: true }
   );
 

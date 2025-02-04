@@ -17,10 +17,12 @@ import {
   createAndDeployWebsite,
   createWebsite,
   getWebsitesDetails,
+  reDeployWebsite,
   updateWebsiteDetails,
 } from "../../features/websiteSlice";
 import { useDispatch } from "react-redux";
-import CreatingWebsiteLoader from "./CreatingWebsiteLoader";
+import CreatingWebsiteLoader from "../Loaders/CreatingWebsiteLoader";
+import WebsiteUpdateLoader from "../Loaders/WebsiteUpdateLoader";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
@@ -32,6 +34,7 @@ const CreateWebsite = () => {
   const websiteId = queryParams.get("id");
   const [templateData, setTemplateData] = useState(null);
   const [isWebsiteCreating, setIsWebsiteCreating] = useState(false);
+  const [isWebsiteUpdating, setIsWebsiteUpdating] = useState(false);
   const [websiteCreationType, setWebsiteCreationType] = useState(null);
   const [isLogoTypeSelectionPopupOpened, setIsLogoTypeSelectionPopupOpened] =
     useState(true);
@@ -85,7 +88,7 @@ const CreateWebsite = () => {
 
   const onCreateWebsite = async (websiteDetails, actionType) => {
     setIsWebsiteCreating(true);
-    setWebsiteCreationType(actionType)
+    setWebsiteCreationType(actionType);
 
     const updatedData = { ...templateData };
 
@@ -123,34 +126,10 @@ const CreateWebsite = () => {
     }
   };
 
-  const onCreateAndDeploWebsite = async (websiteDetails) => {
-    const updatedData = { ...templateData };
-
-    updatedData.templateId = templateId;
-
-    if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
-      updatedData.websiteName = websiteDetails.websiteName;
-      updatedData.websiteAuthorEmail = websiteDetails.websiteAuthorEmail;
-    }
-    console.log("Website Data:", updatedData);
-
-    try {
-      const response = await dispatch(createAndDeployWebsite(updatedData));
-
-      if (response && response.payload && response.payload.data) {
-        const data = response.payload.data;
-        console.log(data);
-
-        // navigate(`/resumeView/${templateId}/${data._id}`);
-      } else {
-        console.log("This website name is already exist");
-      }
-    } catch (error) {
-      console.log("Error occurred:", error.message || error);
-    }
-  };
-
   const onUpdateWebsite = async (websiteDetails, actionType) => {
+    actionType==="publish" && templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
+    setWebsiteCreationType(actionType);
+
     const updatedData = JSON.parse(JSON.stringify(templateData));
 
     if (websiteDetails.websiteName && websiteDetails.websiteAuthorEmail) {
@@ -165,8 +144,21 @@ const CreateWebsite = () => {
       if (response && response.payload && response.payload.data) {
         const data = response.payload.data;
         console.log(data);
-
-        // navigate(`/resumeView/${templateId}/${data._id}`);
+        if (actionType === "publish") {
+          try {
+            const session = await dispatch(
+              reDeployWebsite({ websiteId: websiteId })
+            );
+            if (session) {
+              console.log("website re deployed successfully..");
+              templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
+              navigate(`/myWebsites`);
+            }
+          } catch (error) {
+            console.log("error when re deploying website..", error);
+          }
+        }
+        actionType==="publish" && templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
       } else if (response?.error?.message == "Rejected") {
         console.log("This website name is already exist");
       } else {
@@ -312,6 +304,23 @@ const CreateWebsite = () => {
         <CreatingWebsiteLoader
           isOpen={isWebsiteCreating}
           actionType={websiteCreationType}
+        />
+      )}
+
+      {isWebsiteCreating && (
+        <CreatingWebsiteLoader
+          isOpen={isWebsiteCreating}
+          actionType={websiteCreationType}
+        />
+      )}
+
+      {isWebsiteUpdating && (
+        <WebsiteUpdateLoader
+          isOpen={isWebsiteUpdating}
+          actionType={websiteCreationType}
+          onClose={() => setIsWebsiteUpdating(false)}
+          websiteName={websiteId ? templateData.websiteName : ""}
+          updateType={"redploy"} // update or "redploy"
         />
       )}
     </div>

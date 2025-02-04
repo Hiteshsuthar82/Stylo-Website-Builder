@@ -57,12 +57,16 @@ const initialState = {
   },
 };
 
+const apiKey = import.meta.env.VITE_API_URL;
+console.log(apiKey);
+
+
 export const uploadImage = createAsyncThunk(
   "website/uploadImage",
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/temp/upload-image`,
+        `${apiKey}/temp/upload-image`,
         credentials,
         {
           withCredentials: true,
@@ -89,7 +93,7 @@ export const updateImage = createAsyncThunk(
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/temp/image/${resumeId}`,
+        `${apiKey}/temp/image/${resumeId}`,
         credentials,
         {
           withCredentials: true,
@@ -115,7 +119,7 @@ export const createWebsite = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/portfolio/create-portfolio",
+        `${apiKey}/portfolio/create-portfolio`,
         credentials,
         { withCredentials: true }
       );
@@ -137,7 +141,7 @@ export const createAndDeployWebsite = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/portfolio/create-portfolio",
+        `${apiKey}/portfolio/create-portfolio`,
         credentials,
         { withCredentials: true }
       );
@@ -147,7 +151,7 @@ export const createAndDeployWebsite = createAsyncThunk(
       if (response.data.data._id) {
         try {
           const depolyResponse = await axios.patch(
-            `http://localhost:8000/api/v1/portfolio/deploy-website/${response.data.data._id}`,
+            `${apiKey}/portfolio/deploy-website/${response.data.data._id}`,
             {},
             { withCredentials: true }
           );
@@ -171,12 +175,60 @@ export const createAndDeployWebsite = createAsyncThunk(
   }
 );
 
+export const deployWebsite = createAsyncThunk(
+  "website/deployWebsite",
+  async (credentials, { rejectWithValue }) => {
+    console.log("deployWebsite", credentials);
+    
+    try {
+      const response = await axios.patch(
+        `${apiKey}/portfolio/deploy-website/${credentials?.websiteId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      console.log("website deployed successfully.");
+
+      console.log(response);
+
+      return response.data;
+    } catch (error) {
+      console.log("deployWebsite", error);
+      return rejectWithValue("deployWebsite :: error ", error.payload);
+    }
+  }
+);
+
+export const reDeployWebsite = createAsyncThunk(
+  "website/reDeployWebsite",
+  async (credentials, { rejectWithValue }) => {
+    console.log("reDeployWebsite", credentials);
+    
+    try {
+      const response = await axios.patch(
+        `${apiKey}/portfolio/reDeploy-website/${credentials?.websiteId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      console.log("websiten re deployed successfully.");
+
+      console.log(response);
+
+      return response.data;
+    } catch (error) {
+      console.log("reDeployWebsite", error);
+      return rejectWithValue("reDeployWebsite :: error ", error.payload);
+    }
+  }
+);
+
 export const getAllWebsites = createAsyncThunk(
   "website/getAllWebsites",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/portfolio/get-all-portfolio`,
+        `${apiKey}/portfolio/get-all-portfolio`,
         { withCredentials: true }
       );
 
@@ -194,7 +246,7 @@ export const getWebsitesDetails = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/portfolio/get-portfolio/${credentials?.websiteId}`,
+        `${apiKey}/portfolio/get-portfolio/${credentials?.websiteId}`,
         { withCredentials: true }
       );
 
@@ -215,7 +267,7 @@ export const updateWebsiteDetails = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/portfolio/update-portfolio/${credentials?._id}`,
+        `${apiKey}/portfolio/update-portfolio/${credentials?._id}`,
         credentials,
         { withCredentials: true }
       );
@@ -237,7 +289,7 @@ export const deleteWebsite = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/portfolio/delete-portfolio/${credentials?.websiteId}`,
+        `${apiKey}/portfolio/delete-portfolio/${credentials?.websiteId}`,
         { withCredentials: true }
       );
 
@@ -246,85 +298,6 @@ export const deleteWebsite = createAsyncThunk(
     } catch (error) {
       console.log("error occur in deleteWebsite : ", error.response);
       return rejectWithValue("deleteWebsite :: error ", error.response.data);
-    }
-  }
-);
-
-export const getUsersPermanentsDetail = createAsyncThunk(
-  "website/getUsersPermanentsDetail",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/usersPermanentDetais`,
-        { withCredentials: true }
-      );
-
-      console.log("user's Permanent resume's data fetched successfully.");
-      return response.data;
-    } catch (error) {
-      console.log("error occur in getUsersPermanentsDetail : ", error.response);
-      return rejectWithValue(
-        "getUsersPermanentsDetail :: error ",
-        error.response
-      );
-    }
-  }
-);
-
-export const getResumeData = createAsyncThunk(
-  "website/getResumeData",
-  async (credentials, { rejectWithValue }) => {
-    console.log(credentials);
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/resume-data/${credentials?.resumeId}`,
-        { withCredentials: true }
-      );
-
-      if (response) {
-        console.log("selected resume's data fetched successfully.");
-        return response.data;
-      } else {
-        console.log("some error occured in getting resume's data");
-      }
-    } catch (error) {
-      console.log("error occured in getResumeData", error.response);
-      return rejectWithValue("getResumeData :: error ", error.response.data);
-    }
-  }
-);
-
-export const deleteResume = createAsyncThunk(
-  "website/deleteResume",
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/temp/delete/resume/${credentials?.resumeId}`,
-        { withCredentials: true }
-      );
-      console.log(response.data);
-
-      return true;
-    } catch (error) {
-      console.log("selected resume deleted successfully.");
-      return rejectWithValue("deleteResume :: error ", error.response.data);
-    }
-  }
-);
-
-export const editResume = createAsyncThunk(
-  "website/edit",
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/temp/resume-edit/${credentials?.resumeId}`,
-        credentials?.formData,
-        { withCredentials: true }
-      );
-      console.log("resume edited successfully.");
-      return response.data;
-    } catch (error) {
-      return rejectWithValue("editResume :: error ", error.response);
     }
   }
 );
@@ -401,17 +374,36 @@ export const resumeSlice = createSlice({
         state.status = false;
       });
 
-    // edit resume
+    // deploy website
     builder
-      .addCase(editResume.pending, (state) => {
+      .addCase(deployWebsite.pending, (state) => {
         state.loading = true;
+        state.status = false;
+        state.data = null;
       })
-      .addCase(editResume.fulfilled, (state, actions) => {
+      .addCase(deployWebsite.fulfilled, (state, actions) => {
         state.loading = false;
         state.status = true;
-        state.data = actions.payload;
+        state.data = actions.payload.data;
       })
-      .addCase(editResume.rejected, (state) => {
+      .addCase(deployWebsite.rejected, (state) => {
+        state.loading = false;
+        state.status = false;
+      });
+
+    // re Deploy website
+    builder
+      .addCase(reDeployWebsite.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+        state.data = null;
+      })
+      .addCase(reDeployWebsite.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.status = true;
+        state.data = actions.payload.data;
+      })
+      .addCase(reDeployWebsite.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });
@@ -471,50 +463,6 @@ export const resumeSlice = createSlice({
         state.status = true;
       })
       .addCase(deleteWebsite.rejected, (state) => {
-        state.loading = false;
-        state.status = false;
-      });
-
-    // getting permanent resumes data
-    builder
-      .addCase(getUsersPermanentsDetail.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getUsersPermanentsDetail.fulfilled, (state, actions) => {
-        state.loading = false;
-        state.status = true;
-        state.data = actions.payload.data;
-      })
-      .addCase(getUsersPermanentsDetail.rejected, (state) => {
-        state.loading = false;
-        state.status = false;
-      });
-
-    // getting data of selected resume
-    builder
-      .addCase(getResumeData.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getResumeData.fulfilled, (state, actions) => {
-        state.loading = false;
-        state.status = true;
-        state.data = actions.payload;
-      })
-      .addCase(getResumeData.rejected, (state) => {
-        state.loading = false;
-        state.status = false;
-      });
-
-    // delete resume
-    builder
-      .addCase(deleteResume.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(deleteResume.fulfilled, (state, actions) => {
-        state.loading = false;
-        state.status = true;
-      })
-      .addCase(deleteResume.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });
