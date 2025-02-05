@@ -13,12 +13,10 @@ const apiKey = import.meta.env.VITE_API_URL;
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
-    try {     
-      const response = await axios.post(
-        `${apiKey}/user/login`,
-        credentials,
-        { withCredentials: true }
-      );
+    try {
+      const response = await axios.post(`${apiKey}/user/login`, credentials, {
+        withCredentials: true,
+      });
 
       return response.data;
     } catch (error) {
@@ -32,10 +30,7 @@ export const signup = createAsyncThunk(
   "auth/signup",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${apiKey}/user/register`,
-        credentials
-      );
+      const response = await axios.post(`${apiKey}/user/register`, credentials);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -47,11 +42,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(
-        `${apiKey}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axios.post(`${apiKey}/user/logout`, {}, { withCredentials: true });
       console.log("loged out successfully");
       return true;
     } catch (error) {
@@ -64,13 +55,12 @@ export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${apiKey}/user/get-current-user`,
-        { withCredentials: true }
-      );
-      
+      const response = await axios.get(`${apiKey}/user/get-current-user`, {
+        withCredentials: true,
+      });
+
       return response.data;
-    } catch (error) {      
+    } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
