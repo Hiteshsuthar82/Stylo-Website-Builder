@@ -29,7 +29,7 @@ const WebsiteTemplate = ({
 
   const StatusBadge = ({ deployed }) => (
     <div
-      className={`px-3 py-1 rounded-full text-sm font-medium z-20 ${
+      className={`px-4 rounded-full border ${
         deployed
           ? "bg-green-100 text-green-600"
           : "bg-orange-100 text-orange-600"
