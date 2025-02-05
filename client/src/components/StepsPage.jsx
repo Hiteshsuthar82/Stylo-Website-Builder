@@ -1,73 +1,191 @@
-import React from "react";
-import template_img from "../assets/template.svg"
-import res_design from "../assets/resume_design.svg"
-import ready_res from "../assets/ready_resume.svg"
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Palette, PenLine, Globe, ChevronRight, Trash2, Share2, Link, Layout } from 'lucide-react';
 
 function StepsPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [showSteps, setShowSteps] = useState([false, false, false]);
+  const [showFeatures, setShowFeatures] = useState(false);
+
+  useEffect(() => {
+    // Animate steps sequentially
+    const stepTimers = [
+      setTimeout(() => setShowSteps(prev => [true, prev[1], prev[2]]), 500),
+      setTimeout(() => setShowSteps(prev => [prev[0], true, prev[2]]), 1500),
+      setTimeout(() => setShowSteps(prev => [prev[0], prev[1], true]), 2500),
+      // Show features after steps are complete
+      setTimeout(() => setShowFeatures(true), 3500)
+    ];
+
+    return () => stepTimers.forEach(timer => clearTimeout(timer));
+  }, []);
+
   return (
-    <div className="contain mx-20">
-      <h2 className="text-center text-4xl my-10 font-bold">
-        Here’s how Stylo Resume Builder works:
-      </h2>
-      <div className="flex flex-col lg:flex-row mt-20 lg:w-full">
-        <div className="flex flex-col mb-10 items-center lg:w-1/3 ">
-          <div className="mb-2">
-            <img
-              src={template_img}
-              alt="template image"
-              height="65"
-              width="67"
-            />
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-8">
+      {/* Header */}
+      <div className="max-w-5xl mx-auto text-center mb-16 opacity-0 animate-fade-in">
+        <h1 className="text-5xl font-bold text-purple-900 mb-6">
+          Create Your Website with Stylo
+        </h1>
+        <p className="text-xl text-purple-700">
+          Three simple steps to bring your website to life
+        </p>
+      </div>
+
+      {/* Steps Container */}
+      <div className="max-w-5xl mx-auto relative mb-24">
+        {/* Connection Line */}
+        <div className="hidden md:block absolute top-1/2 left-[100px] right-[100px] h-1 bg-gradient-to-r from-purple-200 via-purple-400 to-purple-200 -translate-y-1/2 rounded-full"></div>
+
+        {/* Steps */}
+        <div className="grid md:grid-cols-3 gap-8 relative">
+          {/* Step 1 */}
+          <div className={`transform transition-all duration-700 ${showSteps[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+              {/* Rest of Step 1 content remains the same */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                1
+              </div>
+              
+              <div className="pt-4">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-purple-100 rounded-xl">
+                    <Palette className="w-10 h-10 text-purple-600" />
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                  Choose Template
+                </h3>
+                
+                <p className="text-purple-700 text-center">
+                  Select from our beautiful, professionally designed templates
+                </p>
+              </div>
+
+              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+            </div>
           </div>
-          <div className="m-2">
-            <h4 className="text-xl font-semibold">Step 1</h4>
+
+          {/* Step 2 */}
+          <div className={`transform transition-all duration-700 ${showSteps[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+              {/* Rest of Step 2 content remains the same */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                2
+              </div>
+              
+              <div className="pt-4">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-purple-100 rounded-xl">
+                    <PenLine className="w-10 h-10 text-purple-600" />
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                  Add Content
+                </h3>
+                
+                <p className="text-purple-700 text-center">
+                  Customize with your text, images, and brand elements
+                </p>
+              </div>
+
+              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+            </div>
           </div>
-          <div className="w-80 h-20 text-center m-2">
-            <p className="text-lg">
-              Explore our created templates and step-by-step guidance to create
-              a standout resume quickly.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col mb-10 items-center lg:w-1/3">
-          <div className="mb-2">
-            <img src={res_design} alt="design image" />
-          </div>
-          <div className="m-2">
-            <h4 className="text-xl font-semibold">Step 2</h4>
-          </div>
-          <div className="w-80 h-20 text-center m-2">
-            <p className="text-lg">
-              Find the right words to showcase your skills. Just search by job
-              title, and access pre-written content tailored to your expertise.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col mb-10 items-center lg:w-1/3">
-          <div className="mb-2">
-            <img src={ready_res} alt="ready resume image" />
-          </div>
-          <div className="m-2">
-            <h4 className="text-xl font-semibold">Step 3</h4>
-          </div>
-          <div className="w-80 h-20 text-center m-2">
-            <p className="text-lg">
-              Fine-tune the details with our tools, generate each section with
-              ease, and download your polished resume. You’re all set to apply!
-            </p>
+
+          {/* Step 3 */}
+          <div className={`transform transition-all duration-700 ${showSteps[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+              {/* Rest of Step 3 content remains the same */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                3
+              </div>
+              
+              <div className="pt-4">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-purple-100 rounded-xl">
+                    <Globe className="w-10 h-10 text-purple-600" />
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                  Publish Website
+                </h3>
+                
+                <p className="text-purple-700 text-center">
+                  Go live with your website in just one click
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center">
-        <button
-          type="submit"
-          // onClick={() =>navigate('/allTemplates')}
-          onClick={() =>navigate('/template-type-selection-page')}
-          className="px-16 lg:px-20 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
+
+      {/* Features Section with Animation */}
+      <div className={`max-w-5xl mx-auto mb-16 transform transition-all duration-700 ${showFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <h2 className="text-3xl font-bold text-purple-900 text-center mb-12">
+          Powerful Management Features
+        </h2>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Features content remains the same */}
+          {[
+            {
+              icon: <Layout className="w-6 h-6 text-purple-600" />,
+              title: "Dashboard",
+              description: "Access and manage all your websites from one central dashboard",
+              bgColor: "bg-purple-100"
+            },
+            {
+              icon: <Trash2 className="w-6 h-6 text-red-600" />,
+              title: "Delete",
+              description: "Easily remove websites you no longer need with one click",
+              bgColor: "bg-red-100"
+            },
+            {
+              icon: <Share2 className="w-6 h-6 text-blue-600" />,
+              title: "Share",
+              description: "Share your website directly to social media platforms",
+              bgColor: "bg-blue-100"
+            },
+            {
+              icon: <Link className="w-6 h-6 text-green-600" />,
+              title: "Copy Link",
+              description: "Copy your website URL instantly to share anywhere",
+              bgColor: "bg-green-100"
+            }
+          ].map((feature, index) => (
+            <div 
+              key={feature.title}
+              className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform 
+                ${showFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                transition-all duration-700 delay-${index * 200}`}
+            >
+              <div className="flex items-center space-x-4 mb-4">
+                <div className={`p-3 ${feature.bgColor} rounded-lg`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-purple-900">{feature.title}</h3>
+              </div>
+              <p className="text-purple-700">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Call to Action */}
+      <div className={`max-w-xl mx-auto mt-16 text-center transform transition-all duration-700 ${showFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <button 
+          className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-semibold text-white transition-all duration-300 ease-out bg-purple-600 rounded-xl group hover:scale-[1.02]"
+          onClick={() => navigate('/template-type-selection-page')}
         >
-          Continue
+          <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-800 group-hover:translate-x-0 ease">
+            <ChevronRight className="w-6 h-6" />
+          </span>
+          <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">Start Building Your Website</span>
+          <span className="relative invisible">Start Building Your Website</span>
         </button>
       </div>
     </div>

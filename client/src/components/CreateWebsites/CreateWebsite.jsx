@@ -16,6 +16,7 @@ import Popup from "../Popup";
 import {
   createAndDeployWebsite,
   createWebsite,
+  deployWebsite,
   getWebsitesDetails,
   reDeployWebsite,
   updateWebsiteDetails,
@@ -51,7 +52,7 @@ const CreateWebsite = () => {
         setTemplateData(productShowcaseTemplate);
       }
     } else {
-      dispatch(getWebsitesDetails({ websiteId: websiteId })).then(
+      dispatch(getWebsitesDetails({ websiteType, websiteId: websiteId })).then(
         (response) => {
           if (response) {
             const data = response.payload.data;
@@ -127,7 +128,9 @@ const CreateWebsite = () => {
   };
 
   const onUpdateWebsite = async (websiteDetails, actionType) => {
-    actionType==="publish" && templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
+    actionType === "publish" && templateData?.deployedUrl
+      ? setIsWebsiteUpdating(true)
+      : setIsWebsiteCreating(true);
     setWebsiteCreationType(actionType);
 
     const updatedData = JSON.parse(JSON.stringify(templateData));
@@ -147,18 +150,33 @@ const CreateWebsite = () => {
         if (actionType === "publish") {
           try {
             const session = await dispatch(
-              reDeployWebsite({ websiteId: websiteId })
+              templateData?.repoName
+                ? reDeployWebsite({
+                    websiteType: templateData.type,
+                    websiteId: websiteId,
+                  })
+                : deployWebsite({
+                    websiteType: templateData.type,
+                    websiteId: websiteId,
+                  })
             );
+            console.log("session", session);
+            
             if (session) {
               console.log("website re deployed successfully..");
-              templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
+              templateData?.deployedUrl
+                ? setIsWebsiteUpdating(false)
+                : setIsWebsiteCreating(false);
               navigate(`/myWebsites`);
             }
           } catch (error) {
             console.log("error when re deploying website..", error);
           }
         }
-        actionType==="publish" && templateData?.deployedUrl ? setIsWebsiteUpdating(true) : setIsWebsiteCreating(true);
+        actionType === "publish" && templateData?.deployedUrl
+          ? setIsWebsiteUpdating(false)
+          : setIsWebsiteCreating(false);
+          navigate(`/myWebsites`);
       } else if (response?.error?.message == "Rejected") {
         console.log("This website name is already exist");
       } else {

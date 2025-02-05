@@ -1,9 +1,10 @@
 import React from "react";
+import { Palette, PenLine, Globe, ChevronRight } from 'lucide-react';
 
 const Steps = () => {
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto container md:px-16 px-6 py-14">
+      <div className="max-w-screen-2xl mx-auto container md:px-16 px-6 py-14 md:mt-32">
         <div className="text-center space-y-1 my-4">
           <h2 className="text-purple-700 font-bold md:text-3xl text-2xl">How It Works</h2>
           <p className="md:text-lg text-base font-semibold">
@@ -11,45 +12,95 @@ const Steps = () => {
             easy steps!
           </p>
         </div>
-        <div className="mt-12 grid md:grid-cols-3 gap-12">
-          <div className="flex flex-col items-center ">
-            <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-              <span className="text-white text-2xl font-bold">1</span>
+        <div className="mt-20 max-w-5xl mx-auto relative md:mb-24">
+            {/* Connection Line */}
+            <div className="hidden md:block absolute top-1/2 left-[100px] right-[100px] h-1 bg-gradient-to-r from-purple-200 via-purple-400 to-purple-200 -translate-y-1/2 rounded-full"></div>
+    
+            {/* Steps */}
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              {/* Step 1 */}
+              <div className="group relative">
+                <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+                  {/* Step Number */}
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                    1
+                  </div>
+                  
+                  <div className="pt-4">
+                    <div className="flex justify-center mb-6">
+                      <div className="p-4 bg-purple-100 rounded-xl">
+                        <Palette className="w-10 h-10 text-purple-600" />
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                      Choose Template
+                    </h3>
+                    
+                    <p className="text-purple-700 text-center">
+                      Select from our beautiful, professionally designed templates
+                    </p>
+                  </div>
+    
+                  <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+                </div>
+              </div>
+    
+              {/* Step 2 */}
+              <div className="group relative">
+                <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+                  {/* Step Number */}
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                    2
+                  </div>
+                  
+                  <div className="pt-4">
+                    <div className="flex justify-center mb-6">
+                      <div className="p-4 bg-purple-100 rounded-xl">
+                        <PenLine className="w-10 h-10 text-purple-600" />
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                      Add Content
+                    </h3>
+                    
+                    <p className="text-purple-700 text-center">
+                      Customize with your text, images, and brand elements
+                    </p>
+                  </div>
+    
+                  <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+                </div>
+              </div>
+    
+              {/* Step 3 */}
+              <div className="group relative">
+                <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
+                  {/* Step Number */}
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+                    3
+                  </div>
+                  
+                  <div className="pt-4">
+                    <div className="flex justify-center mb-6">
+                      <div className="p-4 bg-purple-100 rounded-xl">
+                        <Globe className="w-10 h-10 text-purple-600" />
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                      Publish Website
+                    </h3>
+                    
+                    <p className="text-purple-700 text-center">
+                      Go live with your website in just one click
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold mb-4">
-              Choose a Template
-            </h3>
-            <p className="text-gray-600 text-center">
-              Pick a template from our library that suits your needs. Whether
-              it's a portfolio, business site, or landing page, we have options
-              for every use case.
-            </p>
           </div>
-          <div className="flex flex-col items-center">
-            <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-              <span className="text-white text-2xl font-bold">2</span>
-            </div>
-            <h3 className="text-xl font-semibold mb-4">
-              Customize Your Site
-            </h3>
-            <p className="text-gray-600 text-center">
-              Easily edit text, images, and sections. See changes in real-time
-              with an interactive preview.
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-              <span className="text-white text-2xl font-bold">3</span>
-            </div>
-            <h3 className="text-xl font-semibold mb-4">
-              Publish & Go Live
-            </h3>
-            <p className="text-gray-600 text-center">
-              Once you’re satisfied with your site, publish it with one click.
-              Your site will be live on your custom URL in no time!
-            </p>
-          </div>
-        </div>
       </div>
     </>
   );

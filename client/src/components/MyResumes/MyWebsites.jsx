@@ -40,19 +40,22 @@ function MyWebsites() {
     // navigate(`/create-website/portfolio/${selectedWebsiteId}/`);
   };
 
-  const handleDeleteClick = (websiteId) => {
+  const handleDeleteClick = (websiteId, websiteType) => {
     setDeleteConfirmationDialog(true);
     setSelectedWebsiteId(websiteId);
+    setSelectedWebsiteType(websiteType);
   };
 
-  const handleGoLive = async (websiteId) => {
+  const handleGoLive = async (websiteId, websiteType) => {
     setIsDeploying(true);
+    setSelectedWebsiteId(websiteId);
     try {
-      const session = await dispatch(deployWebsite({ websiteId: websiteId }));
+      const session = await dispatch(
+        deployWebsite({ websiteType: websiteType, websiteId: websiteId })
+      );
       if (session) {
         console.log("website deployed successfully..");
         setIsDeploying(false);
-        setSelectedWebsiteId(websiteId);
         await getAllWebsitesAfter();
       }
     } catch (error) {
@@ -78,10 +81,10 @@ function MyWebsites() {
           setLoading(false);
         }
       });
-    }catch(error){
+    } catch (error) {
       console.log("error when fetching websites..", error);
     }
-  }
+  };
 
   const handleCancelDeleteClick = () => {
     setDeleteConfirmationDialog(false);
@@ -93,7 +96,10 @@ function MyWebsites() {
     setDeleting(true);
     try {
       const session = await dispatch(
-        deleteWebsite({ websiteId: selectedWebsiteId })
+        deleteWebsite({
+          websiteType: selectedWebsiteType,
+          websiteId: selectedWebsiteId,
+        })
       );
       if (session) {
         setDeleting(false);
@@ -104,11 +110,16 @@ function MyWebsites() {
     }
   };
 
-  const onTemplateSelect = (templateId, websiteId, websiteType, deployedUrl) => {
+  const onTemplateSelect = (
+    templateId,
+    websiteId,
+    websiteType,
+    deployedUrl
+  ) => {
     setSelectedTemplateId(templateId);
     setSelectedWebsiteId(websiteId);
     setSelectedWebsiteType(websiteType);
-    setSelectedWebsiteUrl(deployedUrl)
+    setSelectedWebsiteUrl(deployedUrl);
   };
 
   const openResumeView = () => {
@@ -136,7 +147,9 @@ function MyWebsites() {
     });
   }, [deleting]);
 
-  return !loading && myWebsites && myWebsites.length === 0 ? (
+  const allArraysEmpty = Object.values(myWebsites).every(arr => arr.length === 0);
+
+  return allArraysEmpty ? (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="bg-gray-100 p-8 rounded-lg shadow-md text-center">
         <svg
@@ -173,31 +186,51 @@ function MyWebsites() {
     </div>
   ) : (
     <Container>
-      <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-3 gap-16 flex-wrap justify-center">
-        {templates &&
-          myWebsites &&
-          myWebsites.map((website, index) => {
-            const template = templates[website.type].find(
-              (template) => template.id == website.templateId
-            );
-            if (template) {
-              return (
-                <WebsiteTemplate
-                  key={index}
-                  templateData={template}
-                  name={website.websiteName}
-                  onClick={onTemplateSelect}
-                  isSelected={selectedWebsiteId === website._id}
-                  websiteId={website._id}
-                  websiteType={website.type}
-                  deployedUrl={website?.deployedUrl}
-                  onEditClick={handleEditClick}
-                  onDeleteClick={handleDeleteClick}
-                  onGoLive={handleGoLive}
-                />
-              );
-            }
-          })}
+      <div className="pt-8 mx-3 gap-16 flex-wrap justify-center">
+        {templates && myWebsites ? (
+          <>
+            {Object.keys(myWebsites).map((type) => {
+              if (myWebsites[type]?.length > 0) {
+                return (
+                  <div key={type} className="mb-8">
+                    {/* <h2 className="text-2xl font-bold mb-4 capitalize">
+                      {type.replace(/([A-Z])/g, " $1").trim()}
+                    </h2> */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
+                      {myWebsites[type].map((website, index) => {
+                        const template = templates[website.type]?.find(
+                          (template) => template.id === website.templateId
+                        );
+
+                        if (template) {
+                          return (
+                            <WebsiteTemplate
+                              key={website._id || index}
+                              templateData={template}
+                              name={website.websiteName}
+                              onClick={onTemplateSelect}
+                              isSelected={selectedWebsiteId === website._id}
+                              websiteId={website._id}
+                              websiteType={website.type}
+                              deployedUrl={website?.deployedUrl}
+                              onEditClick={handleEditClick}
+                              onDeleteClick={handleDeleteClick}
+                              onGoLive={handleGoLive}
+                            />
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </>
+        ) : (
+          ``
+        )}
       </div>
 
       {/* delete confirmation dialog */}

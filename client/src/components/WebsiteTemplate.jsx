@@ -117,7 +117,7 @@ const WebsiteTemplate = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onDeleteClick(websiteId);
+                onDeleteClick(websiteId, websiteType);
               }}
               className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
             >
@@ -163,7 +163,7 @@ const WebsiteTemplate = ({
               {onGoLive && (
                 <button
                   className="px-2 rounded-full border border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
-                  onClick={() => onGoLive(websiteId)}
+                  onClick={() => onGoLive(websiteId, websiteType)}
                 >
                   Go Live
                 </button>

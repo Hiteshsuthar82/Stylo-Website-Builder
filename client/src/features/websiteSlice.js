@@ -117,7 +117,7 @@ export const createWebsite = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        `${apiKey}/portfolio/create-portfolio`,
+        `${apiKey}/websites/create`,
         credentials,
         { withCredentials: true }
       );
@@ -139,7 +139,7 @@ export const createAndDeployWebsite = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${apiKey}/portfolio/create-portfolio`,
+        `${apiKey}/websites/create`,
         credentials,
         { withCredentials: true }
       );
@@ -149,7 +149,7 @@ export const createAndDeployWebsite = createAsyncThunk(
       if (response.data.data._id) {
         try {
           const depolyResponse = await axios.patch(
-            `${apiKey}/portfolio/deploy-website/${response.data.data._id}`,
+            `${apiKey}/websites/deploy/${response?.data?.data?.type}/${response.data.data._id}`,
             {},
             { withCredentials: true }
           );
@@ -180,7 +180,7 @@ export const deployWebsite = createAsyncThunk(
     
     try {
       const response = await axios.patch(
-        `${apiKey}/portfolio/deploy-website/${credentials?.websiteId}`,
+        `${apiKey}/websites/deploy/${credentials?.websiteType}/${credentials?.websiteId}`,
         {},
         { withCredentials: true }
       );
@@ -204,7 +204,7 @@ export const reDeployWebsite = createAsyncThunk(
     
     try {
       const response = await axios.patch(
-        `${apiKey}/portfolio/reDeploy-website/${credentials?.websiteId}`,
+        `${apiKey}/websites/redeploy/${credentials?.websiteType}/${credentials?.websiteId}`,
         {},
         { withCredentials: true }
       );
@@ -226,7 +226,7 @@ export const getAllWebsites = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${apiKey}/portfolio/get-all-portfolio`,
+        `${apiKey}/websites/get-all`,
         { withCredentials: true }
       );
 
@@ -241,10 +241,10 @@ export const getAllWebsites = createAsyncThunk(
 
 export const getWebsitesDetails = createAsyncThunk(
   "website/getWebsitesDetails",
-  async (credentials, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {    
     try {
       const response = await axios.get(
-        `${apiKey}/portfolio/get-portfolio/${credentials?.websiteId}`,
+        `${apiKey}/websites/${credentials?.websiteType}/${credentials?.websiteId}`,
         { withCredentials: true }
       );
 
@@ -265,7 +265,7 @@ export const updateWebsiteDetails = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `${apiKey}/portfolio/update-portfolio/${credentials?._id}`,
+        `${apiKey}/websites/update/${credentials?.type}/${credentials?._id}`,
         credentials,
         { withCredentials: true }
       );
@@ -287,7 +287,7 @@ export const deleteWebsite = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${apiKey}/portfolio/delete-portfolio/${credentials?.websiteId}`,
+        `${apiKey}/websites/delete/${credentials?.websiteType}/${credentials?.websiteId}`,
         { withCredentials: true }
       );
 

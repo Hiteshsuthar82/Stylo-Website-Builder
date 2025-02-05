@@ -28,6 +28,7 @@ app.get("/", (req, res) => res.send("this is a AI Resume Builder"));
 import userRouter from './routes/user.routes.js'
 import templete2Router from './routes/templete2.routes.js'
 import portfolioRouter from './routes/portfolio.routes.js'
+import websiteRouter from './routes/website.routes.js'
 
 
 
@@ -40,6 +41,7 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/temp", templete2Router)
 
 app.use("/api/v1/portfolio", portfolioRouter)
+app.use("/api/v1/websites", websiteRouter)
 
 app.get('/run-cronjob', (req, res) => {
   res.send('Cron job manually triggered and server is running..');

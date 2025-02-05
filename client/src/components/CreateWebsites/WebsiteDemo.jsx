@@ -6,7 +6,11 @@ import NoTemplateAvailableView from "./NoTemplateAvailableView";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
-import { portfolioTemplate, interiorDesignTemplate, productShowcaseTemplate } from "../../dummyData";
+import {
+  portfolioTemplate,
+  interiorDesignTemplate,
+  productShowcaseTemplate,
+} from "../../dummyData";
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
 import { useDispatch } from "react-redux";
 import { getWebsitesDetails } from "../../features/websiteSlice";
@@ -15,9 +19,9 @@ const WebsiteDemo = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
   const dispatch = useDispatch();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const websiteId = queryParams.get('id');
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const websiteId = queryParams.get("id");
   const [templateData, setTemplateData] = useState(null);
 
   useEffect(() => {
@@ -30,16 +34,18 @@ const WebsiteDemo = () => {
         setTemplateData(productShowcaseTemplate);
       }
     } else {
-      dispatch(getWebsitesDetails({ websiteId: websiteId })).then((response) => {
-        if (response) {
-          const data = response.payload.data;
-          console.log(data);
-          setTemplateData(data)
-          // setLoading(false);
-        } else {
-          console.log("getting error");
+      dispatch(getWebsitesDetails({ websiteType, websiteId: websiteId })).then(
+        (response) => {
+          if (response) {
+            const data = response.payload.data;
+            console.log(data);
+            setTemplateData(data);
+            // setLoading(false);
+          } else {
+            console.log("getting error");
+          }
         }
-      })
+      );
     }
   }, [templateId]);
 
@@ -77,12 +83,14 @@ const WebsiteDemo = () => {
         return <NoTemplateAvailableView />;
         break;
     }
-  }
-  else if (websiteType == "interiorDesign") {
+  } else if (websiteType == "interiorDesign") {
     switch (templateId) {
       case "t1":
         return (
-          <InteriorDesignTemplate1 data={templateData} onUpdate={handleUpdate} />
+          <InteriorDesignTemplate1
+            data={templateData}
+            onUpdate={handleUpdate}
+          />
         );
       case "t2":
         return (
@@ -91,12 +99,14 @@ const WebsiteDemo = () => {
       default:
         return <NoTemplateAvailableView />;
     }
-  }
-  else if (websiteType == "productShowcase") {
+  } else if (websiteType == "productShowcase") {
     switch (templateId) {
       case "t1":
         return (
-          <ProductShowcaseTemplate1 data={templateData} onUpdate={handleUpdate} />
+          <ProductShowcaseTemplate1
+            data={templateData}
+            onUpdate={handleUpdate}
+          />
         );
       case "t2":
         return (
