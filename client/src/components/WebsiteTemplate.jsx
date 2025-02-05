@@ -29,10 +29,10 @@ const WebsiteTemplate = ({
 
   const StatusBadge = ({ deployed }) => (
     <div
-      className={`absolute top-2 left-2 px-3 py-1 rounded-full text-sm font-medium ${
+      className={`px-3 py-1 rounded-full text-sm font-medium z-20 ${
         deployed
-          ? "bg-green-100 text-green-800"
-          : "bg-yellow-100 text-yellow-800"
+          ? "bg-green-100 text-green-600"
+          : "bg-orange-100 text-orange-600"
       }`}
     >
       {deployed ? "Live" : "Draft"}
@@ -50,9 +50,6 @@ const WebsiteTemplate = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Status Badge */}
-      <StatusBadge deployed={deployedUrl} />
-
       {/* Template Preview */}
       <div className="relative aspect-video">
         <img
@@ -107,10 +104,13 @@ const WebsiteTemplate = ({
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
             <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-            {!deployedUrl && onGoLive && (
-              <span className="text-red-400  border  bg-red-100 rounded-full px-4">
-                Draft
-              </span>
+            {/* Status Badge */}
+            {(deployedUrl || onGoLive) && (
+              <StatusBadge deployed={deployedUrl} />
+              // Below is showing only draft lable not live lable
+              // <span className="text-red-400  border  bg-red-100 rounded-full px-4">
+              //   Draft
+              // </span>
             )}
           </div>
           {onDeleteClick && (
