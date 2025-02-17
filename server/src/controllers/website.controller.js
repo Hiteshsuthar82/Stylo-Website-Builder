@@ -9,6 +9,7 @@ import {
 import { Octokit } from "@octokit/rest";
 import axios from "axios";
 import ejs from "ejs";
+import nodemailer from "nodemailer";
 
 // GitHub Configuration
 const GITHUB_USERNAME = "Stylo-Website-Builder";
@@ -295,6 +296,65 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
         "Website redeployed successfully"
       )
     );
+});
+
+export const sendMail = asyncHandler(async (req, res) => {
+  const { websiteType, id } = req.params;
+  const { name, email, contactNo, message } = req.body;
+
+  if (!name || !email || !contactNo || !message) {
+      return res.status(400).json({ error: "All fields are required" });
+  }
+
+  try {
+      // Get the correct model dynamically
+      const Model = websiteModels[websiteType];
+
+      if (!Model) {
+          return res.status(400).json({ error: "Invalid website type" });
+      }
+
+      // Fetch website details from the corresponding model
+      const website = await Model.findById(id);
+      if (!website) {
+          return res.status(404).json({ error: "Website not found" });
+      }
+
+      const websiteAuthorEmail = website.websiteAuthorEmail; // Assuming websiteAuthorEmail exists in your model
+
+      // Set up the email transporter
+      let transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+              user: process.env.EMAIL_USER, // Your email
+              pass: process.env.EMAIL_PASS, // App password
+          },
+      });
+
+      // Email options
+      let mailOptions = {
+          from: `"Stylo Website Builder" <${process.env.EMAIL_USER}>`,
+          to: websiteAuthorEmail,
+          subject: `New Inquiry from ${name}`,
+          text: `You have received a new inquiry from your website:
+
+          Name: ${name}
+          Email: ${email}
+          Contact No: ${contactNo}
+          Message: ${message}
+
+          Best Regards,
+          Your Website`,
+      };
+
+      // Send the email
+      let info = await transporter.sendMail(mailOptions);
+
+      res.status(200).json({ success: `Email sent successfully to ${websiteAuthorEmail}` });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to send email" });
+  }
 });
 
 // Helper functions

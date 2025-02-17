@@ -10,7 +10,8 @@ import {
     deleteSpecificWebsite,
     updateWebsite,
     deployWebsite,
-    reDeployWebsite
+    reDeployWebsite,
+    sendMail
 } from "../controllers/website.controller.js";
 
 const router = Router();
@@ -24,5 +25,7 @@ router.route("/update/:websiteType/:id").patch(verifyJWT, updateWebsite);
 router.route("/upload-images").post(verifyJWT, upload.single("image"), uploadWebsiteImage);
 router.route("/deploy/:websiteType/:id").patch(verifyJWT, deployWebsite);
 router.route("/redeploy/:websiteType/:id").patch(verifyJWT, reDeployWebsite);
+
+router.route("/send-email/:websiteType/:id").post(verifyJWT, sendMail);
 
 export default router;
