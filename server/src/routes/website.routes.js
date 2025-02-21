@@ -26,6 +26,6 @@ router.route("/upload-images").post(verifyJWT, upload.single("image"), uploadWeb
 router.route("/deploy/:websiteType/:id").patch(verifyJWT, deployWebsite);
 router.route("/redeploy/:websiteType/:id").patch(verifyJWT, reDeployWebsite);
 
-router.route("/send-email/:websiteType/:id").post(verifyJWT, sendMail);
+router.route("/send-email/:websiteType/:id").post(sendMail);
 
 export default router;
