@@ -63,14 +63,30 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
       <header className="fixed w-full z-30">
         <div className="mx-4 mt-4">
           <div className="max-w-7xl mx-auto backdrop-blur-lg bg-white/10 rounded-2xl border border-white/20 shadow-lg">
-            <div className="px-8 py-4 flex justify-between items-center">
-              <h1 className="text-2xl font-light">
-                <EditableText
+            <div className="px-8 py-3 flex justify-between items-center">
+              {data.header.logoType === "text" ? (
+                <h1 className="text-2xl font-light py-1">
+                  <EditableText
+                    editable={editable}
+                    text={data.header.logoText}
+                    onChange={(value) =>
+                      handleUpdate("header", "logoText", value)
+                    }
+                  />
+                </h1>
+              ) : (
+                <ImageUpload
                   editable={editable}
-                  text={data.header.logoText}
-                  onChange={(value) => handleUpdate("header", "logoText", value)}
+                  src={data.header.logoImage}
+                  alt="Profile"
+                  className="h-[40px]"
+                  containerClass="relative rounded-3xl"
+                  onUpload={(imageUrl) =>
+                    handleUpdate("header", "logoImage", imageUrl)
+                  }
                 />
-              </h1>
+              )}
+
               <nav>
                 <ul className="flex gap-8">
                   {data.header.items.map((item, index) => (
@@ -337,6 +353,15 @@ const PortfolioTemplate3 = ({ data, onUpdate, editable = false }) => {
                 className="w-full px-6 py-4 bg-white/5 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 transition-colors"
               />
             </div>
+            <input
+              type="text"
+              placeholder="Contact No"
+              className="w-full px-6 py-4 bg-white/5 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 transition-colors"
+              maxLength={10}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+              }}
+            />
             <textarea
               placeholder="Tell me about the project"
               className="w-full px-6 py-4 bg-white/5 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 transition-colors"

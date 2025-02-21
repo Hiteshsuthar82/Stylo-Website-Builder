@@ -147,7 +147,9 @@ function MyWebsites() {
     });
   }, [deleting]);
 
-  const allArraysEmpty = Object.values(myWebsites).every(arr => arr.length === 0);
+  const allArraysEmpty = Object.values(myWebsites).every(
+    (arr) => arr.length === 0
+  );
 
   return allArraysEmpty ? (
     <div className="flex flex-col items-center justify-center h-screen">

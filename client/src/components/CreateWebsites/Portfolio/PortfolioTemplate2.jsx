@@ -53,15 +53,28 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
   return (
     <div className="font-sans bg-gray-900 text-gray-100">
       {/* Header - Fixed Navigation */}
-      <header className="fixed w-full bg-gray-900/80 backdrop-blur-md z-30 py-4 px-8">
+      <header className="fixed w-full bg-gray-900/80 backdrop-blur-md z-30 py-3 px-8">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-light">
-            <EditableText
+          {data.header.logoType === "text" ? (
+            <h1 className="text-xl font-light py-[6px]">
+              <EditableText
+                editable={editable}
+                text={data.header.logoText}
+                onChange={(value) => handleUpdate("header", "logoText", value)}
+              />
+            </h1>
+          ) : (
+            <ImageUpload
               editable={editable}
-              text={data.header.logoText}
-              onChange={(value) => handleUpdate("header", "logoText", value)}
+              src={data.header.logoImage}
+              alt="Profile"
+              className="h-[40px]"
+              containerClass="relative rounded-3xl"
+              onUpload={(imageUrl) =>
+                handleUpdate("header", "logoImage", imageUrl)
+              }
             />
-          </h1>
+          )}
           <nav className="hidden md:block">
             <ul className="flex gap-8">
               {data.header.items.map((item, index) => (
@@ -312,6 +325,15 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
                 className="w-full px-6 py-4 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
               />
             </div>
+            <input
+              type="text"
+              placeholder="Contact No"
+              className="w-full px-6 py-4 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              maxLength={10}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+              }}
+            />
             <textarea
               placeholder="Tell me about the project"
               className="w-full px-6 py-4 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
