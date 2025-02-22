@@ -26,6 +26,7 @@ import CreatingWebsiteLoader from "../Loaders/CreatingWebsiteLoader";
 import WebsiteUpdateLoader from "../Loaders/WebsiteUpdateLoader";
 import InteriorDesignTemplate2 from "./InteriorDesign/InteriorDesignTemplate2";
 import InteriorDesignTemplate3 from "./InteriorDesign/InteriorDesignTemplate3";
+import ProductShowcaseTemplate2 from "./ProductShowcase/ProductShowcaseTemplate2";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
@@ -280,7 +281,7 @@ const CreateWebsite = () => {
           );
         case "t2":
           return (
-            <PortfolioTemplate2
+            <ProductShowcaseTemplate2
               data={templateData}
               onUpdate={handleUpdate}
               editable

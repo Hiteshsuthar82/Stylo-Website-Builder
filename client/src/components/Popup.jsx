@@ -134,7 +134,7 @@ const Popup = ({
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`bg-white rounded-xl shadow-2xl p-6 w-full max-w-md ${className}`}
+          className={`bg-white text-black rounded-xl shadow-2xl p-6 w-full max-w-md ${className}`}
         >
           {/* Popup Header */}
           <div className={`flex justify-between items-center mb-4`}>

@@ -36,22 +36,6 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
     onUpdate(updatedData);
   };
 
-  const addSpecification = () => {
-    if (!newSpecKey.trim() || !newSpecValue.trim()) {
-      alert("Please enter both key and value for the specification");
-      return;
-    }
-
-    const updatedSpecs = { ...data.details.specifications };
-    updatedSpecs[newSpecKey] = newSpecValue;
-    handleUpdate("details", "specifications", updatedSpecs);
-
-    // Reset add specification state
-    setNewSpecKey("");
-    setNewSpecValue("");
-    setIsAddingSpec(false);
-  };
-
   const handleAddSpecification = (newData) => {
     const updatedSpecs = { ...data.details.specifications };
     updatedSpecs[newData.key] = newData.value;

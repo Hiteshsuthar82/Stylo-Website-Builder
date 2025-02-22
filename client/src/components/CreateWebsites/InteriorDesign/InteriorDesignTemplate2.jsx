@@ -93,7 +93,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
 
       {/* Hero Section - Modern asymmetric design */}
       <section className="relative min-h-screen flex items-center">
-        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://img.freepik.com/free-photo/loft-home-office-interior-design_53876-143117.jpg')]">
+        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://plus.unsplash.com/premium_photo-1684508638760-72ad80c0055f?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]">
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-32 md:py-48">

@@ -140,7 +140,7 @@ const InteriorDesignTemplate3 = ({ data, onUpdate, editable = false }) => {
 
       {/* Hero Section with Parallax Effect */}
       <section className="relative min-h-screen flex items-center pt-20">
-        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://img.freepik.com/free-photo/loft-home-office-interior-design_53876-143117.jpg')]">
+        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://plus.unsplash.com/premium_photo-1684348962314-64fa628992f0?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]">
           
           <div className="absolute inset-0 bg-gray-900/70 backdrop-blur-sm" />
         </div>

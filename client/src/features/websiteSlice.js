@@ -51,6 +51,11 @@ const initialState = {
         name: "Product Showcase 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
       },
+      {
+        id: "t2",
+        name: "Product Showcase 2",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
+      },
     ],
     hospital:[
       {
