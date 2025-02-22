@@ -79,14 +79,28 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
     <div className="font-sans bg-gray-50">
       {/* Header */}
       <header className="fixed w-full z-30 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">
-            <EditableText
-              editable={editable}
-              text={data.header.logoText}
-              onChange={(value) => handleUpdate("header", "logoText", value)}
-            />
-          </h1>
+        <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+          
+          {data.header.logoType === "text" ? (
+              <h1 className="text-2xl font-bold text-gray-800 py-2">
+              <EditableText
+                editable={editable}
+                text={data.header.logoText}
+                onChange={(value) => handleUpdate("header", "logoText", value)}
+              />
+            </h1>
+            ) : (
+              <ImageUpload
+                editable={editable}
+                src={data.header.logoImage}
+                alt="Profile"
+                className="h-[48px]"
+                containerClass="relative rounded-3xl"
+                onUpload={(imageUrl) =>
+                  handleUpdate("header", "logoImage", imageUrl)
+                }
+              />
+            )}
           <nav className="hidden sm:flex space-x-6">
             {data.header.items.map((item, index) => (
               <a

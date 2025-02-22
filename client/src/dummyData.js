@@ -94,7 +94,11 @@ const portfolioTemplate = {
 const interiorDesignTemplate = {
   websiteName: "",
   websiteAuthorEmail: "",
+  websiteowner: "",
   type: "interiorDesign",
+  deployedUrl: "",
+  repoName: "",
+  templateId: "",
   header: {
     logoType: "text",
     logoImage:

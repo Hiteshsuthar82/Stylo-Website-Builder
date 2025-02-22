@@ -6,7 +6,7 @@ const initialState = {
   status: false,
   data: null,
   allTemplates: {
-    portfolio: [
+    portfolio:[
       {
         id: "t1",
         name: "Portfolio 1",
@@ -28,21 +28,31 @@ const initialState = {
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/port4_iqwcbr.png",
       },
     ],
-    interiorDesign: [
+    interiorDesign:[
       {
         id: "t1",
         name: "Interior Design 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
       },
+      {
+        id: "t2",
+        name: "Interior Design 2",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+      },
+      {
+        id: "t3",
+        name: "Interior Design 3",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+      },
     ],
-    productShowcase: [
+    productShowcase:[
       {
         id: "t1",
         name: "Product Showcase 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
       },
     ],
-    hospital: [
+    hospital:[
       {
         id: "t1",
         name: "Hospital 1",
@@ -53,8 +63,8 @@ const initialState = {
         name: "Hospital 2",
         src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
       },
-    ],
-  },
+    ]
+  }
 };
 
 const apiKey = import.meta.env.VITE_API_URL;

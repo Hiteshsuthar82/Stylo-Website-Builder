@@ -34,6 +34,11 @@ const initialState = {
         name: "Interior Design 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
       },
+      {
+        id: "t2",
+        name: "Interior Design 2",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+      },
     ],
     productShowcase:[
       {

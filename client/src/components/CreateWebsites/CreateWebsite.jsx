@@ -24,6 +24,8 @@ import {
 import { useDispatch } from "react-redux";
 import CreatingWebsiteLoader from "../Loaders/CreatingWebsiteLoader";
 import WebsiteUpdateLoader from "../Loaders/WebsiteUpdateLoader";
+import InteriorDesignTemplate2 from "./InteriorDesign/InteriorDesignTemplate2";
+import InteriorDesignTemplate3 from "./InteriorDesign/InteriorDesignTemplate3";
 
 const CreateWebsite = () => {
   const { templateId } = useParams();
@@ -244,7 +246,15 @@ const CreateWebsite = () => {
           );
         case "t2":
           return (
-            <PortfolioTemplate2
+            <InteriorDesignTemplate2
+              data={templateData}
+              onUpdate={handleUpdate}
+              editable
+            />
+          );
+        case "t3":
+          return (
+            <InteriorDesignTemplate3
               data={templateData}
               onUpdate={handleUpdate}
               editable

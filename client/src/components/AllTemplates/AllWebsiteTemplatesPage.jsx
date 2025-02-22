@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function AllWebsiteTemplatesPage() {
   const navigate = useNavigate();
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
-  const templates = useSelector((state) => state.resume.allTemplates);
+  const templates = useSelector((state) => state.website.allTemplates);
   const { websiteType } = useParams();  
 
   const handleDemoClick = (templateId) => {

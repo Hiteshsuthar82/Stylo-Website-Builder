@@ -14,6 +14,8 @@ import {
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
 import { useDispatch } from "react-redux";
 import { getWebsitesDetails } from "../../features/websiteSlice";
+import InteriorDesignTemplate2 from "./InteriorDesign/InteriorDesignTemplate2";
+import InteriorDesignTemplate3 from "./InteriorDesign/InteriorDesignTemplate3";
 
 const WebsiteDemo = () => {
   const { templateId } = useParams();
@@ -94,7 +96,11 @@ const WebsiteDemo = () => {
         );
       case "t2":
         return (
-          <PortfolioTemplate2 data={templateData} onUpdate={handleUpdate} />
+          <InteriorDesignTemplate2 data={templateData} onUpdate={handleUpdate} />
+        );
+      case "t3":
+        return (
+          <InteriorDesignTemplate3 data={templateData} onUpdate={handleUpdate} />
         );
       default:
         return <NoTemplateAvailableView />;

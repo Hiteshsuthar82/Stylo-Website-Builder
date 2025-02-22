@@ -2,7 +2,7 @@ import React from "react";
 import EditableText from "../Handlers/EditableText";
 import ImageUpload from "../Handlers/ImageUpload";
 
-const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
+const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
     if (index !== null) {
       if (
@@ -28,7 +28,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
       ...data,
       [section]: {
         ...data[section],
-        [key]: typeof value === "object" ? value : value,
+        [key]: value,
       },
     };
     onUpdate(updatedData);
@@ -43,13 +43,13 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
   };
 
   return (
-    <div className="font-serif bg-neutral-50 text-neutral-800">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-white/80 backdrop-blur-md z-30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-2">
+    <div className="font-sans bg-white text-gray-900">
+      {/* Navigation - Modern floating nav */}
+      <nav className="fixed w-full z-50 px-4 py-3">
+        <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-lg rounded-full shadow-lg px-8 py-2">
           <div className="flex justify-between items-center">
             {data.header.logoType === "text" ? (
-              <div className="text-2xl font-light py-2">
+              <div className="text-2xl font-bold tracking-tight py-2">
                 <EditableText
                   editable={editable}
                   text={data.header.logoText}
@@ -62,9 +62,8 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
               <ImageUpload
                 editable={editable}
                 src={data.header.logoImage}
-                alt="Profile"
-                className="h-[48px]"
-                containerClass="relative rounded-3xl"
+                alt="Logo"
+                className="h-12"
                 onUpload={(imageUrl) =>
                   handleUpdate("header", "logoImage", imageUrl)
                 }
@@ -76,7 +75,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                   key={index}
                   href={`#${item.href}`}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-neutral-600 hover:text-neutral-900 transition-colors"
+                  className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
                 >
                   <EditableText
                     editable={editable}
@@ -92,96 +91,64 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative h-screen">
-        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://img.freepik.com/free-photo/loft-home-office-interior-design_53876-143117.jpg')]"></div>
-        <div className={`absolute inset-0 bg-black/40`} />
-        <div className="relative h-full flex items-center justify-center text-center text-white px-6 bg-cover bg-center">
+      {/* Hero Section - Modern asymmetric design */}
+      <section className="relative min-h-screen flex items-center">
+        <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-[url('https://img.freepik.com/free-photo/loft-home-office-interior-design_53876-143117.jpg')]">
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 py-32 md:py-48">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-light mb-6">
+            <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 leading-tight">
               <EditableText
                 editable={editable}
                 text={data.hero.title}
                 onChange={(value) => handleUpdate("hero", "title", value)}
               />
             </h1>
-            <p className="text-xl md:text-2xl font-light mb-8">
+            <p className="text-xl md:text-2xl text-white/90 mb-12">
               <EditableText
                 editable={editable}
                 text={data.hero.subtitle}
                 onChange={(value) => handleUpdate("hero", "subtitle", value)}
               />
             </p>
-            <button className="bg-white text-neutral-900 px-8 py-3 rounded-none hover:bg-neutral-100 transition-colors">
-              <a
-                href={!editable ? "#portfolio" : "#"}
-                onClick={(e) => {
-                  if (!editable) {
-                    handleNavClick(e, "portfolio");
-                  }
-                }}
-                className="text-neutral-600 hover:text-neutral-900 transition-colors"
-              >
-                <EditableText
-                  editable={editable}
-                  text={data.hero.cta}
-                  onChange={(value) => handleUpdate("hero", "cta", value)}
-                />
-              </a>
+            <button className="bg-white text-gray-900 px-12 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-colors">
+              <EditableText
+                editable={editable}
+                text={data.hero.cta}
+                onChange={(value) => handleUpdate("hero", "cta", value)}
+              />
             </button>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-24 bg-neutral-50">
+      {/* About Section - Modern grid layout */}
+      <section id="about" className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
-            <div className="relative">
-              <ImageUpload
-                editable={editable}
-                src={data.about.mainImage}
-                alt="About Us"
-                className="w-full h-[600px] object-cover"
-                onUpload={(imageUrl) =>
-                  handleUpdate("about", "mainImage", imageUrl)
-                }
-              />
-              <div className="absolute -bottom-8 -right-8 bg-white p-8 shadow-xl">
-                <p className="text-4xl font-light text-neutral-900">
-                  <EditableText
-                    editable={editable}
-                    text={data.about.experience}
-                    onChange={(value) =>
-                      handleUpdate("about", "experience", value)
-                    }
-                  />
-                </p>
-                <p className="text-neutral-600">Years of Excellence</p>
-              </div>
-            </div>
-
+          <div className="grid lg:grid-cols-2 gap-20">
             <div className="space-y-8">
-              <h2 className="text-5xl font-light">
+              <h2 className="text-5xl font-bold">
                 <EditableText
                   editable={editable}
                   text={data.about.title}
                   onChange={(value) => handleUpdate("about", "title", value)}
                 />
               </h2>
-              <p className="text-lg text-neutral-600 leading-relaxed">
+              <p className="text-xl text-gray-600 leading-relaxed">
                 <EditableText
                   editable={editable}
                   text={data.about.subtitle}
                   onChange={(value) => handleUpdate("about", "subtitle", value)}
                 />
               </p>
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid sm:grid-cols-2 gap-8">
                 {data.about.features.map((feature, index) => (
                   <div
                     key={index}
-                    className="border-l-2 border-neutral-900 pl-6"
+                    className="bg-white p-8 rounded-2xl shadow-sm"
                   >
-                    <h3 className="text-xl font-medium mb-2">
+                    <h3 className="text-xl font-bold mb-4">
                       <EditableText
                         editable={editable}
                         text={feature.title}
@@ -190,7 +157,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                         }
                       />
                     </h3>
-                    <p className="text-neutral-600">
+                    <p className="text-gray-600">
                       <EditableText
                         editable={editable}
                         text={feature.description}
@@ -203,13 +170,39 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                 ))}
               </div>
             </div>
+            <div className="relative">
+              <ImageUpload
+                editable={editable}
+                src={data.about.mainImage}
+                alt="About Us"
+                className="w-full h-[600px] object-cover rounded-3xl"
+                onUpload={(imageUrl) =>
+                  handleUpdate("about", "mainImage", imageUrl)
+                }
+              />
+              <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-2xl shadow-xl">
+                <p className="text-4xl font-bold">
+                  <EditableText
+                    editable={editable}
+                    text={data.about.experience}
+                    onChange={(value) =>
+                      handleUpdate("about", "experience", value)
+                    }
+                  />
+                </p>
+                <p className="text-gray-600">Years of Excellence</p>
+              </div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid md:grid-cols-4 gap-8 mt-32">
             {data.about.items.map((item, index) => (
-              <div key={index} className="text-center group">
-                <div className="mb-4 relative">
-                  <div className="w-24 h-24 mx-auto rounded-full bg-neutral-100 flex items-center justify-center group-hover:bg-neutral-200 transition-colors">
+              <div
+                key={index}
+                className="bg-white p-8 rounded-2xl shadow-sm text-center group hover:shadow-lg transition-shadow"
+              >
+                <div className="mb-6">
+                  <div className="w-20 h-20 mx-auto rounded-2xl bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
                     <ImageUpload
                       editable={editable}
                       src={item.icon}
@@ -230,7 +223,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </h3>
-                <p className="text-neutral-600">
+                <p className="text-gray-600">
                   <EditableText
                     editable={editable}
                     text={item.name}
@@ -245,10 +238,10 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-light text-center mb-16">
+      {/* Services Section - Modern cards */}
+      <section id="services" className="py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-5xl font-bold text-center mb-20">
             <EditableText
               editable={editable}
               text={data.services.title}
@@ -257,17 +250,20 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-3 gap-12">
             {data.services.items.map((service, index) => (
-              <div key={index} className="text-center">
+              <div
+                key={index}
+                className="bg-gray-50 p-8 rounded-3xl hover:shadow-xl transition-shadow"
+              >
                 <ImageUpload
                   editable={editable}
                   src={service.icon}
                   alt={service.title}
-                  className="w-16 h-16 mx-auto mb-6"
+                  className="w-16 h-16 mb-8"
                   onUpload={(imageUrl) =>
                     handleUpdate("services", "icon", imageUrl, index)
                   }
                 />
-                <h3 className="text-2xl font-light mb-4">
+                <h3 className="text-2xl font-bold mb-4">
                   <EditableText
                     editable={editable}
                     text={service.title}
@@ -276,7 +272,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </h3>
-                <p className="text-neutral-600">
+                <p className="text-gray-600">
                   <EditableText
                     editable={editable}
                     text={service.description}
@@ -291,10 +287,10 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-24 bg-neutral-100">
+      {/* Portfolio Section - Modern masonry-style grid */}
+      <section id="portfolio" className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-light text-center mb-16">
+          <h2 className="text-5xl font-bold text-center mb-20">
             <EditableText
               editable={editable}
               text={data.portfolio.title}
@@ -303,26 +299,27 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {data.portfolio.items.map((item, index) => (
-              <div key={index} className="group relative overflow-hidden">
-                <div className="relative">
-                  <ImageUpload
-                    editable={editable}
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-110"
-                    onUpload={(imageUrl) =>
-                      handleUpdate("portfolio", "image", imageUrl, index)
-                    }
-                  />
-                </div>
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-3xl"
+              >
+                <ImageUpload
+                  editable={editable}
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  onUpload={(imageUrl) =>
+                    handleUpdate("portfolio", "image", imageUrl, index)
+                  }
+                />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                   <div
                     className={`absolute inset-0 flex ${
                       editable ? "items-end" : "items-center"
                     } justify-center text-white text-center p-6`}
                   >
                     <div>
-                      <h3 className="text-2xl font-light mb-2 pointer-events-auto">
+                      <h3 className="text-2xl font-bold mb-2 pointer-events-auto">
                         <EditableText
                           editable={editable}
                           text={item.title}
@@ -331,7 +328,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                           }
                         />
                       </h3>
-                      <p className="text-sm pointer-events-auto">
+                      <p className="text-white/80 pointer-events-auto">
                         <EditableText
                           editable={editable}
                           text={item.category}
@@ -349,39 +346,39 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-24 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-light text-center mb-16 text-gray-800">
+      {/* Testimonials Section - Modern cards with gradient */}
+      <section id="testimonials" className="py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-5xl font-bold text-center mb-20">
             <EditableText
               editable={editable}
               text={data.testimonials.title}
               onChange={(value) => handleUpdate("testimonials", "title", value)}
             />
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-12">
             {data.testimonials.items.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 shadow-lg text-center hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <ImageUpload
                   editable={editable}
                   src={testimonial.avatar}
                   alt={testimonial.name}
-                  className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  className="w-24 h-24 rounded-full mx-auto mb-6 object-cover"
                   onUpload={(imageUrl) =>
                     handleUpdate("testimonials", "avatar", imageUrl, index)
                   }
                 />
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-6">
                   {[...Array(5)].map((_, starIndex) => (
-                    <span key={starIndex} className={`text-xl text-yellow-400`}>
+                    <span key={starIndex} className="text-yellow-400 text-2xl">
                       ★
                     </span>
                   ))}
                 </div>
-                <p className="text-neutral-600 mb-6">
+                <p className="text-gray-600 mb-6 text-center">
                   <EditableText
                     editable={editable}
                     text={testimonial.quote}
@@ -390,7 +387,7 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
                     }
                   />
                 </p>
-                <p className="font-medium text-gray-700">
+                <p className="font-bold text-center">
                   <EditableText
                     editable={editable}
                     text={testimonial.name}
@@ -405,61 +402,67 @@ const InteriorDesignTemplate1 = ({ data, onUpdate, editable = false }) => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 bg-neutral-900 text-white">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-4xl font-light text-center mb-16">
-            <EditableText
-              editable={editable}
-              text={data.contact.title}
-              onChange={(value) => handleUpdate("contact", "title", value)}
-            />
-          </h2>
-          <form className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+      {/* Contact Section - Modern floating form */}
+      <section id="contact" className="relative py-32 bg-gray-900">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="bg-white rounded-3xl p-12 shadow-2xl">
+            <h2 className="text-4xl font-bold text-center mb-12">
+              <EditableText
+                editable={editable}
+                text={data.contact.title}
+                onChange={(value) => handleUpdate("contact", "title", value)}
+              />
+            </h2>
+            <form className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  className="w-full px-6 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-gray-900 transition-shadow"
+                />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full px-6 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-gray-900 transition-shadow"
+                />
+              </div>
               <input
                 type="text"
-                placeholder="Full Name"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
+                placeholder="Contact Number"
+                className="w-full px-6 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-gray-900 transition-shadow"
+                onInput={(e) => {
+                  e.target.value = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                }}
               />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
-              />
-            </div>
-            <input
-              type="text"
-              placeholder="Contact No"
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
-              }}
-            />
-            <textarea
-              placeholder="Your Message"
-              rows="6"
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-white"
-            ></textarea>
-            <button className="w-full bg-white text-neutral-900 py-3 hover:bg-neutral-100 transition-colors">
-              Send Message
-            </button>
-          </form>
+              <textarea
+                placeholder="Your Message"
+                rows="6"
+                className="w-full px-6 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-gray-900 transition-shadow resize-none"
+              ></textarea>
+              <button className="w-full bg-gray-900 text-white py-4 px-8 rounded-xl text-lg font-medium hover:bg-gray-800 transition-colors">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-neutral-900 text-neutral-400 py-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <EditableText
-            editable={editable}
-            text={data.footer.copyright}
-            onChange={(value) => handleUpdate("footer", "copyright", value)}
-          />
+      {/* Footer - Modern gradient */}
+      <footer className="bg-gray-900 text-white py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center text-gray-400">
+            <EditableText
+              editable={editable}
+              text={data.footer.copyright}
+              onChange={(value) => handleUpdate("footer", "copyright", value)}
+            />
+          </div>
         </div>
       </footer>
     </div>
   );
 };
 
-export default InteriorDesignTemplate1;
+export default InteriorDesignTemplate2;
