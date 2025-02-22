@@ -42,7 +42,8 @@ const WebsiteTemplate = ({
   return (
     <div
       onClick={() =>
-        onClick && onClick(templateData.id, websiteId, websiteType, deployedUrl)
+        onClick &&
+        onClick(templateData.id, websiteId, websiteType, deployedUrl, name)
       }
       className={`relative bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl w-full max-w-sm mx-auto overflow-hidden ${
         isSelected ? "ring-4 ring-purple-600" : ""
@@ -117,7 +118,7 @@ const WebsiteTemplate = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onDeleteClick(websiteId, websiteType);
+                onDeleteClick(websiteId, websiteType, name);
               }}
               className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
             >
@@ -163,7 +164,7 @@ const WebsiteTemplate = ({
               {onGoLive && (
                 <button
                   className="px-2 rounded-full border border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
-                  onClick={() => onGoLive(websiteId, websiteType)}
+                  onClick={() => onGoLive(websiteId, websiteType, name)}
                 >
                   Go Live
                 </button>

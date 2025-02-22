@@ -11,10 +11,10 @@ function StepsPage() {
     // Animate steps sequentially
     const stepTimers = [
       setTimeout(() => setShowSteps(prev => [true, prev[1], prev[2]]), 500),
-      setTimeout(() => setShowSteps(prev => [prev[0], true, prev[2]]), 1500),
-      setTimeout(() => setShowSteps(prev => [prev[0], prev[1], true]), 2500),
+      setTimeout(() => setShowSteps(prev => [prev[0], true, prev[2]]), 1000),
+      setTimeout(() => setShowSteps(prev => [prev[0], prev[1], true]), 1500),
       // Show features after steps are complete
-      setTimeout(() => setShowFeatures(true), 3500)
+      setTimeout(() => setShowFeatures(true), 500)
     ];
 
     return () => stepTimers.forEach(timer => clearTimeout(timer));

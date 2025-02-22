@@ -1,8 +1,16 @@
 import React from "react";
 
-function DeleteConfirmationDialog({ onCancelClick, onDeleteClick, deleting }) {
+function DeleteConfirmationDialog({
+  websiteName,
+  onCancelClick,
+  onDeleteClick,
+  deleting,
+}) {
   return (
-    <div id="YOUR_ID" className="fixed z-50 inset-0 overflow-y-auto outline-none">
+    <div
+      id="YOUR_ID"
+      className="fixed z-50 inset-0 overflow-y-auto outline-none"
+    >
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -69,11 +77,12 @@ function DeleteConfirmationDialog({ onCancelClick, onDeleteClick, deleting }) {
                 className="text-lg leading-6 font-medium text-gray-900"
                 id="modal-headline"
               >
-                Are you sure to Delete this Website
+                Are you sure to Delete "{websiteName}" !
               </h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  You will loose all your data related to this Website and also delete the hostd website will be delete and linl will not work
+                  You will loose all your data related to this Website and also
+                  delete the hostd website will be delete and hosted link will not work at all !
                 </p>
               </div>
             </div>
@@ -85,7 +94,9 @@ function DeleteConfirmationDialog({ onCancelClick, onDeleteClick, deleting }) {
               onClick={onDeleteClick}
               className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 ${
                 deleting ? "bg-gray-500" : "bg-red-500 hover:bg-red-600"
-              } ${deleting ? 'cursor-not-allowed' : ''} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm`}
+              } ${
+                deleting ? "cursor-not-allowed" : ""
+              } text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm`}
             >
               Confirm
             </button>

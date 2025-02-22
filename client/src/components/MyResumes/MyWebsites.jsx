@@ -19,6 +19,7 @@ import DeploymentLoader from "../Loaders/DeploymentLoader";
 function MyWebsites() {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [selectedWebsiteId, setSelectedWebsiteId] = useState(null);
+  const [selectedWebsiteName, setSelectedWebsiteName] = useState(null);
   const [selectedWebsiteType, setSelectedWebsiteType] = useState(null);
   const [selectedWebsiteUrl, setSelectedWebsiteUrl] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ function MyWebsites() {
     useState(false);
   const [isdDeploying, setIsDeploying] = useState(false);
   // const templates = useSelector((state) => state.resume.allTemplates);
-  const templates = useSelector((state) => state.website.allTemplates);
+  const templates = useSelector((state) => state.website.allTemplates)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,15 +41,17 @@ function MyWebsites() {
     // navigate(`/create-website/portfolio/${selectedWebsiteId}/`);
   };
 
-  const handleDeleteClick = (websiteId, websiteType) => {
+  const handleDeleteClick = (websiteId, websiteType, websiteName) => {
     setDeleteConfirmationDialog(true);
     setSelectedWebsiteId(websiteId);
     setSelectedWebsiteType(websiteType);
+    setSelectedWebsiteName(websiteName);
   };
 
-  const handleGoLive = async (websiteId, websiteType) => {
+  const handleGoLive = async (websiteId, websiteType, websiteName) => {
     setIsDeploying(true);
     setSelectedWebsiteId(websiteId);
+    setSelectedWebsiteName(websiteName)
     try {
       const session = await dispatch(
         deployWebsite({ websiteType: websiteType, websiteId: websiteId })
@@ -114,12 +117,14 @@ function MyWebsites() {
     templateId,
     websiteId,
     websiteType,
-    deployedUrl
+    deployedUrl,
+    websiteName
   ) => {
     setSelectedTemplateId(templateId);
     setSelectedWebsiteId(websiteId);
     setSelectedWebsiteType(websiteType);
     setSelectedWebsiteUrl(deployedUrl);
+    setSelectedWebsiteName(websiteName);
   };
 
   const openResumeView = () => {
@@ -238,6 +243,7 @@ function MyWebsites() {
       {/* delete confirmation dialog */}
       {isdeleteConfirmationDialog && (
         <DeleteConfirmationDialog
+        websiteName={selectedWebsiteName}
           deleting={deleting}
           onCancelClick={handleCancelDeleteClick}
           onDeleteClick={handleConfirmDeleteClick}
@@ -256,7 +262,7 @@ function MyWebsites() {
       {isdDeploying && (
         <DeploymentLoader
           isOpen={isdDeploying}
-          websiteName={selectedWebsiteId}
+          websiteName={selectedWebsiteName}
           onClose={() => setIsDeploying(false)}
         />
       )}

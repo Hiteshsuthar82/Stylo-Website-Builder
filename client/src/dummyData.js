@@ -1,10 +1,15 @@
 const portfolioTemplate = {
-  websiteName:"",
-  websiteAuthorEmail:"",
-  type:"portfolio",
+  websiteName: "",
+  websiteAuthorEmail: "",
+  websiteowner: "",
+  type: "portfolio",
+  deployedUrl: "",
+  repoName: "",
+  templateId: "",
   header: {
     logoType: "text",
-    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
+    logoImage:
+      "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "First",
     phone: "120-340-8900",
     items: [
@@ -87,12 +92,13 @@ const portfolioTemplate = {
 };
 
 const interiorDesignTemplate = {
-  websiteName:"",
-  websiteAuthorEmail:"",
-  type:"interiorDesign",
+  websiteName: "",
+  websiteAuthorEmail: "",
+  type: "interiorDesign",
   header: {
     logoType: "text",
-    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
+    logoImage:
+      "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "INTERIOR STUDIO",
     items: [
       { href: "about", text: "About" },
@@ -227,12 +233,13 @@ const interiorDesignTemplate = {
 };
 
 const productShowcaseTemplate = {
-  websiteName:"",
-  websiteAuthorEmail:"",
-  type:"productShowcase",
+  websiteName: "",
+  websiteAuthorEmail: "",
+  type: "productShowcase",
   header: {
     logoType: "text",
-    logoImage: "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
+    logoImage:
+      "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
     logoText: "TechPro",
     items: [
       { id: "home", label: "Home" },
