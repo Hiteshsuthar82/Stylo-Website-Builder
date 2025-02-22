@@ -393,6 +393,29 @@ const loginUser = asyncHandler(async (req, res) => {
     }
   });
   
+   const onlyuploadImage = asyncHandler(async (req, res) => {
+    const { url } = req.body;  // Extracting URL from request body
+    const avatarLocalPath = req.file?.path;
+  
+    if (!avatarLocalPath) {
+      throw new ApiError(400, "File required");
+    }
+  
+    // Upload new image
+    const avatarImg = await uploadOnCloudinary(avatarLocalPath);
+  
+    if (!avatarImg) {
+      throw new ApiError(500, "Error occurred while uploading file");
+    }
+  
+    // If old URL exists, delete it
+    if (url) {
+      await deleteImageOnCloudinary(url);
+    }
+  
+    return res.status(200).json(new ApiResponse(200, avatarImg.url, "Image uploaded successfully"));
+  });
+  
 
 
   export {
@@ -404,6 +427,6 @@ const loginUser = asyncHandler(async (req, res) => {
     updateUserProfile,
     getCurrentUser,
     updateUserAvatar,
-   
+    onlyuploadImage
   };
 
