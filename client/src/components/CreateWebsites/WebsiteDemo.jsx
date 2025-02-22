@@ -77,11 +77,11 @@ const WebsiteDemo = () => {
           <PortfolioTemplate3 data={templateData} onUpdate={handleUpdate} />
         );
         break;
-      case "t4":
-        return (
-          <PortfolioTemplate4 data={templateData} onUpdate={handleUpdate} />
-        );
-        break;
+      // case "t4":
+      //   return (
+      //     <PortfolioTemplate4 data={templateData} onUpdate={handleUpdate} />
+      //   );
+        // break;
       default:
         return <NoTemplateAvailableView />;
         break;

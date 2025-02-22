@@ -32,27 +32,38 @@ const uploadPhotoOnCloudinary = async (localFilePath) => {
 
 const deleteImageOnCloudinary = async (URL) => {
   try {
-    if (!URL) return false;
+    if (!URL) {
+      console.error("Invalid URL provided for deletion.");
+      return false;
+    }
 
-    let ImageId = URL.match(
-      /(?:image|video)\/upload\/v\d+\/videotube\/(photos|videos)\/(.+?)\.\w+$/
-    )[2];
+    console.log("Cloudinary URL to delete:", URL);
 
-    console.log("deleting image from cloudinary...");
+    // Extract the filename from the Cloudinary URL
+    const parts = URL.split("/");
+    const filenameWithExtension = parts.pop(); // Get the last part (uzntu3k8fh9alx5kjmol.png)
+    const filename = filenameWithExtension.split(".")[0]; // Remove .png, .jpg, etc.
 
+    if (!filename) {
+      console.error("Could not extract image ID from URL:", URL);
+      return false;
+    }
+
+    console.log("Deleting image from Cloudinary:", filename);
+
+    // Delete the image from Cloudinary
     const cldnry_res = await cloudinary.uploader.destroy(
-      `Resume_Builder/photos/${ImageId}`,
-      {
-        resource_type: "image",
-      }
+      `Resume_Builder/photos/${filename}`,
+      { resource_type: "image" }
     );
 
     return cldnry_res;
   } catch (error) {
-    console.log("CLOUDINARY :: FILE Delete ERROR ", error);
+    console.log("CLOUDINARY :: FILE Delete ERROR", error);
     return false;
   }
 };
+
 
 
 

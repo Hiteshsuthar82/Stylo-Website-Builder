@@ -64,27 +64,27 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
       {/* Header */}
       <header className="fixed w-full z-30 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
-          
           {data.header.logoType === "text" ? (
-              <h1 className="text-2xl font-bold text-gray-800 py-2">
+            <h1 className="text-2xl font-bold text-gray-800 py-2">
               <EditableText
                 editable={editable}
                 text={data.header.logoText}
                 onChange={(value) => handleUpdate("header", "logoText", value)}
               />
             </h1>
-            ) : (
-              <ImageUpload
-                editable={editable}
-                src={data.header.logoImage}
-                alt="Profile"
-                className="h-[48px]"
-                containerClass="relative rounded-3xl"
-                onUpload={(imageUrl) =>
-                  handleUpdate("header", "logoImage", imageUrl)
-                }
-              />
-            )}
+          ) : (
+            <ImageUpload
+              editable={editable}
+              src={data.header.logoImage}
+              alt="Profile"
+              className="h-[48px]"
+              containerClass="relative rounded-3xl"
+              oldImageUrl={data.header.logoImage}
+              onUpload={(imageUrl) =>
+                handleUpdate("header", "logoImage", imageUrl)
+              }
+            />
+          )}
           <nav className="hidden sm:flex space-x-6">
             {data.header.items.map((item, index) => (
               <a
@@ -168,6 +168,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 alt="Product Image"
                 className="w-full max-h-[600px]  object-cover rounded-2xl relative"
                 containerClass="relative"
+                oldImageUrl={data.hero.productImage}
                 onUpload={(imageUrl) =>
                   handleUpdate("hero", "productImage", imageUrl)
                 }
@@ -190,6 +191,7 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                   src={image}
                   alt={`Product Gallery ${index + 1}`}
                   className="w-full h-48 object-cover rounded-xl shadow-md"
+                  oldImageUrl={image}
                   onUpload={(imageUrl) => {
                     const updatedGallery = [...data.details.gallery];
                     updatedGallery[index] = imageUrl;
@@ -261,12 +263,12 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                     className="inline-block px-8 py-4 border-2 border-primary-500 text-primary-500 rounded-xl hover:bg-primary-50 transition-colors"
                   >
                     <EditableText
-                    editable={editable}
-                    text={data.details.descriptionbtnText}
-                    onChange={(value) =>
-                      handleUpdate("details", "descriptionbtnText", value)
-                    }
-                  />
+                      editable={editable}
+                      text={data.details.descriptionbtnText}
+                      onChange={(value) =>
+                        handleUpdate("details", "descriptionbtnText", value)
+                      }
+                    />
                   </a>
                 </motion.div>
               )}
@@ -361,11 +363,12 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                   className=""
                 /> */}
                 <ImageUpload
-                key={index}
+                  key={index}
                   editable={editable}
                   src={review.imageUrl}
                   alt="Reviewer Image"
                   className="w-12 h-12 rounded-full object-cover mr-4"
+                  oldImageUrl={review.imageUrl}
                   onUpload={(imageUrl) => {
                     const updatedGallery = [...data.testimonials.items];
                     updatedGallery[index].imageUrl = imageUrl;
@@ -436,9 +439,15 @@ const ProductShowcaseTemplate1 = ({ data, onUpdate, editable = false }) => {
                 />
               </div>
               <input
-                type="number"
+                type="text"
                 placeholder="Contact No"
                 className="w-full px-6 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
+                maxLength={10}
+                onInput={(e) => {
+                  e.target.value = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                }}
               />
               <textarea
                 placeholder="Your Message"

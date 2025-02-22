@@ -219,14 +219,14 @@ const CreateWebsite = () => {
               editable
             />
           );
-        case "t4":
-          return (
-            <PortfolioTemplate4
-              data={templateData}
-              onUpdate={handleUpdate}
-              editable
-            />
-          );
+        // case "t4":
+        //   return (
+        //     <PortfolioTemplate4
+        //       data={templateData}
+        //       onUpdate={handleUpdate}
+        //       editable
+        //     />
+        //   );
         default:
           return (
             <div className="text-center text-gray-500">

@@ -70,6 +70,7 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
               alt="Profile"
               className="h-[40px]"
               containerClass="relative rounded-3xl"
+              oldImageUrl={data.header.logoImage}
               onUpload={(imageUrl) =>
                 handleUpdate("header", "logoImage", imageUrl)
               }
@@ -148,6 +149,7 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
               alt="Profile"
               containerClass="relative rounded-full overflow-hidden w-64 h-64 mx-auto"
               className="w-full"
+              oldImageUrl={data.hero.profileImage}
               onUpload={(imageUrl) =>
                 handleUpdate("hero", "profileImage", imageUrl)
               }
@@ -166,6 +168,7 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
               src={data.about.image}
               alt="About"
               className="relative rounded-2xl w-full h-[400px] object-cover"
+              oldImageUrl={data.about.image}
               onUpload={(imageUrl) => handleUpdate("about", "image", imageUrl)}
             />
           </div>
@@ -279,6 +282,7 @@ const PortfolioTemplate2 = ({ data, onUpdate, editable = false }) => {
                   src={project.image}
                   alt={project.name}
                   className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                  oldImageUrl={project.image}
                   onUpload={(imageUrl) =>
                     handleUpdate("projects", "image", imageUrl, index)
                   }

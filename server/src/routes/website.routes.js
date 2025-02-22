@@ -11,7 +11,8 @@ import {
     updateWebsite,
     deployWebsite,
     reDeployWebsite,
-    sendMail
+    sendMail,
+    onlyuploadImage
 } from "../controllers/website.controller.js";
 
 const router = Router();
@@ -27,5 +28,9 @@ router.route("/deploy/:websiteType/:id").patch(verifyJWT, deployWebsite);
 router.route("/redeploy/:websiteType/:id").patch(verifyJWT, reDeployWebsite);
 
 router.route("/send-email/:websiteType/:id").post(sendMail);
+
+router
+  .route("/image-upload")
+  .patch(verifyJWT, upload.single("image"), onlyuploadImage);
 
 export default router;

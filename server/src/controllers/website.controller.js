@@ -298,6 +298,7 @@ export const reDeployWebsite = asyncHandler(async (req, res) => {
     );
 });
 
+// send mail
 export const sendMail = asyncHandler(async (req, res) => {
   const { websiteType, id } = req.params;
   const { name, email, contactNo, message } = req.body;
@@ -355,6 +356,31 @@ export const sendMail = asyncHandler(async (req, res) => {
       console.error(error);
       res.status(500).json({ error: "Failed to send email" });
   }
+});
+
+// upload image
+export const onlyuploadImage = asyncHandler(async (req, res) => {
+  const { url } = req.body;  // Extracting URL from request body
+  
+  const avatarLocalPath = req.file?.path;
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "File required");
+  }
+
+  // Upload new image
+  const avatarImg = await uploadOnCloudinary(avatarLocalPath);
+
+  if (!avatarImg) {
+    throw new ApiError(500, "Error occurred while uploading file");
+  }
+
+  // If old URL exists, delete it
+  if (url) {
+      const res = await deleteImageOnCloudinary(url);
+  }
+
+  return res.status(200).json(new ApiResponse(200, avatarImg.url, "Image uploaded successfully"));
 });
 
 // Helper functions

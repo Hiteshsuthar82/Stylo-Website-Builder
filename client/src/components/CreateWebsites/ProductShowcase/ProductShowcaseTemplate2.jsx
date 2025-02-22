@@ -101,6 +101,7 @@ const ProductShowcaseTemplate2 = ({ data, onUpdate, editable = false }) => {
                 alt="Profile"
                 className="h-12"
                 containerClass="relative"
+                oldImageUrl={data.header.logoImage}
                 onUpload={(imageUrl) =>
                   handleUpdate("header", "logoImage", imageUrl)
                 }
@@ -210,6 +211,7 @@ const ProductShowcaseTemplate2 = ({ data, onUpdate, editable = false }) => {
                   alt="Product Image"
                   className="w-full rounded-3xl relative z-10"
                   containerClass="relative"
+                  oldImageUrl={data.hero.productImage}
                   onUpload={(imageUrl) =>
                     handleUpdate("hero", "productImage", imageUrl)
                   }
@@ -248,6 +250,7 @@ const ProductShowcaseTemplate2 = ({ data, onUpdate, editable = false }) => {
                             alt={`Product Gallery ${currentImageIndex + 1}`}
                             className="w-full h-full object-contain"
                             containerClass="h-full"
+                            oldImageUrl={data.details.gallery[currentImageIndex]}
                             onUpload={(imageUrl) => {
                               const updatedGallery = [...data.details.gallery];
                               updatedGallery[currentImageIndex] = imageUrl;
@@ -470,6 +473,7 @@ const ProductShowcaseTemplate2 = ({ data, onUpdate, editable = false }) => {
                     src={review.imageUrl}
                     alt="Reviewer"
                     className="w-16 h-16 rounded-full object-cover"
+                    oldImageUrl={review.imageUrl}
                     onUpload={(imageUrl) => {
                       const updatedTestimonials = [...data.testimonials.items];
                       updatedTestimonials[index].imageUrl = imageUrl;
@@ -555,9 +559,15 @@ const ProductShowcaseTemplate2 = ({ data, onUpdate, editable = false }) => {
                 />
               </div>
               <input
-                type="tel"
+                type="text"
                 placeholder="Contact No"
                 className="w-full px-6 py-4 bg-slate-900/50 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-slate-500 text-white"
+                maxLength={10}
+                onInput={(e) => {
+                  e.target.value = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                }}
               />
               <textarea
                 placeholder="Your Message"

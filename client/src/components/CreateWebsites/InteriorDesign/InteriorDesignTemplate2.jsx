@@ -64,6 +64,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                 src={data.header.logoImage}
                 alt="Logo"
                 className="h-12"
+                oldImageUrl={data.header.logoImage}
                 onUpload={(imageUrl) =>
                   handleUpdate("header", "logoImage", imageUrl)
                 }
@@ -176,6 +177,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                 src={data.about.mainImage}
                 alt="About Us"
                 className="w-full h-[600px] object-cover rounded-3xl"
+                oldImageUrl={data.about.mainImage}
                 onUpload={(imageUrl) =>
                   handleUpdate("about", "mainImage", imageUrl)
                 }
@@ -208,6 +210,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                       src={item.icon}
                       alt={item.name}
                       className="w-12 h-12"
+                      oldImageUrl={item.icon}
                       onUpload={(imageUrl) =>
                         handleUpdate("about", "icon", imageUrl, index)
                       }
@@ -259,6 +262,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                   src={service.icon}
                   alt={service.title}
                   className="w-16 h-16 mb-8"
+                  oldImageUrl={service.icon}
                   onUpload={(imageUrl) =>
                     handleUpdate("services", "icon", imageUrl, index)
                   }
@@ -308,6 +312,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                   src={item.image}
                   alt={item.title}
                   className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  oldImageUrl={item.image}
                   onUpload={(imageUrl) =>
                     handleUpdate("portfolio", "image", imageUrl, index)
                   }
@@ -367,6 +372,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                   src={testimonial.avatar}
                   alt={testimonial.name}
                   className="w-24 h-24 rounded-full mx-auto mb-6 object-cover"
+                  oldImageUrl={testimonial.avatar}
                   onUpload={(imageUrl) =>
                     handleUpdate("testimonials", "avatar", imageUrl, index)
                   }
@@ -428,7 +434,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
               </div>
               <input
                 type="text"
-                placeholder="Contact Number"
+                placeholder="Contact No"
                 className="w-full px-6 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-gray-900 transition-shadow"
                 onInput={(e) => {
                   e.target.value = e.target.value

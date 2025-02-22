@@ -22,11 +22,11 @@ const initialState = {
         name: "Portfolio 3",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993910/port3_uvnm5y.png",
       },
-      {
-        id: "t4",
-        name: "Portfolio 4",
-        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/port4_iqwcbr.png",
-      },
+      // {
+      //   id: "t4",
+      //   name: "Portfolio 4",
+      //   src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/port4_iqwcbr.png",
+      // },
     ],
     interiorDesign:[
       {
@@ -76,11 +76,11 @@ const apiKey = import.meta.env.VITE_API_URL;
 
 export const uploadImage = createAsyncThunk(
   "website/uploadImage",
-  async (credentials, { rejectWithValue }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${apiKey}/temp/upload-image`,
-        credentials,
+      const response = await axios.patch(
+        `${apiKey}/websites/image-upload`,
+        formData,
         {
           withCredentials: true,
           headers: {
@@ -89,14 +89,15 @@ export const uploadImage = createAsyncThunk(
         }
       );
 
-      console.log("image uploaded successfully.");
-      return response.data;
+      console.log("Image uploaded successfully:", response.data);
+      return response.data; // Expecting `response.data` to be the image URL
     } catch (error) {
-      console.log("error in uploading image.", error.payload);
-      return rejectWithValue("uploadImage :: error ", error.payload);
+      console.error("Error in uploading image:", error?.response?.data || error.message);
+      return rejectWithValue(error?.response?.data || "Upload failed");
     }
   }
 );
+
 
 export const updateImage = createAsyncThunk(
   "website/updateImage",

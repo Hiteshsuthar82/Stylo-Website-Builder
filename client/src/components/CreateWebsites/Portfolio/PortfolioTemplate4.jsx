@@ -1,3 +1,5 @@
+// it is not used currently
+
 import React, { useState } from "react";
 import EditableText from "../Handlers/EditableText";
 import ImageUpload from "../Handlers/ImageUpload";
@@ -297,6 +299,15 @@ const PortfolioTemplate4 = ({ data, onUpdate, editable = false }) => {
                 className="p-4 border rounded"
               />
             </div>
+            <input
+              type="text"
+              placeholder="Contact No"
+              className="p-4 border rounded"
+              maxLength={10}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+              }}
+            />
             <textarea
               placeholder="Tell me about the project"
               className="w-full p-4 border rounded"
