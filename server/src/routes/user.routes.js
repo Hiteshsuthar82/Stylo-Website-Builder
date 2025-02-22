@@ -8,6 +8,7 @@ import {
   updateUserProfile,
   getCurrentUser,
   updateUserAvatar,
+  onlyuploadImage
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -37,5 +38,10 @@ router
 
 router.route("/get-current-user").get(verifyJWT, getCurrentUser);
 
+// only image uplaod and delete image route
+
+router
+  .route("/image-upload")
+  .patch(verifyJWT, upload.single("image"), onlyuploadImage);
 
 export default router;
