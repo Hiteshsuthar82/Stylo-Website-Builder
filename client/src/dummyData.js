@@ -113,8 +113,6 @@ const interiorDesignTemplate = {
     ],
   },
   hero: {
-    backgroundImage:
-      "https://img.freepik.com/free-photo/loft-home-office-interior-design_53876-143117.jpg",
     title: "Creating Beautiful Spaces",
     subtitle: "Transform your home with our expert interior design services",
     cta: "Explore Our Work",
@@ -126,7 +124,7 @@ const interiorDesignTemplate = {
     mainImage:
       "https://images.livspace-cdn.com/w:3840/plain/https://d3gq2merok8n5r.cloudfront.net/abhinav/design-ideas-thumbnails-1628773921-7vSz1/jas-thumbnails-1662014793-zEzY3/mobile-1662014804-Sebbn/mbr-m-1662025089-SomZl.png",
     experience: "25+",
-    features: [
+    items: [
       {
         title: "Innovative Design",
         description:
@@ -138,6 +136,8 @@ const interiorDesignTemplate = {
           "Skilled professionals dedicated to bringing your vision to life",
       },
     ],
+  },
+  stats:{
     items: [
       {
         icon: "https://cdn-icons-png.flaticon.com/512/9912/9912615.png",

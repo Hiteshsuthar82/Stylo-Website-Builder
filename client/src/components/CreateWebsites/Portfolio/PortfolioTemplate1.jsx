@@ -152,20 +152,22 @@ const PortfolioTemplate1 = ({ data, onUpdate, editable = false }) => {
                   />
                 </a>
               </div>
-              <div className="relative md:w-[300px]">
-                <div className="absolute inset-0 bg-rose-100 rounded-3xl rotate-6"></div>
-                <div className="absolute inset-0 bg-rose-200 rounded-3xl rotate-3"></div>
-                <ImageUpload
-                  editable={editable}
-                  src={data.hero.profileImage}
-                  alt="Profile"
-                  className="w-full"
-                  containerClass="relative rounded-3xl overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
-                  oldImageUrl={data.hero.profileImage}
-                  onUpload={(imageUrl) =>
-                    handleUpdate("hero", "profileImage", imageUrl)
-                  }
-                />
+              <div className="flex justify-center">
+                <div className="relative md:w-[300px]">
+                  <div className="absolute inset-0 bg-rose-100 rounded-3xl rotate-6"></div>
+                  <div className="absolute inset-0 bg-rose-200 rounded-3xl rotate-3"></div>
+                  <ImageUpload
+                    editable={editable}
+                    src={data.hero.profileImage}
+                    alt="Profile"
+                    className="w-full"
+                    containerClass="relative rounded-3xl overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
+                    oldImageUrl={data.hero.profileImage}
+                    onUpload={(imageUrl) =>
+                      handleUpdate("hero", "profileImage", imageUrl)
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>

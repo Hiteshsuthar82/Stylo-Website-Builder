@@ -6,7 +6,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
   const handleUpdate = (section, key, value, index = null) => {
     if (index !== null) {
       if (
-        ["portfolio", "testimonials", "services", "about", "header"].includes(
+        ["portfolio", "testimonials", "services", "about", "header", "stats"].includes(
           section
         )
       ) {
@@ -144,7 +144,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                 />
               </p>
               <div className="grid sm:grid-cols-2 gap-8">
-                {data.about.features.map((feature, index) => (
+                {data.about.items.map((feature, index) => (
                   <div
                     key={index}
                     className="bg-white p-8 rounded-2xl shadow-sm"
@@ -198,7 +198,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
           </div>
 
           <div className="grid md:grid-cols-4 gap-8 mt-32">
-            {data.about.items.map((item, index) => (
+            {data.stats.items.map((item, index) => (
               <div
                 key={index}
                 className="bg-white p-8 rounded-2xl shadow-sm text-center group hover:shadow-lg transition-shadow"
@@ -212,7 +212,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                       className="w-12 h-12"
                       oldImageUrl={item.icon}
                       onUpload={(imageUrl) =>
-                        handleUpdate("about", "icon", imageUrl, index)
+                        handleUpdate("stats", "icon", imageUrl, index)
                       }
                     />
                   </div>
@@ -222,7 +222,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                     editable={editable}
                     text={item.count}
                     onChange={(value) =>
-                      handleUpdate("about", "count", value, index)
+                      handleUpdate("stats", "count", value, index)
                     }
                   />
                 </h3>
@@ -231,7 +231,7 @@ const InteriorDesignTemplate2 = ({ data, onUpdate, editable = false }) => {
                     editable={editable}
                     text={item.name}
                     onChange={(value) =>
-                      handleUpdate("about", "name", value, index)
+                      handleUpdate("stats", "name", value, index)
                     }
                   />
                 </p>
