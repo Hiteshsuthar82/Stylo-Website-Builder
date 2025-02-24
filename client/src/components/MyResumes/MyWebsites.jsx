@@ -15,6 +15,7 @@ import {
   getAllWebsites,
 } from "../../features/websiteSlice";
 import DeploymentLoader from "../Loaders/DeploymentLoader";
+import { set } from "react-hook-form";
 
 function MyWebsites() {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
@@ -28,7 +29,7 @@ function MyWebsites() {
     useState(false);
   const [isdDeploying, setIsDeploying] = useState(false);
   // const templates = useSelector((state) => state.resume.allTemplates);
-  const templates = useSelector((state) => state.website.allTemplates)
+  const templates = useSelector((state) => state.website.allTemplates);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function MyWebsites() {
   const handleGoLive = async (websiteId, websiteType, websiteName) => {
     setIsDeploying(true);
     setSelectedWebsiteId(websiteId);
-    setSelectedWebsiteName(websiteName)
+    setSelectedWebsiteName(websiteName);
     try {
       const session = await dispatch(
         deployWebsite({ websiteType: websiteType, websiteId: websiteId })
@@ -135,21 +136,7 @@ function MyWebsites() {
   };
 
   useEffect(() => {
-    dispatch(getAllWebsites()).then((response) => {
-      if (response && response?.meta?.statusCode !== 404) {
-        console.log(
-          "all websites fetched successfully..",
-          response.payload.data
-        );
-        setMyWebsites(response.payload.data);
-        setLoading(false);
-      } else {
-        // write code if there are note any resume for current user
-        console.log("no websites found");
-        setMyWebsites(null);
-        setLoading(false);
-      }
-    });
+    getAllWebsitesAfter();
   }, [deleting]);
 
   const allArraysEmpty = Object.values(myWebsites).every(
@@ -196,13 +183,17 @@ function MyWebsites() {
       <div className="pt-8 mx-3 gap-16 flex-wrap justify-center">
         {templates && myWebsites ? (
           <>
-            {Object.keys(myWebsites).map((type) => {
+            {Object.keys(myWebsites).map((type, index) => {
               if (myWebsites[type]?.length > 0) {
                 return (
                   <div key={type} className="mb-8">
-                    {/* <h2 className="text-2xl font-bold mb-4 capitalize">
+                    <h2
+                      className={`text-2xl font-bold mb-4 uppercase ${
+                        index !== 0 ? "mt-10" : ""
+                      }`}
+                    >
                       {type.replace(/([A-Z])/g, " $1").trim()}
-                    </h2> */}
+                    </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
                       {myWebsites[type].map((website, index) => {
                         const template = templates[website.type]?.find(
@@ -243,7 +234,7 @@ function MyWebsites() {
       {/* delete confirmation dialog */}
       {isdeleteConfirmationDialog && (
         <DeleteConfirmationDialog
-        websiteName={selectedWebsiteName}
+          websiteName={selectedWebsiteName}
           deleting={deleting}
           onCancelClick={handleCancelDeleteClick}
           onDeleteClick={handleConfirmDeleteClick}

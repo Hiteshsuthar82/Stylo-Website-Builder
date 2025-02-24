@@ -6,6 +6,7 @@ import PortfolioTemplate2 from "./Portfolio/PortfolioTemplate2";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import ProductShowcaseTemplate1 from "./ProductShowcase/ProductShowcaseTemplate1";
+import formLoader from "../../assets/form-loader.gif";
 import {
   portfolioTemplate,
   interiorDesignTemplate,
@@ -28,7 +29,7 @@ import InteriorDesignTemplate2 from "./InteriorDesign/InteriorDesignTemplate2";
 import InteriorDesignTemplate3 from "./InteriorDesign/InteriorDesignTemplate3";
 import ProductShowcaseTemplate2 from "./ProductShowcase/ProductShowcaseTemplate2";
 
-const CreateWebsite = () => {
+const  CreateWebsite = () => {
   const { templateId } = useParams();
   const { websiteType } = useParams();
   const dispatch = useDispatch();
@@ -298,11 +299,9 @@ const CreateWebsite = () => {
     }
   };
 
-  if (!templateData) {
-    return <div>Loading...</div>;
-  }
-
-  return (
+return  !templateData ? (<div className="h-[75vh] w-full flex items-center justify-center">
+      <img src={formLoader} alt="Loading.." className="h-40" />
+    </div>) : (
     <div className="bg-white">
       {renderTemplate()}
       <button

@@ -239,7 +239,11 @@ const interiorDesignTemplate = {
 const productShowcaseTemplate = {
   websiteName: "",
   websiteAuthorEmail: "",
+  websiteowner: "",
   type: "productShowcase",
+  deployedUrl: "",
+  repoName: "",
+  templateId: "",
   header: {
     logoType: "text",
     logoImage:
