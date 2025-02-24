@@ -143,9 +143,9 @@ function MyWebsites() {
     (arr) => arr.length === 0
   );
 
-  return allArraysEmpty ? (
+  return allArraysEmpty && !loading ? (
     <div className="flex flex-col items-center justify-center h-screen">
-      {/* <div className="bg-gray-100 p-8 rounded-lg shadow-md text-center">
+      <div className="bg-gray-100 p-8 rounded-lg shadow-md text-center">
         <svg
           className="w-16 h-16 text-gray-400 mx-auto mb-4"
           fill="none"
@@ -172,7 +172,7 @@ function MyWebsites() {
         >
           Create a New Website
         </button>
-      </div> */}
+      </div>
     </div>
   ) : loading ? (
     <div className="h-[75vh] w-full flex items-center justify-center">

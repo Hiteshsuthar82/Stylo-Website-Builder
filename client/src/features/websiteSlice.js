@@ -37,12 +37,12 @@ const initialState = {
       {
         id: "t2",
         name: "Interior Design 2",
-        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417855/Screenshot_226_rlexlq.png",
       },
       {
         id: "t3",
         name: "Interior Design 3",
-        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417853/Screenshot_225_qzlv8x.png",
       },
     ],
     productShowcase:[
@@ -54,7 +54,7 @@ const initialState = {
       {
         id: "t2",
         name: "Product Showcase 2",
-        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
+        src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417852/Screenshot_224_kvnuux.png",
       },
     ],
     hospital:[

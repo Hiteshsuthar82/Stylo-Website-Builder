@@ -6,6 +6,7 @@ import NoTemplateAvailableView from "./NoTemplateAvailableView";
 import PortfolioTemplate3 from "./Portfolio/PortfolioTemplate3";
 import PortfolioTemplate4 from "./Portfolio/PortfolioTemplate4";
 import InteriorDesignTemplate1 from "./InteriorDesign/InteriorDesignTemplate1";
+import formLoader from "../../assets/form-loader.gif";
 import {
   portfolioTemplate,
   interiorDesignTemplate,
@@ -57,7 +58,11 @@ const WebsiteDemo = () => {
   };
 
   if (!templateData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-[75vh] w-full flex items-center justify-center">
+        <img src={formLoader} alt="Loading.." className="h-40" />
+      </div>
+    );
   }
 
   if (websiteType == "portfolio") {
@@ -81,7 +86,7 @@ const WebsiteDemo = () => {
       //   return (
       //     <PortfolioTemplate4 data={templateData} onUpdate={handleUpdate} />
       //   );
-        // break;
+      // break;
       default:
         return <NoTemplateAvailableView />;
         break;
@@ -97,11 +102,17 @@ const WebsiteDemo = () => {
         );
       case "t2":
         return (
-          <InteriorDesignTemplate2 data={templateData} onUpdate={handleUpdate} />
+          <InteriorDesignTemplate2
+            data={templateData}
+            onUpdate={handleUpdate}
+          />
         );
       case "t3":
         return (
-          <InteriorDesignTemplate3 data={templateData} onUpdate={handleUpdate} />
+          <InteriorDesignTemplate3
+            data={templateData}
+            onUpdate={handleUpdate}
+          />
         );
       default:
         return <NoTemplateAvailableView />;
@@ -117,7 +128,10 @@ const WebsiteDemo = () => {
         );
       case "t2":
         return (
-          <ProductShowcaseTemplate2 data={templateData} onUpdate={handleUpdate} />
+          <ProductShowcaseTemplate2
+            data={templateData}
+            onUpdate={handleUpdate}
+          />
         );
       default:
         return <NoTemplateAvailableView />;

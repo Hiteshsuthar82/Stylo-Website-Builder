@@ -4,18 +4,18 @@ import { useNavigate } from 'react-router-dom';
 const TemplateTypeSelectionPage = () => {
   const navigate = useNavigate();
   const templateTypes = [
-    { id: 1, name: 'Portfolio', icon: '💼', count: 24, type:"portfolio" },
-    { id: 2, name: 'Interior Design', icon: '🏥', count: 2, type:"interiorDesign" },
-    { id: 3, name: 'Product Showcase', icon: '🛒', count: 32, type:"productShowcase" },
-    { id: 4, name: 'Grocery Shop', icon: '🛍️', count: 15, type:"groceryShop" },
-    { id: 5, name: 'Agency', icon: '🏢', count: 28, type:"agency" },
-    { id: 6, name: 'Education', icon: '🎓', count: 22, type:"education" },
-    { id: 7, name: 'Photography', icon: '📸', count: 16, type:"photography" },
-    { id: 8, name: 'Technology', icon: '💻', count: 26, type:"technology" },
-    { id: 9, name: 'Art Gallery', icon: '🎨', count: 14, type:"artGallery" },
-    { id: 10, name: 'Dashboard', icon: '📊', count: 20, type:"dashboard" },
-    { id: 11, name: 'Hospital / Doctor', icon: '🏥', count: 18, type:"hospital" },
-    { id: 12, name: 'E-Commerce', icon: '🛒', count: 32, type:"eCommerce" },
+    { id: 1, name: 'Portfolio', icon: '💼', count: 3, type:"portfolio" },
+    { id: 2, name: 'Interior Design', icon: '🏥', count: 3, type:"interiorDesign" },
+    { id: 3, name: 'Product Showcase', icon: '🛒', count: 2, type:"productShowcase" },
+    { id: 4, name: 'Hospital / Doctor', icon: '🏥', count: 0, type:"hospital" },
+    { id: 5, name: 'Agency', icon: '🏢', count: 0, type:"agency" },
+    { id: 6, name: 'Education', icon: '🎓', count: 0, type:"education" },
+    { id: 7, name: 'Photography', icon: '📸', count: 0, type:"photography" },
+    { id: 8, name: 'Technology', icon: '💻', count: 0, type:"technology" },
+    { id: 9, name: 'Art Gallery', icon: '🎨', count: 0, type:"artGallery" },
+    { id: 10, name: 'Dashboard', icon: '📊', count: 0, type:"dashboard" },
+    { id: 11, name: 'Grocery Shop', icon: '🛍️', count: 0, type:"groceryShop" },
+    { id: 12, name: 'E-Commerce', icon: '🛒', count: 0, type:"eCommerce" },
   ];
 
   const handleTemplateClick = (websiteType) => {

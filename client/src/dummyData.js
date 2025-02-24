@@ -10,7 +10,7 @@ const portfolioTemplate = {
     logoType: "text",
     logoImage:
       "https://www.pngkey.com/png/full/246-2467574_your-company-slogen-here-your-company-logo-here.png",
-    logoText: "First",
+    logoText: "Portfolio",
     phone: "120-340-8900",
     items: [
       { id: 1, text: "About", href: "#about" },
