@@ -46,11 +46,11 @@ function Header() {
       slug: "/login",
       active: !authstatus,
     },
-    {
-      name: "SignUp",
-      slug: "/signup",
-      active: !authstatus,
-    },
+    // {
+    //   name: "SignUp",
+    //   slug: "/signup",
+    //   active: !authstatus,
+    // },
     {
       name: "Create Website",
       slug: "/steps",
@@ -263,9 +263,8 @@ function Header() {
                   </div>
                 </nav>
                 <Link
-                  to="/signup"
-                  className="animate-pulse px-4 py-2 bg-slate-800 text-white rounded-lg font-semibold"
-                  onClick={() => navigate("signup")}
+                  to="/login"
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-600 text-white rounded-lg font-semibold"
                 >
                   Get Started
                 </Link>

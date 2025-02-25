@@ -15,8 +15,11 @@ function Profile() {
   const handleLogout =async () => {
     console.log('logout');
     
-    dispatch(logout())
-    navigate('/')
+    const logoutDetails = await dispatch(logout())
+    if(logoutDetails.payload){
+      console.log('logout success');
+      navigate('/login');
+    }
   }
   return (
       <div className="flex gap-8 ">

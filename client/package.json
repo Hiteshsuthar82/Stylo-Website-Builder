@@ -14,6 +14,7 @@
     "@material-tailwind/react": "^2.1.10",
     "@reduxjs/toolkit": "^2.2.7",
     "@tinymce/tinymce-react": "^5.1.1",
+    "aos": "^2.3.4",
     "appwrite": "^15.0.0",
     "axios": "^1.7.5",
     "dotenv": "^16.4.7",

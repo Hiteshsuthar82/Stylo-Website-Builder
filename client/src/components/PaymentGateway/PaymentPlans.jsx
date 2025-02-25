@@ -16,7 +16,7 @@ const PaymentPlans = ({ togglePlansPopup }) => {
       name: "Professional",
       websites: "Unlimited Websites",
       price: "₹ 500/month",
-      features: ["Unlimited Websites", "Premium Templates", "24/7 Support"],
+      features: ["Unlimited Websites", "Premium Templates", "24/7 Support", "Unlimited deployments"],
       type: "professional",
     },
   ];

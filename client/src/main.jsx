@@ -18,6 +18,7 @@ import {
   TemplateTypeSelectionPage,
   AllWebsiteTemplatesPage,
   MyWebsites,
+  AuthPage,
 } from "./components/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <AuthLayout authentication={false}>
-            <Login />
+            <AuthPage />
           </AuthLayout>
         ),
       },

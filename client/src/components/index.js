@@ -28,6 +28,7 @@ import AllWebsiteTemplatesPage from "./AllTemplates/AllWebsiteTemplatesPage";
 import WebsiteTemplate from "./WebsiteTemplate";
 import NoTemplateAvailableView from "./CreateWebsites/NoTemplateAvailableView";
 import Popup from './Popup'
+import AuthPage from './Authentication/AuthPage'
 
 
 export {
@@ -60,5 +61,6 @@ export {
   AllWebsiteTemplatesPage,
   WebsiteTemplate,
   NoTemplateAvailableView,
-  Popup
+  Popup,
+  AuthPage
 };

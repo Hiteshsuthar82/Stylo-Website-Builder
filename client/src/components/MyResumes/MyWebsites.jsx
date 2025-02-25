@@ -167,7 +167,7 @@ function MyWebsites() {
           It looks like there are no websites available at the moment.
         </p>
         <button
-          className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          className="mt-6 bg-slate-800 text-white py-2 px-4 rounded-lg hover:bg-slate-600"
           onClick={() => navigate("/steps")}
         >
           Create a New Website
