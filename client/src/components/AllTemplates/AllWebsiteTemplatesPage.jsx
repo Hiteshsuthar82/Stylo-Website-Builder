@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, WebsiteTemplate } from "../index";
-import { Template, ShowImagePopup } from "../index";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import PaymentPlans from "../PaymentGateway/PaymentPlans";
@@ -29,6 +28,22 @@ function AllWebsiteTemplatesPage() {
     navigate(`/create-website/${websiteType}/${selectedTemplateId}`);
   };
 
+  if (templates[websiteType]?.length === undefined) {
+    return (
+      <Container>
+        <div className="flex flex-col items-center justify-center h-[80vh] py-20">
+          <h1 className="text-2xl font-semibold text-center">
+            No Templates Available
+          </h1>
+          <p className="text-gray-400">
+            currently, There is not any template available for {websiteType}{" "}
+            website
+          </p>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-3 gap-10 flex-wrap justify-center md:mx-10">
@@ -40,14 +55,16 @@ function AllWebsiteTemplatesPage() {
               isSelected={selectedTemplateId === template.id}
               onClick={setSelectedTemplateId}
               onDemoClick={handleDemoClick}
-              onUseTemplateClick={template.premium && !userData.isPremium ? togglePlansPopup : handleCreateWebsiteClick}
+              onUseTemplateClick={
+                template.premium && !userData.isPremium
+                  ? togglePlansPopup
+                  : handleCreateWebsiteClick
+              }
             />
           ))}
       </div>
       {/* Premium Plans Popup */}
-      {showPlansPopup && (
-        <PaymentPlans togglePlansPopup={togglePlansPopup}/>
-      )}
+      {showPlansPopup && <PaymentPlans togglePlansPopup={togglePlansPopup} />}
     </Container>
   );
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Container,
-  Template,
   DeleteConfirmationDialog,
   WebsiteTemplate,
 } from "../index";
@@ -28,7 +27,6 @@ function MyWebsites() {
   const [isdeleteConfirmationDialog, setDeleteConfirmationDialog] =
     useState(false);
   const [isdDeploying, setIsDeploying] = useState(false);
-  // const templates = useSelector((state) => state.resume.allTemplates);
   const templates = useSelector((state) => state.website.allTemplates);
 
   const navigate = useNavigate();
@@ -79,7 +77,7 @@ function MyWebsites() {
           setMyWebsites(response.payload.data);
           setLoading(false);
         } else {
-          // write code if there are note any resume for current user
+          // write code if there are note any website for current user
           console.log("no websites found");
           setMyWebsites(null);
           setLoading(false);
@@ -126,13 +124,6 @@ function MyWebsites() {
     setSelectedWebsiteType(websiteType);
     setSelectedWebsiteUrl(deployedUrl);
     setSelectedWebsiteName(websiteName);
-  };
-
-  const openResumeView = () => {
-    navigate(
-      `/website-demo/${selectedWebsiteType}/${selectedTemplateId}?id=${selectedWebsiteId}`
-    );
-    // navigate(`/resumeView/${selectedTemplateId}/${selectedWebsiteId}`);
   };
 
   useEffect(() => {
@@ -240,15 +231,6 @@ function MyWebsites() {
           onDeleteClick={handleConfirmDeleteClick}
         />
       )}
-
-      {/* {selectedWebsiteId && (
-        <button
-          onClick={openResumeView}
-          className="mt-5 w-[70%] md:w-[50%] lg:w-[20%] py-3 fixed bottom-5 right-[15%] md:right-[25%] lg:right-[40%] sm:bottom-8 lg:bottom-9 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
-        >
-          Share On Social Media
-        </button>
-      )} */}
 
       {isdDeploying && (
         <DeploymentLoader

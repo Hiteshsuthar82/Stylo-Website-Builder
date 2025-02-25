@@ -53,9 +53,6 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
-    tempResumeImage:{
-      type: String, // cloudinary url
-    }
   },
   {
     timestamps: true,

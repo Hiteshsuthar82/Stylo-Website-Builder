@@ -7,19 +7,10 @@ import Profile from "./Header/Profile";
 import Container from "./container/Container";
 import Logo from "./Logo";
 import AuthLayout from "./AuthLayout";
-import Template from "./Template";
-import AllTemplates from "./AllTemplates/AllTemplates";
-import MyWebsites from "./MyResumes/MyWebsites";
-import ShowImagePopup from "./ShowImagePopup";
-import ResumeView from "./ResumeView";
+import MyWebsites from "./MyWebsites/MyWebsites";
 import StepsPage from "./StepsPage";
-import CreateResume from "./CreateResume";
-import UserDetailCard from "./UserProfile/UserDetailCard";
-import UserDetailListItem from "./UserProfile/UserDetailListItem";
 import UserProfile from "./UserProfile/UserProfile";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
-import PermanentDetailConfirmationDialog from "./PermanentDetailConfirmationDialog";
-import DangerAlert from "./DangerAlert";
 import EditableText from "./CreateWebsites/Handlers/EditableText";
 import CreateWebsite from "./CreateWebsites/CreateWebsite";
 import WebsiteDemo from "./CreateWebsites/WebsiteDemo";
@@ -41,19 +32,13 @@ export {
   Login,
   Profile,
   Container,
-  Template,
-  ShowImagePopup,
-  AllTemplates,
+
   MyWebsites,
-  ResumeView,
+  
   StepsPage,
-  CreateResume,
-  UserDetailListItem,
-  UserDetailCard,
+  
   UserProfile,
   DeleteConfirmationDialog,
-  PermanentDetailConfirmationDialog,
-  DangerAlert,
   EditableText,
   CreateWebsite,
   WebsiteDemo,

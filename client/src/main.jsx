@@ -6,11 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 import {
   SignUp,
-  Login,
   AuthLayout,
-  AllTemplates,
-  CreateResume,
-  ResumeView,
   UserProfile,
   StepsPage,
   CreateWebsite,
@@ -23,7 +19,6 @@ import {
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
-import EditResume from "./components/EditResume.jsx";
 import About from "./pages/About.jsx";
 import PaymentGateway from "./components/PaymentGateway/PaymentGateway.jsx";
 const router = createBrowserRouter([
@@ -80,14 +75,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/allTemplates",
-        element: (
-          <AuthLayout authentication>
-            <AllTemplates />
-          </AuthLayout>
-        ),
-      },
-      {
         path: "/template-selection/:websiteType",
         element: (
           <AuthLayout authentication>
@@ -104,14 +91,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/createResume/:templateId",
-        element: (
-          <AuthLayout authentication>
-            <CreateResume />
-          </AuthLayout>
-        ),
-      },
-      {
         path: "/create-website/:websiteType/:templateId",
         element: (
           <AuthLayout authentication>
@@ -120,26 +99,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/editResume/:resumeId",
-        element: (
-          <AuthLayout authentication>
-            <EditResume />
-          </AuthLayout>
-        ),
-      },
-      {
         path: "/myWebsites",
         element: (
           <AuthLayout authentication>
             <MyWebsites />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/resumeView/:templateId/:resumeId",
-        element: (
-          <AuthLayout authentication>
-            <ResumeView />
           </AuthLayout>
         ),
       },

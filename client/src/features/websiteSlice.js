@@ -69,13 +69,13 @@ const initialState = {
     //   {
     //     id: "t1",
     //     name: "Hospital 1",
-    //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+    //     src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417852/Screenshot_224_kvnuux.png",
     //     premium: false,
     //   },
     //   {
     //     id: "t2",
     //     name: "Hospital 2",
-    //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+    //     src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417852/Screenshot_224_kvnuux.png",
     //     premium: true,
     //   },
     // ]
@@ -104,34 +104,6 @@ export const uploadImage = createAsyncThunk(
     } catch (error) {
       console.error("Error in uploading image:", error?.response?.data || error.message);
       return rejectWithValue(error?.response?.data || "Upload failed");
-    }
-  }
-);
-
-
-export const updateImage = createAsyncThunk(
-  "website/updateImage",
-  async (credentials, { rejectWithValue }) => {
-    const resumeId = credentials.get("resumeId");
-    console.log(resumeId);
-
-    try {
-      const response = await axios.patch(
-        `${apiKey}/temp/image/${resumeId}`,
-        credentials,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("image updated successfully.");
-      return response.data;
-    } catch (error) {
-      console.log("error in updating image.", error.payload);
-      return rejectWithValue("updateImage :: error ", error.payload);
     }
   }
 );
@@ -256,7 +228,7 @@ export const getAllWebsites = createAsyncThunk(
         { withCredentials: true }
       );
 
-      console.log("all resume's data fetched successfully.");
+      console.log("all websites's data fetched successfully.");
       return response.data;
     } catch (error) {
       console.log("error occur in getAllWebsites : ", error.response);
@@ -326,7 +298,7 @@ export const deleteWebsite = createAsyncThunk(
   }
 );
 
-export const resumeSlice = createSlice({
+export const websiteSlice = createSlice({
   name: "website",
   initialState,
   extraReducers: (builder) => {
@@ -343,23 +315,6 @@ export const resumeSlice = createSlice({
         state.data = actions.payload;
       })
       .addCase(uploadImage.rejected, (state) => {
-        state.loading = false;
-        state.status = false;
-      });
-
-    // update image
-    builder
-      .addCase(updateImage.pending, (state) => {
-        state.loading = true;
-        state.status = false;
-        state.data = null;
-      })
-      .addCase(updateImage.fulfilled, (state, actions) => {
-        state.loading = false;
-        state.status = true;
-        state.data = actions.payload;
-      })
-      .addCase(updateImage.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });
@@ -493,4 +448,4 @@ export const resumeSlice = createSlice({
   },
 });
 
-export default resumeSlice.reducer;
+export default websiteSlice.reducer;
