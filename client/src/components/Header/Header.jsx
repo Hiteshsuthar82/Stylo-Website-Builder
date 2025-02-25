@@ -3,16 +3,32 @@ import Profile from "./Profile";
 import { Logo, Container } from "../index";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { isAction } from "@reduxjs/toolkit";
+import { Crown } from "lucide-react";
+import PaymentPlans from "../PaymentGateway/PaymentPlans";
 
 function Header() {
   const navigate = useNavigate();
   const authstatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showPlansPopup, setShowPlansPopup] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const togglePlansPopup = () => {
+    setShowPlansPopup(!showPlansPopup);
+  };
+
+  const handlePlanSelection = (planType) => {
+    // Close the popup
+    setShowPlansPopup(false);
+    // Redirect to payment gateway with the selected plan
+    navigate(`/payment-gateway?plan=${planType}`);
+  };
+
+  
 
   const navitems = [
     {
@@ -45,18 +61,22 @@ function Header() {
   return (
     <header>
       <Container>
-        <nav className="fixed top-0 left-0 right-0 z-50 flex gap-2 justify-between text-white/80 items-center px-5 py-3 text-md bg-[#9333ea] rounded-bl-md rounded-br-md">
+        <nav className="fixed top-0 left-0 right-0 z-50 flex gap-2 justify-between items-center px-5 md:px-14 py-3 text-md bg-white/95 backdrop-blur-sm border-b border-slate-200">
           <Link to={"/"}>
             <Logo />
           </Link>
-          <ul className="hidden md:flex gap-5">
+          <ul className="hidden md:flex items-center space-x-8">
             {navitems.map((item) =>
               item.active ? (
-                <li key={item.name} className="hover:text-white">
+                <li key={item.name}>
                   <NavLink
                     to={item.slug}
                     className={({ isActive }) =>
-                      `${isActive ? "text-white" : ""}`
+                      `font-medium transition-all duration-300 ${
+                        isActive
+                          ? "text-slate-800 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-slate-800"
+                          : "text-slate-600 hover:text-slate-800"
+                      }`
                     }
                   >
                     {item.name}
@@ -73,7 +93,7 @@ function Header() {
                     <button
                       onClick={toggleMenu}
                       type="button"
-                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none"
+                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none"
                       aria-controls="navbar-default"
                       aria-expanded={isMenuOpen}
                     >
@@ -148,6 +168,19 @@ function Header() {
                 </nav>
 
                 <Profile />
+
+                {userData?.isPremium ? (
+                  ""
+                ) : (
+                  <button
+                    className="flex items-center text-sm gap-2 px-2 py-1 text-white font-semibold rounded-lg bg-slate-800 transition-all duration-300 relative overflow-hidden"
+                    onClick={togglePlansPopup}
+                  >
+                    <Crown className="w-4 h-4 text-yellow-300 animate-bounce" />
+                    Premium
+                    <span className="absolute inset-0 bg-white opacity-10 blur-lg rounded-lg"></span>
+                  </button>
+                )}
               </div>
             ) : (
               <div className="flex flex-row-reverse gap-2">
@@ -156,7 +189,7 @@ function Header() {
                     <button
                       onClick={toggleMenu}
                       type="button"
-                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none "
+                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden focus:outline-none "
                       aria-controls="navbar-default"
                       aria-expanded={isMenuOpen}
                     >
@@ -230,9 +263,9 @@ function Header() {
                   </div>
                 </nav>
                 <Link
-                  to="/allTemplates"
-                  className="animate-pulse px-4 py-2 bg-purple-800 text-white rounded-lg font-semibold"
-                  onClick={() => navigate("getStarted")}
+                  to="/signup"
+                  className="animate-pulse px-4 py-2 bg-slate-800 text-white rounded-lg font-semibold"
+                  onClick={() => navigate("signup")}
                 >
                   Get Started
                 </Link>
@@ -241,6 +274,11 @@ function Header() {
           </div>
         </nav>
       </Container>
+
+      {/* Premium Plans Popup */}
+      {showPlansPopup && (
+        <PaymentPlans togglePlansPopup={togglePlansPopup}/>
+      )}
     </header>
   );
 }

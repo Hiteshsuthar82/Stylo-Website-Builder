@@ -21,13 +21,13 @@ function StepsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white p-8">
       {/* Header */}
-      <div className="max-w-5xl mx-auto text-center mb-16 opacity-0 animate-fade-in">
-        <h1 className="text-5xl font-bold text-purple-900 mb-6">
+      <div className="max-w-5xl mx-auto text-center mb-16">
+        <h1 className="text-5xl font-bold text-slate-900 mb-6">
           Create Your Website with Stylo
         </h1>
-        <p className="text-xl text-purple-700">
+        <p className="text-xl text-slate-700">
           Three simple steps to bring your website to life
         </p>
       </div>
@@ -35,7 +35,7 @@ function StepsPage() {
       {/* Steps Container */}
       <div className="max-w-5xl mx-auto relative mb-24">
         {/* Connection Line */}
-        <div className="hidden md:block absolute top-1/2 left-[100px] right-[100px] h-1 bg-gradient-to-r from-purple-200 via-purple-400 to-purple-200 -translate-y-1/2 rounded-full"></div>
+        <div className="hidden md:block absolute top-1/2 left-[100px] right-[100px] h-1 bg-gradient-to-r from-slate-200 via-slate-400 to-slate-200 -translate-y-1/2 rounded-full"></div>
 
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-8 relative">
@@ -43,27 +43,27 @@ function StepsPage() {
           <div className={`transform transition-all duration-700 ${showSteps[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
               {/* Rest of Step 1 content remains the same */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
                 1
               </div>
               
               <div className="pt-4">
                 <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-purple-100 rounded-xl">
-                    <Palette className="w-10 h-10 text-purple-600" />
+                  <div className="p-4 bg-slate-100 rounded-xl">
+                    <Palette className="w-10 h-10 text-slate-600" />
                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4 text-center">
                   Choose Template
                 </h3>
                 
-                <p className="text-purple-700 text-center">
+                <p className="text-slate-700 text-center">
                   Select from our beautiful, professionally designed templates
                 </p>
               </div>
 
-              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-slate-400 z-10" />
             </div>
           </div>
 
@@ -71,27 +71,27 @@ function StepsPage() {
           <div className={`transform transition-all duration-700 ${showSteps[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
               {/* Rest of Step 2 content remains the same */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
                 2
               </div>
               
               <div className="pt-4">
                 <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-purple-100 rounded-xl">
-                    <PenLine className="w-10 h-10 text-purple-600" />
+                  <div className="p-4 bg-slate-100 rounded-xl">
+                    <PenLine className="w-10 h-10 text-slate-600" />
                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4 text-center">
                   Add Content
                 </h3>
                 
-                <p className="text-purple-700 text-center">
+                <p className="text-slate-700 text-center">
                   Customize with your text, images, and brand elements
                 </p>
               </div>
 
-              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-purple-400 z-10" />
+              <ChevronRight className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 text-slate-400 z-10" />
             </div>
           </div>
 
@@ -99,22 +99,22 @@ function StepsPage() {
           <div className={`transform transition-all duration-700 ${showSteps[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-2xl">
               {/* Rest of Step 3 content remains the same */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center font-bold text-xl border-4 border-white">
                 3
               </div>
               
               <div className="pt-4">
                 <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-purple-100 rounded-xl">
-                    <Globe className="w-10 h-10 text-purple-600" />
+                  <div className="p-4 bg-slate-100 rounded-xl">
+                    <Globe className="w-10 h-10 text-slate-600" />
                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-purple-900 mb-4 text-center">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4 text-center">
                   Publish Website
                 </h3>
                 
-                <p className="text-purple-700 text-center">
+                <p className="text-slate-700 text-center">
                   Go live with your website in just one click
                 </p>
               </div>
@@ -125,7 +125,7 @@ function StepsPage() {
 
       {/* Features Section with Animation */}
       <div className={`max-w-5xl mx-auto mb-16 transform transition-all duration-700 ${showFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <h2 className="text-3xl font-bold text-purple-900 text-center mb-12">
+        <h2 className="text-3xl font-bold text-slate-900 text-center mb-12">
           Powerful Management Features
         </h2>
         
@@ -133,10 +133,10 @@ function StepsPage() {
           {/* Features content remains the same */}
           {[
             {
-              icon: <Layout className="w-6 h-6 text-purple-600" />,
+              icon: <Layout className="w-6 h-6 text-slate-600" />,
               title: "Dashboard",
               description: "Access and manage all your websites from one central dashboard",
-              bgColor: "bg-purple-100"
+              bgColor: "bg-slate-100"
             },
             {
               icon: <Trash2 className="w-6 h-6 text-red-600" />,
@@ -167,9 +167,9 @@ function StepsPage() {
                 <div className={`p-3 ${feature.bgColor} rounded-lg`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-purple-900">{feature.title}</h3>
+                <h3 className="text-lg font-semibold text-slate-900">{feature.title}</h3>
               </div>
-              <p className="text-purple-700">{feature.description}</p>
+              <p className="text-slate-700">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -178,10 +178,10 @@ function StepsPage() {
       {/* Call to Action */}
       <div className={`max-w-xl mx-auto mt-16 text-center transform transition-all duration-700 ${showFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <button 
-          className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-semibold text-white transition-all duration-300 ease-out bg-purple-600 rounded-xl group hover:scale-[1.02]"
+          className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-semibold text-white transition-all duration-300 ease-out bg-slate-900 rounded-xl group hover:scale-[1.02]"
           onClick={() => navigate('/template-type-selection-page')}
         >
-          <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-800 group-hover:translate-x-0 ease">
+          <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-slate-700 group-hover:translate-x-0 ease">
             <ChevronRight className="w-6 h-6" />
           </span>
           <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">Start Building Your Website</span>

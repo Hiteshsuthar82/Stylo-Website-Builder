@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Hero from "./Hero";
 import Features from "./Features";
 import Steps from "./Steps";
 import Testimonial from "./Testimonial";
-import { useNavigate } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import { useDispatch } from "react-redux";
+import { getCurrentUser, logout } from "../../features/authslice";
 
 function Home() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleBtn = (path) => {
-    navigate(path);
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        await dispatch(getCurrentUser());
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        dispatch(logout());
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -18,6 +29,7 @@ function Home() {
       <Steps />
       <Features />
       <Testimonial />
+      <Footer />
     </>
   );
 }

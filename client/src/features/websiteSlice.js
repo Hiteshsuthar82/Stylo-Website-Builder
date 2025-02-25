@@ -11,16 +11,19 @@ const initialState = {
         id: "t1",
         name: "Portfolio 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993908/port1_fsg7c7.png",
+        premium: true,
       },
       {
         id: "t2",
         name: "Portfolio 2",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993908/port2_rxo2de.png",
+        premium: true,
       },
       {
         id: "t3",
         name: "Portfolio 3",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993910/port3_uvnm5y.png",
+        premium: false,
       },
       // {
       //   id: "t4",
@@ -33,16 +36,19 @@ const initialState = {
         id: "t1",
         name: "Interior Design 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993909/interior1_ws6gid.png",
+        premium: false,
       },
       {
         id: "t2",
         name: "Interior Design 2",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417855/Screenshot_226_rlexlq.png",
+        premium: true,
       },
       {
         id: "t3",
         name: "Interior Design 3",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417853/Screenshot_225_qzlv8x.png",
+        premium: false,
       },
     ],
     productShowcase:[
@@ -50,25 +56,29 @@ const initialState = {
         id: "t1",
         name: "Product Showcase 1",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1737993912/prod1_xsk91t.png",
+        premium: false,
       },
       {
         id: "t2",
         name: "Product Showcase 2",
         src: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740417852/Screenshot_224_kvnuux.png",
+        premium: true,
       },
     ],
-    hospital:[
-      {
-        id: "t1",
-        name: "Hospital 1",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
-      },
-      {
-        id: "t2",
-        name: "Hospital 2",
-        src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
-      },
-    ]
+    // hospital:[
+    //   {
+    //     id: "t1",
+    //     name: "Hospital 1",
+    //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+    //     premium: false,
+    //   },
+    //   {
+    //     id: "t2",
+    //     name: "Hospital 2",
+    //     src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
+    //     premium: true,
+    //   },
+    // ]
   }
 };
 

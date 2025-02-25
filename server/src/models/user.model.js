@@ -27,11 +27,28 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String, // cloudinary url
+      default: "https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
       // required: true,
     },
     password: {
       type: String,
       required: [true, "Password is required"],
+    },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    planDetails:{
+      orderId: {
+        type: String,
+      },
+      planType: {
+        type: String,
+        default: "standard",
+      },
+      buyingDateAndTime: {
+        type: Date,
+      },
     },
     refreshToken: {
       type: String,

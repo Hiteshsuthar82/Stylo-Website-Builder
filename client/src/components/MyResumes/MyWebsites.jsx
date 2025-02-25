@@ -188,7 +188,7 @@ function MyWebsites() {
                 return (
                   <div key={type} className="mb-8">
                     <h2
-                      className={`text-2xl font-bold mb-4 uppercase ${
+                      className={`text-2xl font-bold mb-4 uppercase bg-slate-200 rounded-md text-slate-900 py-4 pl-5 ${
                         index !== 0 ? "mt-10" : ""
                       }`}
                     >

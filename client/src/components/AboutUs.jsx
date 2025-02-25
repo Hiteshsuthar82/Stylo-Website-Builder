@@ -3,6 +3,7 @@
 import React from "react";
 import { MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer/Footer";
 
 const locations = [
   {
@@ -173,6 +174,7 @@ function AboutPageOne() {
         </div>
       </div>
       <hr className="mt-6" />
+      <Footer />  
     </div>
   );
 }

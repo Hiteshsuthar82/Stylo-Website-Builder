@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import CopyButton from "./Buttons/CopyButton";
 import ShareButton from "./Buttons/ShareButton";
+import { Crown } from "lucide-react";
 
 const WebsiteTemplate = ({
   templateData,
@@ -46,7 +47,7 @@ const WebsiteTemplate = ({
         onClick(templateData.id, websiteId, websiteType, deployedUrl, name)
       }
       className={`relative bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl w-full max-w-sm mx-auto overflow-hidden ${
-        isSelected ? "ring-4 ring-purple-600" : ""
+        isSelected ? "ring-4 ring-slate-800" : ""
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -96,6 +97,12 @@ const WebsiteTemplate = ({
                 <span>Edit</span>
               </button>
             )}
+          </div>
+        )}
+
+        {onDemoClick && onUseTemplateClick && templateData.premium && (
+          <div className="absolute flex gap-2 top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-bl-lg rounded-tr-lg text-xs font-semibold">
+            <Crown className="w-4 h-4 text-yellow-300" /> Premium
           </div>
         )}
       </div>

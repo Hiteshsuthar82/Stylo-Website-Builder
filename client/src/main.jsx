@@ -24,6 +24,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import EditResume from "./components/EditResume.jsx";
 import About from "./pages/About.jsx";
+import PaymentGateway from "./components/PaymentGateway/PaymentGateway.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={false}>
             <SignUp />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/payment-gateway",
+        element: (
+          <AuthLayout authentication>
+            <PaymentGateway />
           </AuthLayout>
         ),
       },

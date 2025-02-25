@@ -8,7 +8,9 @@ import {
   updateUserProfile,
   getCurrentUser,
   updateUserAvatar,
-  onlyuploadImage
+  onlyuploadImage,
+  upgradeToPremium,
+  deleteAccount
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -29,14 +31,17 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(verifyJWT,refreshAccessToken);
 
-router.route("/change-password").patch(verifyJWT, changePassword);
-router.route("/update-profile").patch(verifyJWT, updateUserProfile);
 router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 
 router.route("/get-current-user").get(verifyJWT, getCurrentUser);
+
+router.route("/upgrade-to-premium").patch(verifyJWT, upgradeToPremium);
+router.route("/update-profile").patch(verifyJWT, updateUserProfile);
+router.route("/change-password").patch(verifyJWT, changePassword);
+router.route("/delete-account").delete(verifyJWT, deleteAccount);
 
 // only image uplaod and delete image route
 
