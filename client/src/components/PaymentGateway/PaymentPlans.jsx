@@ -1,9 +1,10 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Crown } from "lucide-react";
 
 const PaymentPlans = ({ togglePlansPopup }) => {
+  const navigate = useNavigate();
+
   const premiumPlans = [
     // {
     //   name: "Standard",
@@ -16,10 +17,22 @@ const PaymentPlans = ({ togglePlansPopup }) => {
       name: "Professional",
       websites: "Unlimited Websites",
       price: "₹ 500/month",
-      features: ["Unlimited Websites", "Premium Templates", "24/7 Support", "Unlimited deployments"],
+      features: [
+        "Unlimited Websites",
+        "Premium Templates",
+        "24/7 Support",
+        "Unlimited deployments",
+      ],
       type: "professional",
     },
   ];
+
+  const handlePlanSelection = (planType) => {
+    // Close the popup
+    togglePlansPopup();
+    // Redirect to payment gateway with the selected plan
+    navigate(`/payment-gateway?plan=${planType}`);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

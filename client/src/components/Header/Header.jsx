@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Profile from "./Profile";
 import { Logo, Container } from "../index";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Crown } from "lucide-react";
 import PaymentPlans from "../PaymentGateway/PaymentPlans";
 
 function Header() {
-  const navigate = useNavigate();
   const authstatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,15 +19,6 @@ function Header() {
   const togglePlansPopup = () => {
     setShowPlansPopup(!showPlansPopup);
   };
-
-  const handlePlanSelection = (planType) => {
-    // Close the popup
-    setShowPlansPopup(false);
-    // Redirect to payment gateway with the selected plan
-    navigate(`/payment-gateway?plan=${planType}`);
-  };
-
-  
 
   const navitems = [
     {

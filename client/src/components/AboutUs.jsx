@@ -66,12 +66,12 @@ const teamMembers = [
     bio: "Expert in building designing using modern web frameworks like React js.",
     social: {
       github: "https://github.com/vivekparadva",
-      linkedin: "https://linkedin.io/vivekparadva",
+      linkedin: "https://linkedin.com/in/vivekparadva",
     }
   },
   {
     name: "Pradip Rajput",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+    image: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740553441/Screenshot_227_d1hkqd.png",
     position: "Group Member",
     bio: "....",
     social: {
