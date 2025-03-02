@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [process.env.CORS_ORG,"https://stylo-website-builder.github.io"], 
+    origin: [process.env.CORS_ORG,"https://stylo-website-builder.vercel.app","https://stylo-website-builder.github.io"], 
     credentials: true,
   })
 );
