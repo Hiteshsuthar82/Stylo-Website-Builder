@@ -26,9 +26,8 @@ app.get("/", (req, res) => res.send("this is a AI Website Builder"));
 
 //routes import
 import userRouter from './routes/user.routes.js'
+import adminRouter from "./routes/admin.routes.js";
 import websiteRouter from './routes/website.routes.js'
-
-
 
 
 //routes declaration
@@ -36,7 +35,7 @@ import websiteRouter from './routes/website.routes.js'
 
 
 app.use("/api/v1/user", userRouter)
-
+app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/websites", websiteRouter)
 
 app.get('/run-cronjob', (req, res) => {

@@ -101,9 +101,9 @@ const AuthPage = () => {
       setIsSignupLoading(true);
       const session = await dispatch(signup(data)).unwrap();
       if (session) {
+        navigate("/verify-otp");
         const loginResult = await dispatch(login(data)).unwrap();
         if (loginResult) {
-          navigate("/");
         }
       }
     } catch (error) {

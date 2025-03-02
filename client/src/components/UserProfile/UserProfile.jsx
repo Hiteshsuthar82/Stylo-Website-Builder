@@ -21,6 +21,7 @@ const ProfilePage = () => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [showDeletedToast, setShowDeletedToast] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [verifing, setVerifing] = useState(false);
   const apiurl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const ProfilePage = () => {
       );
       console.log(response);
       if (response?.data.success) {
-        const currentUser = await dispatch(getCurrentUser());        
+        const currentUser = await dispatch(getCurrentUser());
         setUpdating(false);
         setShowEmailModal(false);
       }
@@ -68,7 +69,7 @@ const ProfilePage = () => {
         { withCredentials: true }
       );
       if (response?.data.success) {
-        const currentUser = await dispatch(getCurrentUser());        
+        const currentUser = await dispatch(getCurrentUser());
         setUpdating(false);
         setShowNameModal(false);
       }
@@ -77,6 +78,27 @@ const ProfilePage = () => {
 
       setShowNameModal(false);
       setUpdating(false);
+    }
+  };
+
+  const verifyEmail = async () => {
+    setVerifing(true);
+    console.log("email verifing");
+
+    try {
+      const emailResponse = await axios.post(
+        `${apiurl}/user/resend-otp`,
+        { userId: user?._id },
+        { withCredentials: true }
+      );
+
+      if (emailResponse?.data.success) {
+        navigate("/verify-otp");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setVerifing(false);
     }
   };
 
@@ -154,9 +176,9 @@ const ProfilePage = () => {
                   alt="Profile"
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                 />
-                  <div className="absolute bottom-0 right-0 bg-blue-500 p-1 rounded-full border-2 border-white">
-                    <Check className="w-4 h-4 text-white" />
-                  </div>
+                <div className="absolute bottom-0 right-0 bg-blue-500 p-1 rounded-full border-2 border-white">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
               </div>
               <h2 className="mt-4 text-xl font-semibold text-gray-800">
                 {user.username}
@@ -201,6 +223,16 @@ const ProfilePage = () => {
                 <label className="text-sm font-medium text-gray-600">
                   Email Address
                 </label>
+                {!user.isVerified ? (
+                  <span
+                    className="text-yellow-500 ml-2 border border-yellow-500 rounded-full px-2 text-sm font-normal cursor-pointer"
+                    onClick={verifyEmail}
+                  >
+                    {verifing ? "Sending otp..." : "Verify Now"}
+                  </span>
+                ) : (
+                  <span className="text-green-500 ml-2">Verified</span>
+                )}
                 <div className="flex items-center gap-3">
                   <span className="text-gray-800">{user.email}</span>
                   <button
@@ -258,7 +290,8 @@ const ProfilePage = () => {
 
                 <button
                   onClick={onupdateEmail}
-                  className="w-full p-3 rounded-lg bg-slate-800 text-white hover:bg-slate-600 transition-colors"
+                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${user.email === email ? "cursor-not-allowed bg-slate-400" : "hover:bg-slate-600"}`} 
+                  disabled={user.email === email}
                 >
                   {updating ? "updating..." : "Update Email"}
                 </button>
@@ -291,7 +324,8 @@ const ProfilePage = () => {
 
                 <button
                   onClick={onupdateName}
-                  className="w-full p-3 rounded-lg bg-slate-800 text-white hover:bg-slate-600 transition-colors"
+                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${user.fullName === name ? "cursor-not-allowed bg-slate-400" : "hover:bg-slate-600"}`}
+                  disabled={user.fullName === name}
                 >
                   {updating ? "updating..." : "Update Full Name"}
                 </button>

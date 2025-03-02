@@ -8,6 +8,8 @@ import {
   deleteImageOnCloudinary,
   uploadPhotoOnCloudinary as uploadOnCloudinary,
 } from "../utils/cloudinary.js";
+import { generateOtp } from "../utils/OtpGenrator.js";
+import sendEmail from "../utils/EmailSent.js";
 
 // 1>> registerUser
 
@@ -61,20 +63,40 @@ const registerUser = asyncHandler(async (req, res) => {
     // avatar: avatarRes.url,
   });
 
-  // checking if user is created successfully
+  // Generate OTP
+  const otp = generateOtp();
+  const otpExpiry = new Date(Date.now() + 15 * 60 * 1000); // 15 min expiry
 
+  // Save OTP and expiry
+  createdUser.otp = otp;
+  createdUser.otpExpiry = otpExpiry;
+  await createdUser.save();
+
+  // Fetch user details without password & refreshToken
   const userData = await User.findById(createdUser._id).select(
-    "-password -refreshToken"
+    "-password -refreshToken -otp -otpExpiry"
   );
 
   if (!userData) {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
+  // Send verification email
+  await sendEmail(userData.email, "Email Verification OTP", "register_otp", {
+    fullName: userData.fullName || userData.username,
+    otp: otp,
+  });
+
   // Send back data to frontend
   return res
     .status(201)
-    .json(new ApiResponse(200, userData, "Account Created Successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        userData,
+        "Account Created Successfully. Please verify your email using the OTP sent to your email."
+      )
+    );
 });
 
 //  >> loginuser
@@ -350,6 +372,9 @@ const upgradeToPremium = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const { fullName, email, username } = req.body;
 
+  console.log(req.body);
+  
+
   if (!fullName && !email && !username) {
     throw new ApiError(400, "At least one field required");
   }
@@ -358,7 +383,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   if (fullName) user.fullName = fullName;
 
-  if (email) user.email = email;
+  if (email){ 
+    user.isVerified = false;
+    user.email = email
+  };
 
   if (username) {
     const isExists = await User.find({ username });
@@ -435,7 +463,9 @@ const deleteAccount = asyncHandler(async (req, res) => {
     `accessToken=; Max-Age=-1; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
   );
 
-  return res.status(200).json(new ApiResponse(200, {}, "Account deleted successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Account deleted successfully"));
 });
 
 const onlyuploadImage = asyncHandler(async (req, res) => {
@@ -463,6 +493,89 @@ const onlyuploadImage = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, avatarImg.url, "Image uploaded successfully"));
 });
 
+const verifyEmailOtp = asyncHandler(async (req, res) => {
+  const { userId, otp } = req.body;
+
+  // Validate input
+  if (!userId || !otp) {
+    throw new ApiError(400, "User ID and OTP are required");
+  }
+
+  // Find the user
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+// Check if OTP is incorrect
+if (user.otp !== otp) {
+  throw new ApiError(400, "Invalid OTP");
+}
+
+// Check if OTP is expired
+if (user.otpExpiry < new Date()) {
+  throw new ApiError(400, "OTP has expired");
+}
+
+
+  // Update user's verification status
+  user.isVerified = true;
+  user.otp = undefined; // Clear the OTP
+  user.otpExpiry = undefined; // Clear the OTP expiry
+  await user.save();
+
+  await sendEmail(user.email, "Account Verification Successful", "account_verified", {
+    Name: user.fullName || user.username,
+  });
+  
+  // Send success response
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Email verified successfully"));
+});
+
+const resendOtp = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  // Validate input
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
+
+  // Find the user
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  // Check if user is already verified
+  if (user.isVerified) {
+    throw new ApiError(400, "User is already verified");
+  }
+
+  // Generate new OTP
+  const newOtp = generateOtp();
+  const newOtpExpiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+  // Update user with new OTP
+  user.otp = newOtp;
+  user.otpExpiry = newOtpExpiry;
+  await user.save();
+
+  await sendEmail(user.email, "Resend Email Verification OTP", "resend_otp", {
+    Name: user.fullName || user.username,
+    otp: newOtp, 
+  });
+  
+
+  // Send response
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "New OTP sent successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -475,4 +588,7 @@ export {
   changePassword,
   deleteAccount,
   onlyuploadImage,
+  generateAccessAndRefreshToken,
+  verifyEmailOtp,
+  resendOtp
 };

@@ -10,7 +10,9 @@ import {
   updateUserAvatar,
   onlyuploadImage,
   upgradeToPremium,
-  deleteAccount
+  deleteAccount,
+  verifyEmailOtp,
+  resendOtp
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -44,9 +46,12 @@ router.route("/change-password").patch(verifyJWT, changePassword);
 router.route("/delete-account").delete(verifyJWT, deleteAccount);
 
 // only image uplaod and delete image route
-
 router
   .route("/image-upload")
   .patch(verifyJWT, upload.single("image"), onlyuploadImage);
+
+  // Verify email OTP
+router.post("/verify-email", verifyEmailOtp);
+router.post("/resend-otp", resendOtp);
 
 export default router;

@@ -21,6 +21,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import PaymentGateway from "./components/PaymentGateway/PaymentGateway.jsx";
+import AdminDashboard from "./components/admin/AdminDashboard.jsx";
+import OtpVerification from "./components/otpVerification/OtpVerification.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -106,11 +108,23 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      {
+        path: "/verify-otp",
+        element: <OtpVerification />,
+      },
     ],
   },
   {
     path: "/website-demo/:websiteType/:templateId",
     element: <WebsiteDemo />,
+  },
+  {
+    path: "/admin",
+    element: (
+      // <A/uthLayout authentication>
+      <AdminDashboard />
+      // </AuthLayout>
+    ),
   },
 ]);
 

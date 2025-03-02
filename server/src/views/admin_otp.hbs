@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f3f6fc;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 20px;
+      border-radius: 10px 10px 0 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .sub-header {
+      font-size: 16px;
+      font-weight: normal;
+      margin-top: 5px;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 25px;
+      background: white;
+      text-align: center;
+      border-radius: 0 0 10px 10px;
+    }
+    .otp {
+      font-size: 26px;
+      font-weight: bold;
+      color: #2575fc;
+      background: #e1ebfd;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: inline-block;
+      letter-spacing: 4px;
+    }
+    .footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      Email Verification
+      <div class="sub-header">You are Admin</div>
+    </div>
+    <div class="content">
+      <p>Hello <strong>{{fullName}}</strong>,</p>
+      <p>Your OTP for email verification is:</p>
+      <p class="otp">{{otp}}</p>
+      <p>This OTP is valid for <strong>15 minutes</strong>. Please do not share it with anyone.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 YourAppName | All Rights Reserved</p>
+    </div>
+  </div>
+</body>
+</html>

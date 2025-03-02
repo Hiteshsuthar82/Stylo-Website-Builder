@@ -34,6 +34,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     isPremium: {
       type: Boolean,
       default: false,
@@ -52,6 +56,17 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
+    },
+    otp: {
+      type: String,
+    },
+    otpExpiry: {
+      type: Date,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   {
