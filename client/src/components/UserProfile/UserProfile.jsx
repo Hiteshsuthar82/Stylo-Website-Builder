@@ -290,7 +290,11 @@ const ProfilePage = () => {
 
                 <button
                   onClick={onupdateEmail}
-                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${user.email === email ? "cursor-not-allowed bg-slate-400" : "hover:bg-slate-600"}`} 
+                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${
+                    user?.email !== email
+                      ? "hover:bg-slate-600"
+                      : "cursor-not-allowed bg-slate-400"
+                  }`}
                   disabled={user.email === email}
                 >
                   {updating ? "updating..." : "Update Email"}
@@ -324,7 +328,11 @@ const ProfilePage = () => {
 
                 <button
                   onClick={onupdateName}
-                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${user.fullName === name ? "cursor-not-allowed bg-slate-400" : "hover:bg-slate-600"}`}
+                  className={`w-full p-3 rounded-lg bg-slate-800 text-white transition-colors ${
+                    user?.fullName !== name
+                      ? "hover:bg-slate-600"
+                      : "cursor-not-allowed bg-slate-400"
+                  }`}
                   disabled={user.fullName === name}
                 >
                   {updating ? "updating..." : "Update Full Name"}
