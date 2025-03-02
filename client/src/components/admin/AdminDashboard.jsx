@@ -160,8 +160,11 @@ const AdminDashboard = () => {
             })}
           </nav>
           <button
-            onClick={() => setActiveRoute("create-admin")}
-            className={`w-full flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors text-gray-600 hover:bg-gray-100 ${
+            onClick={() => {
+              setActiveRoute("create-admin");
+              setSidebarOpen(false);
+            }}
+            className={`w-full flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors ${
               activeRoute === "create-admin"
                 ? "bg-blue-500 text-white"
                 : "text-gray-600 hover:bg-gray-100"
@@ -272,7 +275,9 @@ const AdminDashboard = () => {
     </div>
   ) : user ? (
     <NotFound />
-  ) : "";
+  ) : (
+    ""
+  );
 };
 
 export default AdminDashboard;
