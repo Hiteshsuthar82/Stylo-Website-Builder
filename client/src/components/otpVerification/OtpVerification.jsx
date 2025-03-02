@@ -11,7 +11,7 @@ const OtpVerification = () => {
   const [isResendingOtp, setIsResendingOtp] = useState(false);
   const navigate = useNavigate();
   const inputRefs = useRef([]);
-
+  const apiKey = import.meta.env.VITE_API_URL;
   const userData = useSelector((state) => state.auth.user);
 
 
@@ -61,7 +61,7 @@ const OtpVerification = () => {
   const handleResend = async () => {
     setIsResendingOtp(true)
     const response = await axios.post(
-      "http://localhost:8000/api/v1/user/resend-otp",
+      `${apiKey}/user/resend-otp`,
       { userId: userData?._id },
       { withCredentials: true }
     );
@@ -90,7 +90,7 @@ const OtpVerification = () => {
     try {
       // const response = await verifyOtp(enteredOtp);
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/verify-email",
+        `${apiKey}/user/verify-email`,
         { userId: userData?._id, otp: enteredOtp },
         { withCredentials: true }
       );
