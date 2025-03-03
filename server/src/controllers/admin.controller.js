@@ -14,13 +14,20 @@ export const registerAdmin = asyncHandler(async (req, res) => {
   const { username, fullName, password, email, role } = req.body;
 
   // Validating and formatting the data
-  if ([username, fullName, password, email, role].some((field) => field?.trim() === "")) {
+  if (
+    [username, fullName, password, email, role].some(
+      (field) => field?.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "All fields are required!");
   }
 
   // Validate role (must be "admin" or "user")
   if (!["admin", "user"].includes(role)) {
-    throw new ApiError(400, "Invalid role. Role must be either 'admin' or 'user'.");
+    throw new ApiError(
+      400,
+      "Invalid role. Role must be either 'admin' or 'user'."
+    );
   }
 
   // Checking if admin already exists
@@ -29,8 +36,13 @@ export const registerAdmin = asyncHandler(async (req, res) => {
   });
 
   if (adminExist) {
-    return res.status(400).json(new ApiResponse(400, [], "User already exists."));
+    return res
+      .status(400)
+      .json(new ApiResponse(400, [], "User already exists."));
   }
+
+  // Store the original password for sending in the email
+  const originalPassword = password;
 
   // Create new admin
   const createdAdmin = await User.create({
@@ -56,26 +68,43 @@ export const registerAdmin = asyncHandler(async (req, res) => {
   );
 
   if (!adminData) {
-    throw new ApiError(500, "Something went wrong while registering the admin.");
+    throw new ApiError(
+      500,
+      "Something went wrong while registering the admin."
+    );
   }
 
-  // Send verification email
-  await sendEmail(adminData.email, "Email Verification OTP", "admin_otp", {
-    fullName: adminData.fullName || adminData.username,
-    otp: otp,
-  });
+  // Get application URL from environment variables or configuration
+  const appUrl =
+    process.env.FRONTEND_URL || "https://stylo-website-builder.vercel.app";
+  const loginUrl = `${appUrl}/login`;
+
+  // Send invitation email with credentials
+  await sendEmail(
+    adminData.email,
+    "Admin Account Invitation",
+    "admin_invitation",
+    {
+      fullName: adminData.fullName || adminData.username,
+      username: username.toLowerCase(),
+      email: email,
+      password: originalPassword, // Send the unencrypted password
+      role: role,
+      loginUrl: loginUrl,
+    }
+  );
 
   // Send response
-  return res.status(201).json(
-    new ApiResponse(
-      200,
-      adminData,
-      "Admin Account Created Successfully. Please verify your email using the OTP sent to your email."
-    )
-  );
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        200,
+        adminData,
+        "Admin Account Created Successfully. Please verify your email using the OTP sent to your email."
+      )
+    );
 });
-
-
 
 // 2. admin login
 
@@ -98,17 +127,25 @@ export const loginAdmin = asyncHandler(async (req, res) => {
 
   // Check if the user is an admin
   if (user.role !== "admin") {
-    return res.status(403).json(new ApiResponse(403, [], "Access Denied. Only admins can log in here."));
+    return res
+      .status(403)
+      .json(
+        new ApiResponse(403, [], "Access Denied. Only admins can log in here.")
+      );
   }
 
   // Validate password
   const isCredentialValid = await user.isPasswordCorrect(password);
   if (!isCredentialValid) {
-    return res.status(401).json(new ApiResponse(401, [], "Invalid Credentials"));
+    return res
+      .status(401)
+      .json(new ApiResponse(401, [], "Invalid Credentials"));
   }
 
   // Generate and store tokens
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   // Fetch user details without sensitive information
   const loggedInAdmin = await User.findById(user._id).select(
@@ -122,16 +159,16 @@ export const loginAdmin = asyncHandler(async (req, res) => {
   );
 
   // Send response
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      { user: loggedInAdmin, accessToken, refreshToken },
-      "Admin Logged In Successfully"
-    )
-  );
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { user: loggedInAdmin, accessToken, refreshToken },
+        "Admin Logged In Successfully"
+      )
+    );
 });
-
-
 
 // 3. admin logout
 
@@ -155,16 +192,12 @@ export const logoutAdmin = asyncHandler(async (req, res) => {
   );
 
   // Send response
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {},
-      "Admin logged out successfully"
-    )
-  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Admin logged out successfully"));
 });
 
-// 4. admin delete account 
+// 4. admin delete account
 export const deleteAdmin = asyncHandler(async (req, res) => {
   const adminId = req.user?._id;
 
@@ -176,7 +209,10 @@ export const deleteAdmin = asyncHandler(async (req, res) => {
 
   // Ensure the user is an admin
   if (admin.role !== "admin") {
-    throw new ApiError(403, "Access Denied. Only admins can perform this action.");
+    throw new ApiError(
+      403,
+      "Access Denied. Only admins can perform this action."
+    );
   }
 
   // Delete admin from database
@@ -194,10 +230,10 @@ export const deleteAdmin = asyncHandler(async (req, res) => {
     `accessToken=; Max-Age=-1; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
   );
 
-  return res.status(200).json(new ApiResponse(200, {}, "Admin account deleted successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Admin account deleted successfully"));
 });
-
-
 
 // 5. get all data of the users
 
@@ -232,28 +268,39 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
   // Ensure the user is an admin
   if (admin.role !== "admin") {
-    throw new ApiError(403, "Access Denied. Only admins can perform this action.");
+    throw new ApiError(
+      403,
+      "Access Denied. Only admins can perform this action."
+    );
   }
 
   // Fetch all users except the logged-in admin
-  const users = await User.find({ _id: { $ne: adminId } }).select("-password"); 
+  const users = await User.find({ _id: { $ne: adminId } }).select("-password");
   const userCount = users.length;
 
-  return res.status(200).json(new ApiResponse(200, { users,  userCount }, "All users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users, userCount },
+        "All users fetched successfully"
+      )
+    );
 });
-
-
-
 
 // 6. delete single user
 
 export const deleteUser = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
-    throw new ApiError(403, "Access Denied. Only admins can perform this action.");
+    throw new ApiError(
+      403,
+      "Access Denied. Only admins can perform this action."
+    );
   }
 
   const { userId } = req.params;
-  
+
   const user = await User.findById(userId);
   if (!user) {
     throw new ApiError(404, "User not found.");
@@ -261,18 +308,19 @@ export const deleteUser = asyncHandler(async (req, res) => {
 
   await User.findByIdAndDelete(userId);
 
-  return res.status(200).json(new ApiResponse(200, {}, "User deleted successfully."));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "User deleted successfully."));
 });
-
-
-
-
 
 // 8. delete all users
 
 export const deleteAllUsers = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
-    throw new ApiError(403, "Access Denied. Only admins can perform this action.");
+    throw new ApiError(
+      403,
+      "Access Denied. Only admins can perform this action."
+    );
   }
 
   // Delete all users except the logged-in admin
@@ -282,12 +330,18 @@ export const deleteAllUsers = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No users found to delete.");
   }
 
-  return res.status(200).json(new ApiResponse(200, {}, "All users deleted successfully, except the logged-in admin."));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        {},
+        "All users deleted successfully, except the logged-in admin."
+      )
+    );
 });
 
-
 // 9. get all isPremium true user
-
 
 export const getPremiumUsers = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
@@ -295,21 +349,28 @@ export const getPremiumUsers = asyncHandler(async (req, res) => {
   }
 
   // Fetch all premium users except the logged-in admin
-  const premiumUsers = await User.find({ isPremium: true, _id: { $ne: req.user._id } }).select("-password");
+  const premiumUsers = await User.find({
+    isPremium: true,
+    _id: { $ne: req.user._id },
+  }).select("-password");
   const userCount = premiumUsers.length;
-
 
   if (!premiumUsers.length) {
     throw new ApiError(404, "No premium users found");
   }
 
-  return res.status(200).json(new ApiResponse(200, {users:premiumUsers, userCount}, "All premium users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users: premiumUsers, userCount },
+        "All premium users fetched successfully"
+      )
+    );
 });
 
-
 // 10. get all ispremimum==>false users
-
-
 
 export const getNonPremiumUsers = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
@@ -317,17 +378,26 @@ export const getNonPremiumUsers = asyncHandler(async (req, res) => {
   }
 
   // Fetch all non-premium users except the logged-in admin
-  const nonPremiumUsers = await User.find({ isPremium: false, _id: { $ne: req.user._id } }).select("-password");
+  const nonPremiumUsers = await User.find({
+    isPremium: false,
+    _id: { $ne: req.user._id },
+  }).select("-password");
   const userCount = nonPremiumUsers.length;
-
 
   if (!nonPremiumUsers.length) {
     throw new ApiError(404, "No non-premium users found");
   }
 
-  return res.status(200).json(new ApiResponse(200, {users:nonPremiumUsers, userCount}, "All non-premium users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users: nonPremiumUsers, userCount },
+        "All non-premium users fetched successfully"
+      )
+    );
 });
-
 
 // 11. get all users by their role
 
@@ -339,23 +409,31 @@ export const getUsersByRole = asyncHandler(async (req, res) => {
   const { role } = req.params;
 
   if (!["admin", "user"].includes(role)) {
-    throw new ApiError(400, "Invalid role. Role must be either 'admin' or 'user'.");
+    throw new ApiError(
+      400,
+      "Invalid role. Role must be either 'admin' or 'user'."
+    );
   }
 
   const users = await User.find({ role }).select("-password");
   const userCount = users.length;
 
-
   if (!users.length) {
     throw new ApiError(404, `No users found with role '${role}'`);
   }
 
-  return res.status(200).json(new ApiResponse(200, {users, userCount}, `All users with role '${role}' fetched successfully`));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users, userCount },
+        `All users with role '${role}' fetched successfully`
+      )
+    );
 });
 
 // 12. get all users by their isVerified true
-
-
 
 export const getVerifiedUsers = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
@@ -363,21 +441,28 @@ export const getVerifiedUsers = asyncHandler(async (req, res) => {
   }
 
   // Fetch all verified users except the logged-in admin
-  const verifiedUsers = await User.find({ isVerified: true, _id: { $ne: req.user._id } }).select("-password");
+  const verifiedUsers = await User.find({
+    isVerified: true,
+    _id: { $ne: req.user._id },
+  }).select("-password");
   const userCount = verifiedUsers.length;
-
 
   if (!verifiedUsers.length) {
     throw new ApiError(404, "No verified users found");
   }
 
-  return res.status(200).json(new ApiResponse(200, {users:verifiedUsers, userCount}, "All verified users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users: verifiedUsers, userCount },
+        "All verified users fetched successfully"
+      )
+    );
 });
 
-
 // 13. get all users by their isVerified false
-
-
 
 export const getNonVerifiedUsers = asyncHandler(async (req, res) => {
   if (req.user.role !== "admin") {
@@ -385,21 +470,23 @@ export const getNonVerifiedUsers = asyncHandler(async (req, res) => {
   }
 
   // Fetch all non-verified users except the logged-in admin
-  const nonVerifiedUsers = await User.find({ isVerified: false, _id: { $ne: req.user._id } }).select("-password");
+  const nonVerifiedUsers = await User.find({
+    isVerified: false,
+    _id: { $ne: req.user._id },
+  }).select("-password");
   const userCount = nonVerifiedUsers.length;
-
 
   if (!nonVerifiedUsers.length) {
     throw new ApiError(404, "No non-verified users found");
   }
 
-  return res.status(200).json(new ApiResponse(200, {users:nonVerifiedUsers, userCount}, "All non-verified users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { users: nonVerifiedUsers, userCount },
+        "All non-verified users fetched successfully"
+      )
+    );
 });
-
-
-
-
-
-
-
-

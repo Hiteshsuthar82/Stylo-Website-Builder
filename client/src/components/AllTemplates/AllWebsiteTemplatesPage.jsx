@@ -3,6 +3,7 @@ import { Container, WebsiteTemplate } from "../index";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import PaymentPlans from "../PaymentGateway/PaymentPlans";
+import OtpVerificationPendingPopup from "../OtpVerificationPendingPopup/OtpVerificationPendingPopup";
 
 function AllWebsiteTemplatesPage() {
   const navigate = useNavigate();
@@ -10,7 +11,16 @@ function AllWebsiteTemplatesPage() {
   const templates = useSelector((state) => state.website.allTemplates);
   const { websiteType } = useParams();
   const [showPlansPopup, setShowPlansPopup] = useState(false);
+  const [showVerificationModel, setShowVerificationModel] = useState(false);
   const userData = useSelector((state) => state.auth.user);
+
+  const openVerificationModel = () => {    
+    setShowVerificationModel(true);
+  };
+
+  const closeVerificationModel = () => {
+    setShowVerificationModel(false);
+  };
 
   const togglePlansPopup = () => {
     setShowPlansPopup(!showPlansPopup);
@@ -56,6 +66,7 @@ function AllWebsiteTemplatesPage() {
               onClick={setSelectedTemplateId}
               onDemoClick={handleDemoClick}
               onUseTemplateClick={
+                !userData.isVerified ? openVerificationModel :
                 template.premium && !userData.isPremium
                   ? togglePlansPopup
                   : handleCreateWebsiteClick
@@ -65,6 +76,14 @@ function AllWebsiteTemplatesPage() {
       </div>
       {/* Premium Plans Popup */}
       {showPlansPopup && <PaymentPlans togglePlansPopup={togglePlansPopup} />}
+
+      {/* Verification Popup */}
+      {showVerificationModel && (
+        <OtpVerificationPendingPopup
+          onClose={closeVerificationModel} 
+          userId={userData._id} 
+        />
+      )}
     </Container>
   );
 }

@@ -103,7 +103,7 @@ const OtpVerification = () => {
       if (response?.data.success) {
         setTimeout(() => {
           navigate("/")
-        }, 1000);
+        }, 2500);
       }
     } catch (error) {
       setStatus({ type: "error", message: "Verification failed. Please try again." });

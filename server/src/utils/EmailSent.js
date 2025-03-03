@@ -5,13 +5,13 @@
 //       let transporter = nodemailer.createTransport({
 //         service: "gmail",
 //         auth: {
-//           user: "shinchankifamily@gmail.com", // Replace with your email
+//           user: "stylowebsitebuilder@gmail.com", // Replace with your email
 //           pass: process.env.APP_PASSWORD, // Replace with your generated app password
 //         },
 //       });
   
 //       let mailOptions = {
-//         from: "shinchankifamily@gmail.com",
+//         from: "stylowebsitebuilder@gmail.com",
 //         to,
 //         subject,
 //         text,
@@ -38,7 +38,7 @@ import handlebars from "handlebars";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "shinchankifamily@gmail.com", // Replace with your email
+    user: "stylowebsitebuilder@gmail.com", // Replace with your email
     pass: process.env.APP_PASSWORD, // Use app password
   },
 });
@@ -57,7 +57,7 @@ const sendEmail = async (to, subject, templateName, context) => {
     const html = compileTemplate(templateName, context); // Load and compile template
 
     let mailOptions = {
-      from: "shinchankifamily@gmail.com",
+      from: "stylowebsitebuilder@gmail.com",
       to,
       subject,
       html, // Send as HTML
