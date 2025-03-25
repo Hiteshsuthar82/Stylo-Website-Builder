@@ -73,7 +73,7 @@ const teamMembers = [
     name: "Pradip Rajput",
     image: "https://res.cloudinary.com/dn5occ53n/image/upload/v1740553441/Screenshot_227_d1hkqd.png",
     position: "Group Member",
-    bio: "....",
+    bio: "Expert in building designing using modern web frameworks like React js.",
     social: {
       github: "https://github.com/adityasharma",
       linkedin: "https://linkedin.com/in/adityasharma",
